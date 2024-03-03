@@ -1,8 +1,6 @@
 
-GardenApp Modular Monolith
-```
 <img align="left" width="100" height="100"  src="docs/gardenapp_logo.png">
-```
+GardenApp Modular Monolith 
 
 ---
 
