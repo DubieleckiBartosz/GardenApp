@@ -21,4 +21,8 @@
     <PackageReference Include="Serilog.Sinks.Seq" Version="6.0.0" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Contracts\Clients\Http\" />
+  </ItemGroup>
+
 </Project>

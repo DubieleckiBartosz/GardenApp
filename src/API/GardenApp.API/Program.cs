@@ -1,4 +1,14 @@
 var builder = WebApplication.CreateBuilder(args);
+var configuration = builder.Configuration;
+var env = builder.Environment;
+
+builder.Configuration
+    .AddJsonFile("appsettings.json", optional: true)
+    .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true)
+    .AddEnvironmentVariables();
+
+var config = builder.Configuration;
+var services = builder.Services;
 
 // Add services to the container.
 
@@ -23,3 +33,6 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+public partial class Program
+{ }

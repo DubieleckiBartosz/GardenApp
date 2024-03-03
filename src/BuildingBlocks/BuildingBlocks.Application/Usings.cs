@@ -17,3 +17,7 @@ global using System.Reflection;
 global using System.Security.Claims;
 global using BuildingBlocks.Application.Contracts.Clients.Module;
 global using BuildingBlocks.Application.Clients.Module;
+global using BuildingBlocks.Application.Contracts.Clients.Smtp;
+global using BuildingBlocks.Application.Options;
+global using Microsoft.Extensions.Options;
+global using System.Net.Mail;
