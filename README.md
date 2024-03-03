@@ -1,7 +1,7 @@
 <table>
   <tr>
-    <td valign="middle"><img src="docs/gardenapp_logo.png"/></td>
-    <td valign="middle">GardenApp Modular Monolith</td>
+    <td valign="middle"><img src="docs/gardenapp_logo.png" alt="logo" width="128"/></td>
+    <td valign="middle"><h1>GardenApp Modular Monolith</td>
   </tr>
 </table> 
 
