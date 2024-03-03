@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks.Application\BuildingBlocks.Application.csproj" />
+    <ProjectReference Include="..\Payments.Domain\Payments.Domain.csproj" />
+  </ItemGroup>
+
 </Project>

@@ -6,4 +6,9 @@
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\BuildingBlocks\BuildingBlocks.Infrastructure\BuildingBlocks.Infrastructure.csproj" />
+    <ProjectReference Include="..\Panels.Application\Panels.Application.csproj" />
+  </ItemGroup>
+
 </Project>
