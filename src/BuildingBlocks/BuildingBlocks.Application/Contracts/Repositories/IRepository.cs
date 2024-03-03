@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Domain.Abstractions;
-
-namespace BuildingBlocks.Application.Contracts;
+﻿namespace BuildingBlocks.Application.Contracts.Repositories;
 
 public interface IRepository<T> where T : IAggregateRoot
 {

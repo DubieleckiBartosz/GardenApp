@@ -35,7 +35,7 @@ public class Response
 
 public class Response<T> : Response
 {
-    public T Data { get; private set; }
+    public T? Data { get; private set; }
 
     /// <summary>
     /// Empty constructor for integration tests
