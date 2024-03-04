@@ -1,12 +1,18 @@
-﻿using Microsoft.Extensions.Logging;
-
-namespace BuildingBlocks.Infrastructure.Config;
+﻿namespace BuildingBlocks.Infrastructure.Config;
 
 public static class BBInfrastructureConfigurations
 {
-    public static IServiceCollection RegisterEntityFrameworkNpg<T>(this IServiceCollection services, string connectionString, string schema,
-        Func<DbContextOptionsBuilder, DbContextOptionsBuilder>? additionalRegistrations = null, ILoggerFactory? loggerFactory = null) where T : DbContext
+    public static WebApplicationBuilder RegisterBBInfrastructureConfigurations(this WebApplicationBuilder builder)
     {
+        builder.RegisterDependencyInjection();
+
+        return builder;
+    }
+
+    public static IServiceCollection RegisterEntityFrameworkNpg<T>(this WebApplicationBuilder builder, string connectionString, string schema,
+        Func<DbContextOptionsBuilder, DbContextOptionsBuilder>? additionalRegistrations = null, Microsoft.Extensions.Logging.ILoggerFactory? loggerFactory = null) where T : DbContext
+    {
+        var services = builder.Services;
         services.AddDbContext<T>(dbContextBuilder =>
         {
             dbContextBuilder.UseNpgsql(connectionString, _ => { _.MigrationsHistoryTable("__EFMigrationsHistory", schema); });
@@ -19,5 +25,28 @@ public static class BBInfrastructureConfigurations
         });
 
         return services;
+    }
+
+    private static WebApplicationBuilder RegisterDependencyInjection(this WebApplicationBuilder builder)
+    {
+        var configuration = builder.Configuration;
+        var services = builder.Services;
+
+        services
+            .AddSingleton<IRabbitBase, RabbitBase>()
+            .AddScoped<IRabbitEventListener, RabbitEventListener>()
+            .AddScoped<IEventBus, EventBus>();
+
+        var options = configuration.GetSection("EmailOptions").Get<EmailOptions>();
+        if (options!.Enabled)
+        {
+            services.AddScoped<IEmailClient, LocalEmailClient>();
+        }
+        else
+        {
+            throw new NotImplementedException("Real EmailClient is not implemented.");
+        }
+
+        return builder;
     }
 }

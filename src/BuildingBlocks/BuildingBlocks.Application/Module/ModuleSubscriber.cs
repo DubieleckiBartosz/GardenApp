@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.Application.Clients.Module;
+﻿namespace BuildingBlocks.Application.Module;
 
 public class ModuleSubscriber : IModuleSubscriber
 {

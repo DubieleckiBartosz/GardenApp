@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.Application.Clients.Smtp;
+﻿namespace BuildingBlocks.Application.Models.Clients;
 
 public class EmailDetails
 {

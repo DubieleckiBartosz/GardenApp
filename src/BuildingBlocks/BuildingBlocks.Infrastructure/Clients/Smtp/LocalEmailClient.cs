@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.Application.Clients.Smtp;
+﻿namespace BuildingBlocks.Infrastructure.Clients.Smtp;
 
 internal class LocalEmailClient : IEmailClient
 {
