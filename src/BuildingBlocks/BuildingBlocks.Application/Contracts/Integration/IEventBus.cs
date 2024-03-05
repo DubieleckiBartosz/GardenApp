@@ -2,7 +2,9 @@
 
 public interface IEventBus
 {
-    Task CommitAsync(params IEvent[] events);
+    Task Publish<T>(T @event)
+           where T : IEvent;
 
-    Task PublishLocalAsync(params IEvent[] events);
+    void Subscribe<T>(IIntegrationEventHandler<T> handler)
+        where T : IEvent;
 }

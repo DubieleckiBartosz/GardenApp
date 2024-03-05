@@ -1,26 +1,24 @@
 ﻿namespace BuildingBlocks.Infrastructure.Integration;
 
-internal class EventBus : IEventBus
+public class EventBus : IEventBus
 {
-    private readonly IRabbitEventListener _rabbitEventListener;
-    private readonly IEventDispatcher _eventDispatcher;
+    private readonly ILogger _logger;
 
-    public EventBus(IRabbitEventListener rabbitEventListener, IEventDispatcher eventDispatcher)
+    public EventBus(ILogger logger)
     {
-        _rabbitEventListener = rabbitEventListener;
-        _eventDispatcher = eventDispatcher;
+        _logger = logger;
     }
 
-    public async Task CommitAsync(params IEvent[] events)
+    public async Task Publish<T>(T @event)
+        where T : IntegrationEvent
     {
-        foreach (var @event in events)
-        {
-            await _rabbitEventListener.PublishAsync(@event);
-        }
+        _logger.Information("Publishing {Event}", @event.GetType().FullName);
+        await InMemoryEventBus.Instance.Publish(@event);
     }
 
-    public async Task PublishLocalAsync(params IEvent[] events)
+    public void Subscribe<T>(IIntegrationEventHandler<T> handler)
+        where T : IntegrationEvent
     {
-        await _eventDispatcher.PublishAsync(events);
+        InMemoryEventBus.Instance.Subscribe(handler);
     }
 }

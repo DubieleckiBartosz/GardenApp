@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Payments.Application\Payments.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Processing\Inbox\" />
+  </ItemGroup>
+
 </Project>

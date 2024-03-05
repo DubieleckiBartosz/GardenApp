@@ -32,10 +32,7 @@ public static class BBInfrastructureConfigurations
         var configuration = builder.Configuration;
         var services = builder.Services;
 
-        services
-            .AddSingleton<IRabbitBase, RabbitBase>()
-            .AddScoped<IRabbitEventListener, RabbitEventListener>()
-            .AddScoped<IEventBus, EventBus>();
+        services.AddScoped<IEventBus, EventBus>();
 
         var options = configuration.GetSection("EmailOptions").Get<EmailOptions>();
         if (options!.Enabled)
