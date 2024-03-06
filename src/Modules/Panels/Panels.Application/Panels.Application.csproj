@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Panels.Domain\Panels.Domain.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Handlers\" />
+  </ItemGroup>
+
 </Project>

@@ -5,7 +5,7 @@ internal class IntegrationEventHandler<T> : IIntegrationEventHandler<T>
 {
     public Task Handle(T @event)
     {
-        //Inbox
+        //Insert to inbox
         throw new NotImplementedException();
     }
 }

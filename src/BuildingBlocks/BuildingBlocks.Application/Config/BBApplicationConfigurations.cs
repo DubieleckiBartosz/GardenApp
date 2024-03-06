@@ -21,8 +21,8 @@ public static class BBApplicationConfigurations
             .AddSingleton<IModuleSubscriber, ModuleSubscriber>()
             .AddSingleton<IModuleActionRegistration, ModuleActionRegistration>();
 
-        //LOCAL DISPATCHER
-        builder.Services.AddScoped<IEventDispatcher, EventDispatcher>();
+        //EVENT BUS
+        builder.Services.AddSingleton<IEventBus>();
 
         return builder;
     }
@@ -83,7 +83,6 @@ public static class BBApplicationConfigurations
         var services = builder.Services;
 
         services.Configure<EmailOptions>(configuration.GetSection("EmailOptions"));
-        services.Configure<RabbitOptions>(configuration.GetSection("RabbitOptions"));
 
         return builder;
     }

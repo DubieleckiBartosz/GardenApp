@@ -44,6 +44,10 @@ public static class BBInfrastructureConfigurations
             throw new NotImplementedException("Real EmailClient is not implemented.");
         }
 
+        services
+         .AddScoped<IEventBus, EventBus>()
+         .AddSingleton<IEventRegistry, EventRegistry>();
+
         return builder;
     }
 }

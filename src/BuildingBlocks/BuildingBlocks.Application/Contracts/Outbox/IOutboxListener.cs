@@ -2,7 +2,7 @@
 
 namespace BuildingBlocks.Application.Contracts.Outbox;
 
-public interface IOutbox
+public interface IOutboxListener
 {
     Task AddAsync(OutboxMessage message);
 }

@@ -4,7 +4,6 @@ global using BuildingBlocks.Application.Contracts.Clients.Module;
 global using BuildingBlocks.Application.Contracts.Integration;
 global using BuildingBlocks.Application.Contracts.Mediator;
 global using BuildingBlocks.Application.Contracts.Services;
-global using BuildingBlocks.Application.Dispatchers;
 global using BuildingBlocks.Application.Exceptions;
 global using BuildingBlocks.Application.Module;
 global using BuildingBlocks.Application.Options;

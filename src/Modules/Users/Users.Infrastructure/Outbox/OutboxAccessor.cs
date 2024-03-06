@@ -1,9 +1,18 @@
-﻿namespace Users.Infrastructure.Outbox;
+﻿using Users.Infrastructure.Database;
 
-internal class OutboxAccessor : IOutbox
+namespace Users.Infrastructure.Outbox;
+
+internal class OutboxAccessor : IOutboxListener
 {
-    public Task AddAsync(OutboxMessage message)
+    private readonly UsersContext _usersContext;
+
+    public OutboxAccessor(UsersContext usersContext)
     {
-        throw new NotImplementedException();
+        _usersContext = usersContext;
+    }
+
+    public async Task AddAsync(OutboxMessage message)
+    {
+        await _usersContext.OutboxMessages.AddAsync(message);
     }
 }

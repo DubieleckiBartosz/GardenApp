@@ -1,6 +1,6 @@
-﻿namespace BuildingBlocks.Infrastructure.Integration;
+﻿namespace BuildingBlocks.Application.Contracts.Integration;
 
-public abstract class IntegrationEvent : IEvent
+public class IntegrationEvent : IEvent
 {
     public Guid Id { get; }
 

@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Processing\Inbox\" />
+    <Folder Include="Processing\" />
   </ItemGroup>
 
 </Project>

@@ -1,7 +1,6 @@
 ﻿global using BuildingBlocks.Application.Contracts.Clients.Smtp;
 global using BuildingBlocks.Application.Contracts.Integration;
 global using BuildingBlocks.Application.Models.Clients;
-global using BuildingBlocks.Application.Models.Integration;
 global using BuildingBlocks.Application.Options;
 global using BuildingBlocks.Application.Tools;
 global using BuildingBlocks.Domain.Abstractions;
