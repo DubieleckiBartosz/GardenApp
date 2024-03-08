@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Application.Models.Outbox;
-
-namespace BuildingBlocks.Application.Contracts.Outbox;
+﻿namespace BuildingBlocks.Infrastructure.Outbox;
 
 public interface IOutboxAccessor
 {

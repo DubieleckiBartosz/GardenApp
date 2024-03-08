@@ -1,10 +1,4 @@
-﻿using BuildingBlocks.Application.Contracts.Outbox;
-using BuildingBlocks.Application.Models.Outbox;
-using BuildingBlocks.Application.Settings;
-using MediatR;
-using Newtonsoft.Json;
-
-namespace BuildingBlocks.Infrastructure.Integration;
+﻿namespace BuildingBlocks.Infrastructure.Integration;
 
 internal class EventDispatcher : IEventDispatcher
 {

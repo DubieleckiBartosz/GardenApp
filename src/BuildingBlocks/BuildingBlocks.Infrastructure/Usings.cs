@@ -21,3 +21,7 @@ global using Polly;
 global using Serilog;
 global using System.Data;
 global using System.Net.Mail;
+global using BuildingBlocks.Application.Settings;
+global using BuildingBlocks.Infrastructure.Outbox;
+global using MediatR;
+global using Newtonsoft.Json;
