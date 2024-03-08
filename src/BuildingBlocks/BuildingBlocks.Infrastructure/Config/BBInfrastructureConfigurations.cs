@@ -32,8 +32,6 @@ public static class BBInfrastructureConfigurations
         var configuration = builder.Configuration;
         var services = builder.Services;
 
-        services.AddScoped<IEventBus, EventBus>();
-
         var options = configuration.GetSection("EmailOptions").Get<EmailOptions>();
         if (options!.Enabled)
         {
@@ -45,8 +43,9 @@ public static class BBInfrastructureConfigurations
         }
 
         services
-         .AddScoped<IEventBus, EventBus>()
-         .AddSingleton<IEventRegistry, EventRegistry>();
+            .AddScoped<IEventDispatcher, EventDispatcher>()
+            .AddSingleton<IEventRegistry, EventRegistry>()
+            .AddSingleton<IEventBus, EventBus>();
 
         return builder;
     }

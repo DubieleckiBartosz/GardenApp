@@ -16,7 +16,7 @@ public class EventBus : IEventBus
         await InMemoryEventBus.Instance.Publish(@event);
     }
 
-    public void Subscribe<T>(IIntegrationEventHandler<T> handler)
+    public void Subscribe<T>(Func<T, Task> handler)
         where T : IntegrationEvent
     {
         InMemoryEventBus.Instance.Subscribe(handler);

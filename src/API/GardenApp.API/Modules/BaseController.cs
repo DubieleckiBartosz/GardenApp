@@ -1,6 +1,6 @@
 ﻿namespace GardenApp.API.Modules;
 
-public class BaseController
+public class BaseController : ControllerBase
 {
     protected readonly ICommandBus CommandBus;
     protected readonly IQueryBus QueryBus;

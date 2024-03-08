@@ -1,12 +1,28 @@
-﻿namespace Users.Infrastructure.Database;
+﻿using Users.Infrastructure.Database.Domain;
 
-internal class UsersContext : DbContext
+namespace Users.Infrastructure.Database;
+
+public sealed class UsersContext : DbContext
 {
     internal const string UsersSchema = "users";
 
-    internal DbSet<OutboxMessage> OutboxMessages { get; set; }
+    public DbSet<OutboxMessage> OutboxMessages { get; set; }
+
+    public UsersContext()
+    {
+    }
 
     public UsersContext(DbContextOptions<UsersContext> options) : base(options)
     {
+    }
+
+    protected override void OnModelCreating(ModelBuilder modelBuilder)
+    {
+        modelBuilder.HasDefaultSchema(UsersSchema);
+
+        modelBuilder.ApplyConfigurationsFromAssembly(typeof(UsersContext).Assembly);
+        modelBuilder.ApplyConfiguration(new OutboxMessageTypeConfiguration());
+
+        base.OnModelCreating(modelBuilder);
     }
 }

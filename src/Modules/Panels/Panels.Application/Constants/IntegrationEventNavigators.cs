@@ -1,4 +1,4 @@
-﻿namespace Panels.Infrastructure.Integration;
+﻿namespace Panels.Application.Constants;
 
 internal static class IntegrationEventNavigators
 {

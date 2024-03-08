@@ -1,15 +1,23 @@
 ﻿using BuildingBlocks.Application.Contracts.Integration;
 using BuildingBlocks.Application.Contracts.Mediator;
-using BuildingBlocks.Domain.Abstractions;
 using MediatR;
 using static Users.Application.Integration.TestHandler;
 
 namespace Users.Application.Integration;
 
-internal class TestHandler : ICommandHandler<TestCommand, Unit>
+public sealed class TestHandler : ICommandHandler<TestUsersCommand, Unit>
 {
-    private record TestEvent(string TestProp) : IDomainEvent;
-    public record TestCommand() : ICommand<Unit>;
+    public class TestIntegrationEvent : IntegrationEvent
+    {
+        public string TestProp { get; set; }
+
+        public TestIntegrationEvent(string testProp) : base()
+        {
+            TestProp = testProp;
+        }
+    }
+
+    public record TestUsersCommand() : ICommand<Unit>;
     private readonly IEventDispatcher _eventDispatcher;
 
     public TestHandler(IEventDispatcher eventDispatcher)
@@ -17,9 +25,9 @@ internal class TestHandler : ICommandHandler<TestCommand, Unit>
         _eventDispatcher = eventDispatcher;
     }
 
-    public async Task<Unit> Handle(TestCommand request, CancellationToken cancellationToken)
+    public async Task<Unit> Handle(TestUsersCommand request, CancellationToken cancellationToken)
     {
-        await _eventDispatcher.SendAsync(new TestEvent("test"));
+        await _eventDispatcher.SendAsync(new TestIntegrationEvent("test"));
 
         return Unit.Value;
     }

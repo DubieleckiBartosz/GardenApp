@@ -2,5 +2,7 @@
 
 public interface IEventDispatcher
 {
-    Task SendAsync(IDomainEvent @event);
+    Task SendAsync(IEvent @event);
+
+    Task PublishAsync(CancellationToken cancellationToken = default, params IEvent[] events);
 }

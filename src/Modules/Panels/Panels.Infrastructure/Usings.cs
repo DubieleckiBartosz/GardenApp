@@ -2,3 +2,12 @@
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.Extensions.DependencyInjection;
 global using Serilog;
+global using BuildingBlocks.Application.Extensions;
+global using BuildingBlocks.Application.Options;
+global using BuildingBlocks.Infrastructure.Config;
+global using BuildingBlocks.Infrastructure.Inbox;
+global using Microsoft.Extensions.Configuration;
+global using Panels.Application.Handlers;
+global using Panels.Infrastructure.Database;
+global using Panels.Infrastructure.Integration;
+global using Panels.Infrastructure.Reference;

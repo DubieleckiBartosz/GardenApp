@@ -1,6 +1,6 @@
 ﻿namespace BuildingBlocks.Infrastructure.Integration;
 
-internal class InMemoryEventBus
+public sealed class InMemoryEventBus
 {
     static InMemoryEventBus()
     {
@@ -8,26 +8,28 @@ internal class InMemoryEventBus
 
     private InMemoryEventBus()
     {
-        _handlersDictionary = new Dictionary<string, List<IIntegrationEventHandler>>();
+        _handlersDictionary = new Dictionary<string, List<Func<IntegrationEvent, Task>>>();
     }
 
     public static InMemoryEventBus Instance { get; } = new InMemoryEventBus();
 
-    private readonly Dictionary<string, List<IIntegrationEventHandler>> _handlersDictionary;
+    private readonly Dictionary<string, List<Func<IntegrationEvent, Task>>> _handlersDictionary;
 
-    public void Subscribe<T>(IIntegrationEventHandler<T> handler) where T : IntegrationEvent
+    public void Subscribe<T>(Func<T, Task> handler) where T : IntegrationEvent
     {
-        var eventType = typeof(T).FullName;
+        var eventType = typeof(T).Name;
         if (eventType != null)
         {
+            Func<IntegrationEvent, Task> wrappedHandler = (integrationEvent) => handler((T)integrationEvent);
+
             if (_handlersDictionary.ContainsKey(eventType))
             {
                 var handlers = _handlersDictionary[eventType];
-                handlers.Add(handler);
+                handlers.Add(wrappedHandler);
             }
             else
             {
-                _handlersDictionary.Add(eventType, new List<IIntegrationEventHandler>() { handler });
+                _handlersDictionary.Add(eventType, new() { wrappedHandler });
             }
         }
     }
@@ -35,7 +37,7 @@ internal class InMemoryEventBus
     public async Task Publish<T>(T @event)
         where T : IntegrationEvent
     {
-        var eventType = @event.GetType().FullName;
+        var eventType = @event.GetType().Name;
 
         if (eventType == null)
         {
@@ -46,10 +48,7 @@ internal class InMemoryEventBus
 
         foreach (var integrationEventHandler in integrationEventHandlers)
         {
-            if (integrationEventHandler is IIntegrationEventHandler<T> handler)
-            {
-                await handler.Handle(@event);
-            }
+            await integrationEventHandler.Invoke(@event);
         }
     }
 }

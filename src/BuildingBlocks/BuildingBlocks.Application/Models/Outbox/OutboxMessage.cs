@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Domain.Time;
-
-namespace BuildingBlocks.Application.Models.Outbox;
+﻿namespace BuildingBlocks.Application.Models.Outbox;
 
 public class OutboxMessage
 {
@@ -14,10 +12,10 @@ public class OutboxMessage
     {
     }
 
-    public OutboxMessage(string type, string data)
+    public OutboxMessage(Guid id, DateTime occurredOn, string type, string data)
     {
-        this.Id = Guid.NewGuid();
-        this.OccurredOn = Clock.CurrentDate();
+        this.Id = id;
+        this.OccurredOn = occurredOn;
         this.Type = type;
         this.Data = data;
     }

@@ -4,15 +4,15 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Users.Infrastructure.Database;
-using Users.Infrastructure.Integration;
+using Users.Infrastructure.Outbox;
 
 namespace Users.Infrastructure.Configurations;
 
-internal static class UsersInfrastructureConfigurations
+public static class UsersInfrastructureConfigurations
 {
     public static WebApplicationBuilder GetUsersInfrastructureConfigurations(this WebApplicationBuilder builder)
     {
-        builder.UsersDatabaseConfiguration();
+        builder.UsersDatabaseConfiguration().RegisterDependencyInjection();
 
         return builder;
     }
@@ -33,20 +33,10 @@ internal static class UsersInfrastructureConfigurations
     {
         var services = builder.Services;
 
-        services.AddSingleton<EventNavigator>();
+        services.AddScoped<IOutboxAccessor, OutboxAccessor>();
 
-        return builder;
-    }
-
-    private static WebApplicationBuilder RegisterNavigators(this WebApplicationBuilder builder)
-    {
-        var sp = builder.Services.BuildServiceProvider();
-
-        using var scope = sp.CreateScope();
-
-        var eventBus = scope.ServiceProvider.GetRequiredService < c EventNavigator > ();
-
-        EventNavigator.AddNavigation<TestIntegrationEvent>(_ => )
+        //HOSTED service
+        services.AddHostedService<OutboxProcessor>();
 
         return builder;
     }

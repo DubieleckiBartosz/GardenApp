@@ -7,16 +7,26 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.16">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.5.0" />
   </ItemGroup>
 
   <ItemGroup>
     <ProjectReference Include="..\..\BuildingBlocks\BuildingBlocks.Application\BuildingBlocks.Application.csproj" />
     <ProjectReference Include="..\..\BuildingBlocks\BuildingBlocks.Infrastructure\BuildingBlocks.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Analytics\Analytics.Application\Analytics.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\Analytics\Analytics.Infrastructure\Analytics.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Offers\Offers.Application\Offers.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\Offers\Offers.Infrastructure\Offers.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Panels\Panels.Application\Panels.Application.csproj" />
     <ProjectReference Include="..\..\Modules\Panels\Panels.Infrastructure\Panels.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Payments\Payments.Application\Payments.Application.csproj" />
     <ProjectReference Include="..\..\Modules\Payments\Payments.Infrastructure\Payments.Infrastructure.csproj" />
+    <ProjectReference Include="..\..\Modules\Users\Users.Application\Users.Application.csproj" />
+    <ProjectReference Include="..\..\Modules\Users\Users.Infrastructure\Users.Infrastructure.csproj" />
     <ProjectReference Include="..\..\Modules\Works\Works.Application\Works.Application.csproj" />
     <ProjectReference Include="..\..\Modules\Works\Works.Infrastructure\Works.Infrastructure.csproj" />
   </ItemGroup>

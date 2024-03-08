@@ -2,7 +2,7 @@
 
 namespace BuildingBlocks.Application.Contracts.Outbox;
 
-public interface IOutboxStore
+public interface IOutboxAccessor
 {
     Task AddAsync(OutboxMessage message);
 
@@ -10,7 +10,7 @@ public interface IOutboxStore
 
     Task SetMessageToProcessedAsync(Guid id);
 
-    void Delete(IEnumerable<OutboxMessage> messages);
+    Task DeleteAsync(IEnumerable<OutboxMessage> messages);
 
     Task<OutboxMessage?> GetMessageAsync(Guid id);
 }

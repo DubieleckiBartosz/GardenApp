@@ -1,4 +1,9 @@
+using BuildingBlocks.Application.Contracts.Integration;
 using BuildingBlocks.Infrastructure.Config;
+using GardenApp.API.Configurations;
+using Panels.Infrastructure.Configurations;
+using Users.Application.Reference;
+using Users.Infrastructure.Configurations;
 
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
@@ -16,12 +21,15 @@ var services = builder.Services;
 
 builder
     .RegisterBBApplicationConfigurations()
-    .RegisterBBInfrastructureConfigurations();
+    .RegisterBBInfrastructureConfigurations()
+    .GetUsersInfrastructureConfigurations()
+    .RegisterPanelsInfrastructure();
 
 //Yes, we can write some dynamic method which could read all needed assemblies, but in this case we have control over it
 var assemblyTypes = new Type[]
 {
-    typeof(PanelsAssemblyReference)
+    typeof(PanelsAppAssemblyReference),
+    typeof(UsersAssemblyReference)
 };
 
 builder.Services.RegisterMediator(assemblyTypes);
@@ -49,6 +57,8 @@ app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.RegisterEvents();
 
 app.Run();
 

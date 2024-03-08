@@ -1,11 +1,7 @@
 ﻿namespace BuildingBlocks.Application.Contracts.Integration;
 
-public interface IIntegrationEventHandler<TIntegrationEvent> : IIntegrationEventHandler
+public interface IIntegrationEventHandler<in TIntegrationEvent>
     where TIntegrationEvent : IntegrationEvent
 {
     Task Handle(TIntegrationEvent @event);
-}
-
-public interface IIntegrationEventHandler
-{
 }

@@ -12,9 +12,9 @@ public class InboxMessage
     {
     }
 
-    public InboxMessage(DateTime occurredOn, string type, string data)
+    public InboxMessage(Guid id, DateTime occurredOn, string type, string data)
     {
-        this.Id = Guid.NewGuid();
+        this.Id = id;
         this.OccurredOn = occurredOn;
         this.Type = type;
         this.Data = data;

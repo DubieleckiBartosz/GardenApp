@@ -6,7 +6,8 @@ public static class BBApplicationConfigurations
     {
         builder
             .RegisterOptions()
-            .RegisterUserAccessor();
+            .RegisterUserAccessor()
+            .RegisterDependencyInjection();
 
         builder.Services.RegisterValidatorPipeline();
 
@@ -20,9 +21,6 @@ public static class BBApplicationConfigurations
             .AddSingleton<IModuleClient, ModuleClient>()
             .AddSingleton<IModuleSubscriber, ModuleSubscriber>()
             .AddSingleton<IModuleActionRegistration, ModuleActionRegistration>();
-
-        //EVENT BUS
-        builder.Services.AddSingleton<IEventBus>();
 
         return builder;
     }

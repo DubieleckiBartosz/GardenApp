@@ -5,6 +5,6 @@ public interface IEventBus
     Task Publish<T>(T @event)
            where T : IntegrationEvent;
 
-    void Subscribe<T>(IIntegrationEventHandler<T> handler)
+    void Subscribe<T>(Func<T, Task> handler)
         where T : IntegrationEvent;
 }
