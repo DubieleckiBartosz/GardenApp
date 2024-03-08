@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.Hosting;
 using Newtonsoft.Json;
+using Panels.Application;
 
 namespace Panels.Infrastructure.Processing;
 
@@ -54,7 +55,8 @@ internal class InboxProcess : BackgroundService
 
                 try
                 {
-                    var @event = JsonConvert.DeserializeObject(message.Data, Type.GetType(message.Type)!) as IntegrationEvent;
+                    var type = Type.GetType(message.Type + $", {typeof(PanelsAppAssemblyReference).Assembly.FullName}")!;
+                    var @event = JsonConvert.DeserializeObject(message.Data, type) as IntegrationEvent;
                     var dispatcher = scope.ServiceProvider.GetRequiredService<IEventDispatcher>();
 
                     await dispatcher.PublishAsync(stoppingToken, @event!);

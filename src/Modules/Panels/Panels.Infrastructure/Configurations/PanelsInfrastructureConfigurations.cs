@@ -45,19 +45,23 @@ public static class PanelsInfrastructureConfigurations
 
     public static WebApplication SubscribePanelsIntegrationEvents(this WebApplication app)
     {
-        using var scope = app.Services.CreateScope();
-        var eventBus = scope.ServiceProvider.GetRequiredService<IEventBus>();
-        var accessor = scope.ServiceProvider.GetRequiredService<IInboxAccessor>();
+        var scopeFactory = app.Services.GetRequiredService<IServiceScopeFactory>();
+        var eventBus = app.Services.GetRequiredService<IEventBus>();
 
-        IntegrationEventSubscriber<TestIntegrationEvent>(eventBus, accessor, Log.Logger);
+        IntegrationEventSubscriber<TestIntegrationEvent>(eventBus, scopeFactory, Log.Logger);
         return app;
     }
 
-    private static void IntegrationEventSubscriber<T>(IEventBus eventBus, IInboxAccessor accessor, ILogger logger)
+    private static void IntegrationEventSubscriber<T>(IEventBus eventBus, IServiceScopeFactory scopeFactory, ILogger logger)
             where T : IntegrationEvent
     {
         logger.Information($"Subscribe to {typeof(T).FullName}");
 
-        eventBus.Subscribe<T>(async (_) => await new IntegrationEventHandler<T>(accessor).Handle(_));
+        eventBus.Subscribe<T>(async (@event) =>
+        {
+            using var scope = scopeFactory.CreateScope();
+            var accessor = scope.ServiceProvider.GetRequiredService<IInboxAccessor>();
+            await new IntegrationEventHandler<T>(accessor).Handle(@event);
+        });
     }
 }
