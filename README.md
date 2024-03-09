@@ -22,7 +22,14 @@ You can run the necessary dependencies to check the current state of application
 
 ```shell
 docker-compose -f docker-compose.yml up
-```
+``` 
+
+It will create following services: <br/>
+
+- PostgreSQL
+- pgAdmin
+- smtp4dev
+- SEQ
 
 ## Features
 
