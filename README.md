@@ -17,30 +17,49 @@ Thanks to the application gardening companies can manage their resources better,
 
 ## Features
 
-## Users Module
+### Users Module
 - **Registration**: Creating a new account.
 - **Login**: Login to access the system. 
 - **Password Reset**: Password operations (remind or update)
 - **Account Management**: Updating user details or deleting an account.
 
-## Offers Module
+### Offers Module
 - **Gardening Offers Management**: CRUD operations to manage gardening service offers.
 
-## Panels Module
+### Panels Module
 - **Display Management**: Project presentations with CRUD operations.
 
-## Analytics Module
+### Analytics Module
 - **Work Reports**: Generating detailed reports of completed and pending works, with comparisons to previous periods.
 - **Download**: Exporting analytical reports.
 - **Work Duration Prediction**: Using historical data to estimate the time needed to complete specific works.
 - **Client Behavior Prediction**: Analyzing patterns to predict customer requests and preferences.
 
-## Payments Module
+### Payments Module
 - **Subscription Management**: Recurring payments for continued service access.
 - **Payment Flexibility**: Deleting recurring payments.
 
-## Works Module
+### Works Module
 - **Work Scheduling**: Management and scheduling gardening works based on real-time weather conditions via integration with a weather API. 
 - **Work History**: Tracking the history of all completed works for future reference and analytics.
 
 ---
+
+
+## Technologies
+
+- ASP.NET Core 6.0 WebAPI 
+- .NET Core 6.0
+
+## Architecture
+
+Each Module has Clean Architecture and consists of the following submodules (assemblies):
+
+- **Application** - This submodule handles the logic for processing requests
+- **Domain** - Contains the core business logic and rules. This layer defines entities, value objects, and domain events, encapsulating the essential concepts and operations of the application
+- **Infrastructure** - Responsible for communication with external services and for background processing and data access
+
+## Patterns
+
+- CQRS
+- Transactional Outbox and Inbox  - this pattern provides "At-Least-Once delivery" and "At-Least-Once processing"
