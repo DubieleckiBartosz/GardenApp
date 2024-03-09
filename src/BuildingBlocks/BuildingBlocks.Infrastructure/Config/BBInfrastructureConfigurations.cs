@@ -1,4 +1,6 @@
-﻿namespace BuildingBlocks.Infrastructure.Config;
+﻿using BuildingBlocks.Infrastructure.Module;
+
+namespace BuildingBlocks.Infrastructure.Config;
 
 public static class BBInfrastructureConfigurations
 {
@@ -47,6 +49,15 @@ public static class BBInfrastructureConfigurations
             .AddSingleton<IEventRegistry, EventRegistry>()
             .AddSingleton<IEventBus, EventBus>();
 
+        //MODULE CLIENT
+        builder.Services
+            .AddSingleton<IModuleClient, ModuleClient>()
+            .AddSingleton<IModuleSubscriber, ModuleSubscriber>()
+            .AddSingleton<IModuleActionRegistration, ModuleActionRegistration>();
+
         return builder;
     }
+
+    public static IModuleSubscriber UseModuleRequests(this IApplicationBuilder app)
+    => app.ApplicationServices.GetRequiredService<IModuleSubscriber>();
 }

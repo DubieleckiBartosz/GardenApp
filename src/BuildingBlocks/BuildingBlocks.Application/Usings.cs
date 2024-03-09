@@ -1,14 +1,11 @@
 ﻿global using BuildingBlocks.Application.Behaviours;
 global using BuildingBlocks.Application.Constants;
-global using BuildingBlocks.Application.Contracts.Clients.Module;
 global using BuildingBlocks.Application.Contracts.Integration;
 global using BuildingBlocks.Application.Contracts.Mediator;
 global using BuildingBlocks.Application.Contracts.Services;
 global using BuildingBlocks.Application.Exceptions;
-global using BuildingBlocks.Application.Module;
 global using BuildingBlocks.Application.Options;
 global using BuildingBlocks.Application.Services;
-global using BuildingBlocks.Application.Settings;
 global using BuildingBlocks.Application.Tools;
 global using BuildingBlocks.Domain.Abstractions;
 global using BuildingBlocks.Domain.Exceptions;

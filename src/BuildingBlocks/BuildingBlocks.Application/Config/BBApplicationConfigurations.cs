@@ -16,12 +16,6 @@ public static class BBApplicationConfigurations
 
     public static WebApplicationBuilder RegisterDependencyInjection(this WebApplicationBuilder builder)
     {
-        //MODULE CLIENT
-        builder.Services
-            .AddSingleton<IModuleClient, ModuleClient>()
-            .AddSingleton<IModuleSubscriber, ModuleSubscriber>()
-            .AddSingleton<IModuleActionRegistration, ModuleActionRegistration>();
-
         return builder;
     }
 
@@ -69,9 +63,6 @@ public static class BBApplicationConfigurations
 
         return services;
     }
-
-    public static IModuleSubscriber UseModuleRequests(this IApplicationBuilder app)
-    => app.ApplicationServices.GetRequiredService<IModuleSubscriber>();
 
     #region Private Methods
 

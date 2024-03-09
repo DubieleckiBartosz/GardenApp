@@ -1,4 +1,6 @@
-﻿namespace BuildingBlocks.Application.Module;
+﻿using System.Reflection;
+
+namespace BuildingBlocks.Infrastructure.Module;
 
 public static class ModuleExtensions
 {

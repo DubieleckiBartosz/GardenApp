@@ -1,4 +1,4 @@
-﻿namespace BuildingBlocks.Application.Module;
+﻿namespace BuildingBlocks.Infrastructure.Module;
 
 public class ModuleRequestRegistration
 {
