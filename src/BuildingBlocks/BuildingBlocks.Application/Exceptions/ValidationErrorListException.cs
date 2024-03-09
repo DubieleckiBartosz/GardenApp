@@ -1,6 +1,6 @@
 ﻿namespace BuildingBlocks.Application.Exceptions;
 
-internal class ValidationErrorListException : Exception
+public class ValidationErrorListException : Exception
 {
     public List<string> Errors { get; }
 

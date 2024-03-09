@@ -1,5 +1,5 @@
-using BuildingBlocks.Application.Contracts.Integration;
 using BuildingBlocks.Infrastructure.Config;
+using GardenApp.API.Common;
 using GardenApp.API.Configurations;
 using Panels.Infrastructure.Configurations;
 using Users.Application.Reference;
@@ -51,6 +51,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCustomExceptionHandler();
 app.UseHttpsRedirection();
 
 app.UseAuthentication();
