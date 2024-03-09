@@ -22,3 +22,4 @@ global using Serilog.Exceptions;
 global using System.Net;
 global using System.Reflection;
 global using System.Security.Claims;
+global using BuildingBlocks.Domain.Time;

@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.Application.Settings;
-using Newtonsoft.Json;
-
-namespace Panels.Infrastructure.Integration;
+﻿namespace Panels.Infrastructure.Integration;
 
 public class IntegrationEventHandler<T> : IIntegrationEventHandler<T>
         where T : IntegrationEvent

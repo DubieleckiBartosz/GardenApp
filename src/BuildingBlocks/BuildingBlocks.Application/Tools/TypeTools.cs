@@ -1,9 +1,17 @@
 ﻿using BuildingBlocks.Application.Attributes;
 
-namespace BuildingBlocks.Application.Extensions;
+namespace BuildingBlocks.Application.Tools;
 
-public static class TypeExtensions
+public static class TypeTools
 {
+    public static string GetName(this string fullName)
+    {
+        var lastIndex = fullName.LastIndexOf('.');
+        var typeName = lastIndex != -1 ? fullName.Substring(lastIndex + 1) : fullName;
+
+        return typeName;
+    }
+
     public static void RegistrationAssemblyIntegrationEvents(this Assembly assembly, IEventRegistry registry)
     {
         var types = assembly.GetTypes();

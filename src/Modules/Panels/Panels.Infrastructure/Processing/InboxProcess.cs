@@ -1,23 +1,22 @@
-﻿using Microsoft.Extensions.Hosting;
-using Newtonsoft.Json;
-using Panels.Application;
-
-namespace Panels.Infrastructure.Processing;
+﻿namespace Panels.Infrastructure.Processing;
 
 internal class InboxProcess : BackgroundService
 {
     private readonly ILogger _logger;
     private readonly IConfiguration _configuration;
     private readonly IServiceScopeFactory _serviceScopeFactory;
+    private readonly IEventRegistry _eventRegistry;
 
     public InboxProcess(
         ILogger logger,
         IConfiguration configuration,
-        IServiceScopeFactory serviceScopeFactory)
+        IServiceScopeFactory serviceScopeFactory,
+        IEventRegistry eventRegistry)
     {
         _logger = logger;
         _configuration = configuration;
         _serviceScopeFactory = serviceScopeFactory;
+        _eventRegistry = eventRegistry;
     }
 
     protected override async Task ExecuteAsync(CancellationToken stoppingToken)
@@ -55,7 +54,7 @@ internal class InboxProcess : BackgroundService
 
                 try
                 {
-                    var type = Type.GetType(message.Type + $", {typeof(PanelsAppAssemblyReference).Assembly.FullName}")!;
+                    var type = _eventRegistry.Navigate(message.Type.GetName());
                     var @event = JsonConvert.DeserializeObject(message.Data, type) as IntegrationEvent;
                     var dispatcher = scope.ServiceProvider.GetRequiredService<IEventDispatcher>();
 
@@ -63,7 +62,13 @@ internal class InboxProcess : BackgroundService
                 }
                 catch (Exception ex)
                 {
-                    throw;
+                    _logger.Error(new
+                    {
+                        Message = "Panels - Inbox process",
+                        ErrorMessage = ex.Message,
+                        StackTrace = ex.StackTrace
+                    }.Serialize());
+                    return;
                 }
 
                 await accessor.SetMessageToProcessedAsync(message.Id);

@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Domain.Time;
-
-namespace BuildingBlocks.Application.Contracts.Integration;
+﻿namespace BuildingBlocks.Application.Contracts.Integration;
 
 public abstract class IntegrationEvent : IEvent
 {

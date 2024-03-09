@@ -1,12 +1,4 @@
-﻿using BuildingBlocks.Application.Options;
-using BuildingBlocks.Infrastructure.Config;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.DependencyInjection;
-using Users.Infrastructure.Database;
-using Users.Infrastructure.Outbox;
-
-namespace Users.Infrastructure.Configurations;
+﻿namespace Users.Infrastructure.Configurations;
 
 public static class UsersInfrastructureConfigurations
 {

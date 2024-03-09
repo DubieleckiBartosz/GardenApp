@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.Domain.Time;
-using Microsoft.EntityFrameworkCore;
-
-namespace Panels.Infrastructure.Inbox;
+﻿namespace Panels.Infrastructure.Inbox;
 
 internal class InboxAccessor : IInboxAccessor
 {

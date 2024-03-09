@@ -1,8 +1,4 @@
-﻿using BuildingBlocks.Application.Contracts.Integration;
-using Microsoft.Extensions.DependencyInjection;
-using Serilog;
-
-namespace Users.Infrastructure.Outbox;
+﻿namespace Users.Infrastructure.Outbox;
 
 internal class OutboxProcessor : BackgroundService
 {

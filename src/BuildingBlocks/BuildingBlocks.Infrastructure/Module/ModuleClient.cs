@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Application.Exceptions;
-
-namespace BuildingBlocks.Infrastructure.Module;
+﻿namespace BuildingBlocks.Infrastructure.Module;
 
 public class ModuleClient : IModuleClient
 {

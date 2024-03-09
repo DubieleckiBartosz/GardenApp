@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Infrastructure.Module;
-
-namespace BuildingBlocks.Infrastructure.Config;
+﻿namespace BuildingBlocks.Infrastructure.Config;
 
 public static class BBInfrastructureConfigurations
 {

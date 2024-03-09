@@ -1,6 +1,4 @@
-﻿using Microsoft.EntityFrameworkCore;
-
-namespace Panels.Infrastructure.Database;
+﻿namespace Panels.Infrastructure.Database;
 
 internal sealed class PanelsContext : DbContext
 {

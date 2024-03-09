@@ -1,8 +1,4 @@
-﻿using Panels.Application;
-using Panels.Infrastructure.Inbox;
-using Panels.Infrastructure.Processing;
-
-namespace Panels.Infrastructure.Configurations;
+﻿namespace Panels.Infrastructure.Configurations;
 
 public static class PanelsInfrastructureConfigurations
 {

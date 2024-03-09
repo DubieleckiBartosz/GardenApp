@@ -6,6 +6,6 @@ public class JsonSettings
     {
         ContractResolver = new PrivateResolver(),
         ConstructorHandling = ConstructorHandling.AllowNonPublicDefaultConstructor,
-        TypeNameHandling = TypeNameHandling.All
+        TypeNameHandling = TypeNameHandling.None
     };
 }

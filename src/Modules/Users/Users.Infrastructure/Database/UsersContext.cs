@@ -1,6 +1,4 @@
-﻿using Users.Infrastructure.Database.Domain;
-
-namespace Users.Infrastructure.Database;
+﻿namespace Users.Infrastructure.Database;
 
 public sealed class UsersContext : DbContext
 {
