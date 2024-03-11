@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace BuildingBlocks.Domain.Exceptions;
+﻿namespace BuildingBlocks.Domain.Exceptions;
 
 public class BaseException : Exception
 {

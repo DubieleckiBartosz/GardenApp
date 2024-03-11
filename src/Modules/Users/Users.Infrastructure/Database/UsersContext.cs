@@ -1,10 +1,13 @@
-﻿namespace Users.Infrastructure.Database;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 
-public sealed class UsersContext : DbContext
+namespace Users.Infrastructure.Database;
+
+public sealed class UsersContext : IdentityDbContext<ApplicationUser>
 {
     internal const string UsersSchema = "users";
 
     public DbSet<OutboxMessage> OutboxMessages { get; set; }
+    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
 
     public UsersContext()
     {

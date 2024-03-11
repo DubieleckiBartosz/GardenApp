@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Application.Exceptions;
-using BuildingBlocks.Domain.Exceptions;
-using Newtonsoft.Json;
+﻿using ILogger = Serilog.ILogger;
 
 namespace GardenApp.API.Common;
 
@@ -8,9 +6,9 @@ public class ErrorHandlingMiddleware
 {
     private const string ServerError = "Server Error";
     private readonly RequestDelegate _next;
-    private readonly ILogger<ErrorHandlingMiddleware> _logger;
+    private readonly ILogger _logger;
 
-    public ErrorHandlingMiddleware(RequestDelegate next, ILogger<ErrorHandlingMiddleware> logger)
+    public ErrorHandlingMiddleware(RequestDelegate next, ILogger logger)
     {
         this._next = next;
         this._logger = logger;
@@ -24,7 +22,7 @@ public class ErrorHandlingMiddleware
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Handling error: {ex.Message}, InnerException: {ex.InnerException}, StackTrace: {ex.StackTrace}");
+            _logger.Error($"Handling error: {ex.Message}, InnerException: {ex.InnerException}, StackTrace: {ex.StackTrace}");
 
             await HandleExceptionAsync(context, ex);
         }
@@ -41,7 +39,7 @@ public class ErrorHandlingMiddleware
 
         var errorResponse = JsonConvert.SerializeObject(response);
 
-        _logger.LogError($"Error response: {errorResponse}");
+        _logger.Error($"Error response: {errorResponse}");
 
         await httpContext.Response.WriteAsync(errorResponse);
     }

@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Domain.Abstractions;
-
-namespace BuildingBlocks.Domain.Entities;
+﻿namespace BuildingBlocks.Domain.Entities;
 
 public class Entity
 {

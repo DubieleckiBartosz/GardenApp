@@ -1,6 +1,4 @@
-﻿using System.Reflection;
-
-namespace BuildingBlocks.Domain.Entities;
+﻿namespace BuildingBlocks.Domain.Entities;
 
 public class Enumeration : IComparable
 {

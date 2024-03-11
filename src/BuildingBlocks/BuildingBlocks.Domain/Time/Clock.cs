@@ -1,8 +1,6 @@
-﻿using BuildingBlocks.Domain.ValueObjects;
+﻿namespace BuildingBlocks.Domain.Time;
 
-namespace BuildingBlocks.Domain.Time;
-
-public class Clock
+public static class Clock
 {
     public static DateTime CurrentDate() => DateTime.UtcNow;
 
