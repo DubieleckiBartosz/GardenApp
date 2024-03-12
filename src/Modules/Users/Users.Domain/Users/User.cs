@@ -26,9 +26,9 @@ public class User : Entity, IAggregateRoot
     }
 
     public static User NewUser(
-        StringValue firstName,
-        StringValue lastName,
-        StringValue city,
+        string firstName,
+        string lastName,
+        string city,
         Phone phoneNumber,
         Email email)
     {
@@ -47,6 +47,6 @@ public class User : Entity, IAggregateRoot
             throw new ArgumentNullException(nameof(city));
         }
 
-        return new User(firstName, lastName, city, phoneNumber, email);
+        return new User(firstName!, lastName!, city!, phoneNumber, email);
     }
 }

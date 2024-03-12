@@ -1,7 +1,8 @@
 ﻿global using BuildingBlocks.Application.Contracts.Mediator;
 global using BuildingBlocks.Application.Wrappers;
 global using MediatR;
-global using Newtonsoft.Json;
+global using Microsoft.AspNetCore.Identity;
+global using Users.Domain.Users;
 global using static Users.Application.Handlers.ForgotPasswordHandler;
 global using static Users.Application.Handlers.LoginUserHandler;
 global using static Users.Application.Handlers.RefreshTokenHandler;

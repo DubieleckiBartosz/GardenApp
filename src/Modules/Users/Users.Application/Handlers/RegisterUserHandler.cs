@@ -1,4 +1,7 @@
-﻿namespace Users.Application.Handlers;
+﻿using BuildingBlocks.Application.Contracts.Clients.Smtp;
+using Users.Domain.Users;
+
+namespace Users.Application.Handlers;
 
 public record RegisterUserParameters(
     string City,
@@ -11,6 +14,8 @@ public record RegisterUserParameters(
 
 public sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand, Response>
 {
+    private readonly IEmailClient _emailClient;
+
     public record RegisterUserCommand(
         string City,
         string Email,
@@ -33,12 +38,15 @@ public sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand, R
         }
     }
 
-    public RegisterUserHandler()
+    public RegisterUserHandler(IEmailClient emailClient)
     {
+        _emailClient = emailClient;
     }
 
-    public Task<Response> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var user = User.NewUser(request.FirstName, request.LastName, request.City, request.PhoneNumber, request.Email);
+
+        return Response.Ok();
     }
 }

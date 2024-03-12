@@ -1,6 +1,4 @@
-﻿using Users.Domain.Users;
-
-namespace Users.Infrastructure.Database.Models;
+﻿namespace Users.Infrastructure.Database.Models;
 
 public class ApplicationUser : IdentityUser
 {

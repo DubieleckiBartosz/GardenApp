@@ -16,3 +16,5 @@ global using Users.Infrastructure.Database;
 global using Users.Infrastructure.Database.Domain;
 global using Users.Infrastructure.Database.Models;
 global using Users.Infrastructure.Outbox;
+global using Users.Domain.Users;
+global using Users.Application.Interfaces;
