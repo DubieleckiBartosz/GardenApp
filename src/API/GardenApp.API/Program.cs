@@ -1,10 +1,3 @@
-using BuildingBlocks.Infrastructure.Config;
-using GardenApp.API.Common;
-using GardenApp.API.Configurations;
-using Panels.Infrastructure.Configurations;
-using Users.Application.Reference;
-using Users.Infrastructure.Configurations;
-
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var env = builder.Environment;
@@ -43,6 +36,14 @@ builder.Host.UseSerilog((ctx, lc) => lc.LogConfigurationService(builder.Configur
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
+
+app.UseCors(builder =>
+{
+    builder
+        .AllowAnyOrigin()
+        .AllowAnyMethod()
+        .AllowAnyHeader();
+});
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())

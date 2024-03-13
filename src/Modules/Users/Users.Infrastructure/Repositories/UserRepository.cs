@@ -2,10 +2,10 @@
 
 internal class UserRepository : IUserRepository
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
 
-    public UserRepository(UserManager<ApplicationUser> userManager, SignInManager<ApplicationUser> signInManager)
+    public UserRepository(UserManager<User> userManager, SignInManager<User> signInManager)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
@@ -21,12 +21,12 @@ internal class UserRepository : IUserRepository
         return await _userManager.AddToRoleAsync(user, role);
     }
 
-    public async Task<ApplicationUser?> GetUserByNameAsync(string userName)
+    public async Task<User?> GetUserByNameAsync(string userName)
     {
         return await _userManager.FindByNameAsync(userName);
     }
 
-    public async Task<ApplicationUser?> GetUserByEmailAsync(string email)
+    public async Task<User?> GetUserByEmailAsync(string email)
     {
         return await _userManager.FindByEmailAsync(email);
     }
@@ -36,7 +36,7 @@ internal class UserRepository : IUserRepository
         return (await _userManager.GetRolesAsync(user)).ToArray();
     }
 
-    public async Task<ApplicationUser?> GetUserByIdAsync(string userId)
+    public async Task<User?> GetUserByIdAsync(string userId)
     {
         return await _userManager.FindByIdAsync(userId);
     }

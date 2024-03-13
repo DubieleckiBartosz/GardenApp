@@ -1,28 +1,29 @@
-﻿namespace Users.Domain.Users;
+﻿using Microsoft.AspNetCore.Identity;
 
-public class User : Entity, IAggregateRoot
+namespace Users.Domain.Users;
+
+public class User : IdentityUser, IAggregateRoot
 {
-    public string UserName => $"{FirstName} {LastName}";
     public string FirstName { get; }
     public string LastName { get; }
     public string City { get; }
-    public string PhoneNumber { get; }
-    public Email Email { get; }
+
+    private User()
+    {
+    }
 
     private User(
         StringValue firstName,
         StringValue lastName,
         StringValue city,
         Phone phoneNumber,
-        Email email)
+        Email email) : base($"{firstName} {lastName}")
     {
         FirstName = firstName;
         LastName = lastName;
         City = city;
         PhoneNumber = phoneNumber;
         Email = email;
-
-        this.AddEvent(new UserCreated());
     }
 
     public static User NewUser(

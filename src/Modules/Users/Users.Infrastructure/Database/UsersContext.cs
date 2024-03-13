@@ -2,12 +2,12 @@
 
 namespace Users.Infrastructure.Database;
 
-public sealed class UsersContext : IdentityDbContext<ApplicationUser>
+public sealed class UsersContext : IdentityDbContext<User>
 {
     internal const string UsersSchema = "users";
 
     public DbSet<OutboxMessage> OutboxMessages { get; set; }
-    public DbSet<ApplicationUser> ApplicationUsers { get; set; }
+    public DbSet<User> ApplicationUsers { get; set; }
 
     public UsersContext()
     {

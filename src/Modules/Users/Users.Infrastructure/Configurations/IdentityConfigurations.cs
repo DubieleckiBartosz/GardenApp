@@ -11,7 +11,7 @@ internal static class IdentityConfigurations
 
         builder.RegisterEntityFrameworkNpg<UsersContext>(connectionString, schema);
 
-        services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+        services.AddIdentity<User, IdentityRole>(options =>
         {
             options.Password.RequiredLength = 7;
             options.Password.RequireDigit = false;
@@ -22,6 +22,32 @@ internal static class IdentityConfigurations
 
         services.Configure<DataProtectionTokenProviderOptions>(opt =>
                     opt.TokenLifespan = TimeSpan.FromHours(2));
+
+        services.AddAuthentication(options =>
+        {
+            options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultScheme = JwtBearerDefaults.AuthenticationScheme;
+            options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+        })
+        .AddJwtBearer(x =>
+        {
+            var secret = builder.Configuration.GetValue<string>("Secret")!;
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
+
+            x.RequireHttpsMetadata = true;
+            x.SaveToken = true;
+            x.TokenValidationParameters = new TokenValidationParameters
+            {
+                ValidateIssuerSigningKey = true,
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ClockSkew = TimeSpan.Zero,
+                ValidAudience = "https://localhost:7000/",
+                ValidIssuer = "https://localhost:7000/",
+                IssuerSigningKey = key,
+            };
+        });
 
         return builder;
     }

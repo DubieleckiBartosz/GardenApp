@@ -1,8 +1,8 @@
 ﻿namespace Users.Infrastructure.Database.Domain;
 
-public class ApplicationUserTypeConfiguration : IEntityTypeConfiguration<ApplicationUser>
+public class UserTypeConfiguration : IEntityTypeConfiguration<User>
 {
-    public void Configure(EntityTypeBuilder<ApplicationUser> builder)
+    public void Configure(EntityTypeBuilder<User> builder)
     {
         builder
             .Ignore(_ => _.PhoneNumberConfirmed);
