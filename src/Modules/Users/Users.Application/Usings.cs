@@ -1,7 +1,14 @@
-﻿global using BuildingBlocks.Application.Contracts.Mediator;
+﻿global using BuildingBlocks.Application.Constants;
+global using BuildingBlocks.Application.Contracts.Mediator;
 global using BuildingBlocks.Application.Wrappers;
 global using MediatR;
 global using Microsoft.AspNetCore.Identity;
+global using Microsoft.IdentityModel.Tokens;
+global using System.IdentityModel.Tokens.Jwt;
+global using System.Security.Claims;
+global using System.Security.Cryptography;
+global using System.Text;
+global using Users.Application.Settings;
 global using Users.Domain.Users;
 global using static Users.Application.Handlers.ForgotPasswordHandler;
 global using static Users.Application.Handlers.LoginUserHandler;

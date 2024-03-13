@@ -1,5 +1,5 @@
 ﻿using BuildingBlocks.Application.Contracts.Clients.Smtp;
-using Users.Domain.Users;
+using Users.Application.Interfaces;
 
 namespace Users.Application.Handlers;
 
@@ -15,6 +15,7 @@ public record RegisterUserParameters(
 public sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand, Response>
 {
     private readonly IEmailClient _emailClient;
+    private readonly IUserRepository _userRepository;
 
     public record RegisterUserCommand(
         string City,
@@ -38,15 +39,16 @@ public sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand, R
         }
     }
 
-    public RegisterUserHandler(IEmailClient emailClient)
+    public RegisterUserHandler(IEmailClient emailClient, IUserRepository userRepository)
     {
         _emailClient = emailClient;
+        _userRepository = userRepository;
     }
 
     public async Task<Response> Handle(RegisterUserCommand request, CancellationToken cancellationToken)
     {
         var user = User.NewUser(request.FirstName, request.LastName, request.City, request.PhoneNumber, request.Email);
-
+        var createResult = await _userRepository.CreateUserAsync(user, request.Password);
         return Response.Ok();
     }
 }
