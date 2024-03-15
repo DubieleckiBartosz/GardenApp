@@ -8,6 +8,7 @@ public sealed class UsersContext : IdentityDbContext<User>
 
     public DbSet<OutboxMessage> OutboxMessages { get; set; }
     public DbSet<User> ApplicationUsers { get; set; }
+    public DbSet<RefreshToken> RefreshTokens { get; set; }
 
     public UsersContext()
     {

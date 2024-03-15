@@ -7,6 +7,8 @@ public class User : IdentityUser, IAggregateRoot
     public string FirstName { get; }
     public string LastName { get; }
     public string City { get; }
+    public string RefreshTokenId { get; private set; }
+    public RefreshToken Refresh { get; private set; }
 
     private User()
     {
@@ -49,5 +51,12 @@ public class User : IdentityUser, IAggregateRoot
         }
 
         return new User(firstName!, lastName!, city!, phoneNumber, email);
+    }
+
+    public RefreshToken GenerateNewRefreshToken(TimeSpan duration)
+    {
+        Refresh = RefreshToken.CreateNew(duration, this.Id);
+
+        return Refresh;
     }
 }

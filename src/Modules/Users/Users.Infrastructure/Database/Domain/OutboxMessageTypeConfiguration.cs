@@ -4,7 +4,7 @@ public class OutboxMessageTypeConfiguration : IEntityTypeConfiguration<OutboxMes
 {
     public void Configure(EntityTypeBuilder<OutboxMessage> builder)
     {
-        builder.ToTable("OutboxMessages", "users");
+        builder.ToTable("OutboxMessages", UsersContext.UsersSchema);
 
         builder.HasKey(b => b.Id);
         builder.Property(b => b.Id).ValueGeneratedNever();
