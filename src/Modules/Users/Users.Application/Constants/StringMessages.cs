@@ -9,4 +9,5 @@ internal static class StringMessages
     internal const string UnableNewAccount = "Unable to create a new account.";
 
     internal const string TemplateNotFound = "Template not found.";
+    internal const string UserNotFound = "User not found.";
 }

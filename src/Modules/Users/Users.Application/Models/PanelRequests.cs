@@ -1,0 +1,1 @@
+﻿public record CreateNewPanelRequest(string Email, string UserName, string UserId, string City);

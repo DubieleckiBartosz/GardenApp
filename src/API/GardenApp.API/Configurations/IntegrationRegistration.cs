@@ -1,11 +1,9 @@
-﻿using Panels.Infrastructure.Configurations;
-
-namespace GardenApp.API.Configurations;
+﻿namespace GardenApp.API.Configurations;
 
 public static class IntegrationRegistration
 {
-    public static void RegisterEvents(this WebApplication app)
+    public static void PanelsIntegrationRegistration(this WebApplication app)
     {
-        app.SubscribePanelsIntegrationEvents().InitializePanelsEvents();
+        app.SubscribePanelsIntegrationEvents().InitializePanelsEvents().RegisterClient();
     }
 }

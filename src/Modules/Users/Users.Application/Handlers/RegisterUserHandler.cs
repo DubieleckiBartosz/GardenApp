@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace Users.Application.Handlers;
+﻿namespace Users.Application.Handlers;
 
 public record RegisterUserParameters(
     string City,
@@ -79,7 +77,7 @@ internal sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand,
         var routeUri = new Uri(string.Concat($"{_options.ClientAddress}", _options.ConfirmUserPath));
 
         queryParams["code"] = token;
-        queryParams["confirmEmail"] = user.Email;
+        queryParams["email"] = user.Email;
 
         var verificationUri = QueryHelpers.AddQueryString(routeUri.ToString(), queryParams!);
 

@@ -61,7 +61,7 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.RegisterEvents();
+app.PanelsIntegrationRegistration();
 
 //Modules
 app.UsersMigration()

@@ -1,4 +1,6 @@
-﻿using static Users.Application.Integration.TestHandler;
+﻿using Microsoft.AspNetCore.Authorization;
+using static Users.Application.Handlers.ConfirmUserHandler;
+using static Users.Application.Integration.TestHandler;
 
 namespace GardenApp.API.Modules.Users;
 
@@ -15,5 +17,13 @@ public class UsersController : BaseController
     {
         await CommandBus.Send(new TestUsersCommand());
         return NoContent();
+    }
+
+    [AllowAnonymous]
+    [HttpGet("confirm-user")]
+    public async Task<IActionResult> ConfirmUser(string code, string email)
+    {
+        var result = await CommandBus.Send(new ConfirmUserCommand(code, email));
+        return result.Success ? Ok(result) : BadRequest(result);
     }
 }

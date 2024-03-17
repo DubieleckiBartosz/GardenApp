@@ -1,6 +1,4 @@
-﻿using BuildingBlocks.Application.Contracts.Clients.Smtp;
-
-namespace Users.Application.Handlers;
+﻿namespace Users.Application.Handlers;
 public record ForgotPasswordParameters(string Email);
 
 public sealed class ForgotPasswordHandler : ICommandHandler<ForgotPasswordCommand, Response>

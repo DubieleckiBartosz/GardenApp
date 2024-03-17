@@ -1,4 +1,8 @@
-﻿namespace Panels.Infrastructure.Configurations;
+﻿using BuildingBlocks.Application.Wrappers;
+using MediatR;
+using static Panels.Application.Features.CreateNewPanel.CreateNewPanelHandler;
+
+namespace Panels.Infrastructure.Configurations;
 
 public static class PanelsInfrastructureConfigurations
 {
@@ -59,5 +63,14 @@ public static class PanelsInfrastructureConfigurations
             var accessor = scope.ServiceProvider.GetRequiredService<IInboxAccessor>();
             await new IntegrationEventHandler<T>(accessor).Handle(@event);
         });
+    }
+
+    public static WebApplication RegisterClient(this WebApplication app)
+    {
+        app.UseModuleRequests()
+            .Subscribe<CreateNewPanelCommand, Response>("panel/create",
+                (command, serviceProvider, cancellationToken)
+                    => serviceProvider.GetRequiredService<IMediator>().Send(command, cancellationToken));
+        return app;
     }
 }
