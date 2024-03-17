@@ -1,6 +1,6 @@
 ﻿namespace Users.Infrastructure.Database.Domain;
 
-public class OutboxMessageTypeConfiguration : IEntityTypeConfiguration<OutboxMessage>
+internal class OutboxMessageTypeConfiguration : IEntityTypeConfiguration<OutboxMessage>
 {
     public void Configure(EntityTypeBuilder<OutboxMessage> builder)
     {

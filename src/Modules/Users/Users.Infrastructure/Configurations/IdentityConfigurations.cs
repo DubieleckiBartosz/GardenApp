@@ -10,7 +10,6 @@ internal static class IdentityConfigurations
         var connectionString = options.ConnectionString + schema;
 
         builder.RegisterEntityFrameworkNpg<UsersContext>(connectionString, schema);
-
         services.AddIdentity<User, IdentityRole>(options =>
         {
             options.Password.RequiredLength = 7;
@@ -18,7 +17,8 @@ internal static class IdentityConfigurations
             options.Password.RequireUppercase = false;
             options.User.RequireUniqueEmail = true;
             options.SignIn.RequireConfirmedAccount = true;
-        });
+        })
+            .AddEntityFrameworkStores<UsersContext>();
 
         services.Configure<DataProtectionTokenProviderOptions>(opt =>
                     opt.TokenLifespan = TimeSpan.FromHours(2));

@@ -1,6 +1,6 @@
 ﻿namespace Users.Infrastructure.Database.Domain;
 
-public class UserTypeConfiguration : IEntityTypeConfiguration<User>
+internal class UserTypeConfiguration : IEntityTypeConfiguration<User>
 {
     public void Configure(EntityTypeBuilder<User> builder)
     {
@@ -11,6 +11,6 @@ public class UserTypeConfiguration : IEntityTypeConfiguration<User>
         builder.Property(_ => _.LastName).HasColumnName("LastName").IsRequired();
         builder.Property(_ => _.City).HasColumnName("City").IsRequired();
 
-        builder.HasOne(_ => _.Refresh).WithOne(x => x.User);
+        builder.HasOne(_ => _.Refresh).WithOne(x => x.User).HasForeignKey<RefreshToken>(_ => _.UserId);
     }
 }

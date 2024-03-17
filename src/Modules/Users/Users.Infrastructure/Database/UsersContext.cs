@@ -10,10 +10,6 @@ public sealed class UsersContext : IdentityDbContext<User>
     public DbSet<User> ApplicationUsers { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
 
-    public UsersContext()
-    {
-    }
-
     public UsersContext(DbContextOptions<UsersContext> options) : base(options)
     {
     }

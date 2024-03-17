@@ -1,22 +1,12 @@
-﻿namespace Users.Infrastructure.Configurations;
+﻿using Users.Infrastructure.Repositories;
+
+namespace Users.Infrastructure.Configurations;
 
 public static class UsersInfrastructureConfigurations
 {
     public static WebApplicationBuilder GetUsersInfrastructureConfigurations(this WebApplicationBuilder builder)
     {
-        builder.UsersDatabaseConfiguration().RegisterDependencyInjection();
-
-        return builder;
-    }
-
-    private static WebApplicationBuilder UsersDatabaseConfiguration(this WebApplicationBuilder builder)
-    {
-        var services = builder.Services;
-        var options = builder.Configuration.GetSection("EfOptions").Get<EfOptions>()!;
-        var schema = UsersContext.UsersSchema;
-        var connectionString = options.ConnectionString + schema;
-
-        builder.RegisterEntityFrameworkNpg<UsersContext>(connectionString, schema);
+        builder.RegisterIdentity().RegisterDependencyInjection();
 
         return builder;
     }
@@ -25,7 +15,9 @@ public static class UsersInfrastructureConfigurations
     {
         var services = builder.Services;
 
-        services.AddScoped<IOutboxAccessor, OutboxAccessor>();
+        services
+            .AddScoped<IOutboxAccessor, OutboxAccessor>()
+            .AddScoped<IUserRepository, UserRepository>();
 
         //HOSTED service
         services.AddHostedService<OutboxProcessor>();
