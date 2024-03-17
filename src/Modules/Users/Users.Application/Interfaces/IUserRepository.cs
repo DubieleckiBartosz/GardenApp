@@ -2,6 +2,16 @@
 
 public interface IUserRepository
 {
+    Task<User?> GetUserByNameAsync(string userName);
+
+    Task<User?> GetUserByEmailAsync(string email);
+
+    Task<string[]> GetUserRolesByUserAsync(User user);
+
+    Task<User?> GetUserByIdAsync(string userId);
+
+    Task<bool> UserIsBlockedAsync(User user, string password);
+
     Task<IdentityResult> CreateUserAsync(User user, string password);
 
     Task<IdentityResult> UserToRoleAsync(User user, string role);
@@ -11,6 +21,8 @@ public interface IUserRepository
     Task<string> GenerateEmailConfirmationTokenAsync(User user);
 
     Task<string> GeneratePasswordResetTokenAsync(User user);
+
+    Task<IdentityResult> SetTokenAsync(User user, string loginProvider, string tokenName, string token);
 
     Task<IdentityResult> ResetUserPasswordAsync(User user, string token, string password);
 }

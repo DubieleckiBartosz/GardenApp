@@ -53,13 +53,18 @@ public class Response<T> : Response
         return new Response<T>(data, true, message);
     }
 
-    public static Response<T> Error(T data, string message)
+    public static Response<T> Error(T error, string message)
     {
-        return new Response<T>(data, false, message);
+        return new Response<T>(error, false, message);
     }
 
-    public static Response<T> Error(T data)
+    public static Response<T> Error(T error)
     {
-        return new Response<T>(data, false, null);
+        return new Response<T>(error, false, null);
+    }
+
+    public static Response<IEnumerable<T>> Errors(IEnumerable<T> errors)
+    {
+        return new Response<IEnumerable<T>>(errors, false, null);
     }
 }

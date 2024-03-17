@@ -7,8 +7,8 @@ public class User : IdentityUser, IAggregateRoot
     public string FirstName { get; }
     public string LastName { get; }
     public string City { get; }
-    public string RefreshTokenId { get; private set; }
-    public RefreshToken Refresh { get; private set; }
+    public string? RefreshTokenId { get; private set; }
+    public RefreshToken? Refresh { get; private set; }
 
     private User()
     {
@@ -19,13 +19,14 @@ public class User : IdentityUser, IAggregateRoot
         StringValue lastName,
         StringValue city,
         Phone phoneNumber,
-        Email email) : base($"{firstName} {lastName}")
+        Email email) : base($"{firstName}_{lastName}")
     {
         FirstName = firstName;
         LastName = lastName;
         City = city;
         PhoneNumber = phoneNumber;
         Email = email;
+        EmailConfirmed = false;
     }
 
     public static User NewUser(
@@ -58,5 +59,10 @@ public class User : IdentityUser, IAggregateRoot
         Refresh = RefreshToken.CreateNew(duration, this.Id);
 
         return Refresh;
+    }
+
+    public void Confirm()
+    {
+        EmailConfirmed = true;
     }
 }

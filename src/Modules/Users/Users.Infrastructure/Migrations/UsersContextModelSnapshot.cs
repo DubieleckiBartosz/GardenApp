@@ -23,6 +23,38 @@ namespace Users.Infrastructure.Migrations
 
             NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
+            modelBuilder.Entity("BuildingBlocks.Domain.Types.Template", b =>
+                {
+                    b.Property<short>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("smallint");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<short>("Id"));
+
+                    b.Property<DateTime>("Created")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("Created")
+                        .HasDefaultValueSql("CURRENT_TIMESTAMP");
+
+                    b.Property<string>("Subject")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Subject");
+
+                    b.Property<int>("TemplateType")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Value")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Value");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Templates", "users");
+                });
+
             modelBuilder.Entity("BuildingBlocks.Infrastructure.Outbox.OutboxMessage", b =>
                 {
                     b.Property<Guid>("Id")
@@ -261,7 +293,6 @@ namespace Users.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("RefreshTokenId")
-                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<string>("SecurityStamp")
@@ -350,8 +381,7 @@ namespace Users.Infrastructure.Migrations
 
             modelBuilder.Entity("Users.Domain.Users.User", b =>
                 {
-                    b.Navigation("Refresh")
-                        .IsRequired();
+                    b.Navigation("Refresh");
                 });
 #pragma warning restore 612, 618
         }

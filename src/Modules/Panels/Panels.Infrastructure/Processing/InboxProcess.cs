@@ -31,6 +31,7 @@ internal class InboxProcess : BackgroundService
 
     private async Task Process(CancellationToken stoppingToken)
     {
+        return;
         using var scope = _serviceScopeFactory.CreateScope();
         var accessor = scope.ServiceProvider.GetRequiredService<IInboxAccessor>();
         var messageIds = await accessor.GetUnprocessedMessageIdsAsync();

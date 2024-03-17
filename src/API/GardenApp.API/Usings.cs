@@ -10,5 +10,6 @@ global using Newtonsoft.Json;
 global using Panels.Application;
 global using Panels.Infrastructure.Configurations;
 global using Serilog;
+global using Users.Application.Configurations;
 global using Users.Application.Reference;
 global using Users.Infrastructure.Configurations;

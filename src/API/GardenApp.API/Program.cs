@@ -15,6 +15,7 @@ var services = builder.Services;
 builder
     .RegisterBBApplicationConfigurations()
     .RegisterBBInfrastructureConfigurations()
+    .GetUsersApplicationConfigurations()
     .GetUsersInfrastructureConfigurations()
     .RegisterPanelsInfrastructure();
 
@@ -61,6 +62,10 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.RegisterEvents();
+
+//Modules
+app.UsersMigration()
+   .UsersInitData(configuration);
 
 app.Run();
 

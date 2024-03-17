@@ -16,7 +16,7 @@ internal static class IdentityConfigurations
             options.Password.RequireDigit = false;
             options.Password.RequireUppercase = false;
             options.User.RequireUniqueEmail = true;
-            options.SignIn.RequireConfirmedAccount = true;
+            options.SignIn.RequireConfirmedEmail = true;
         })
             .AddEntityFrameworkStores<UsersContext>();
 

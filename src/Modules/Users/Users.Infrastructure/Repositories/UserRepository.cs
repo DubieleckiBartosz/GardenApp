@@ -65,6 +65,12 @@ internal class UserRepository : IUserRepository
         return token;
     }
 
+    public async Task<IdentityResult> SetTokenAsync(User user, string loginProvider, string tokenName, string token)
+    {
+        var result = await _userManager.SetAuthenticationTokenAsync(user, loginProvider, tokenName, token);
+        return result;
+    }
+
     public async Task<IdentityResult> ResetUserPasswordAsync(User user, string token, string password)
     {
         var resetPassResult = await _userManager.ResetPasswordAsync(user, token, password);

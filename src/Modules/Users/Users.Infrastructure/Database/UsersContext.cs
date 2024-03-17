@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-
-namespace Users.Infrastructure.Database;
+﻿namespace Users.Infrastructure.Database;
 
 public sealed class UsersContext : IdentityDbContext<User>
 {
@@ -9,6 +7,7 @@ public sealed class UsersContext : IdentityDbContext<User>
     public DbSet<OutboxMessage> OutboxMessages { get; set; }
     public DbSet<User> ApplicationUsers { get; set; }
     public DbSet<RefreshToken> RefreshTokens { get; set; }
+    public DbSet<Template> Templates { get; set; }
 
     public UsersContext(DbContextOptions<UsersContext> options) : base(options)
     {
