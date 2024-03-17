@@ -79,4 +79,4 @@ Each Module has Clean Architecture and consists of the following submodules (ass
 ## Patterns
 
 - CQRS
-- Transactional Outbox and Inbox  - this pattern provides "At-Least-Once delivery" and "At-Least-Once processing"
+- Transactional Outbox and Inbox  - this pattern provides "At-Least-Once delivery" and "At-Least-Once processing" 
