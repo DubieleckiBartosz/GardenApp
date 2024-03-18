@@ -38,7 +38,7 @@ public class UsersController : BaseController
     public async Task<IActionResult> LoginUser([FromBody] LoginUserParameters parameters)
     {
         var response = await CommandBus.Send(LoginUserCommand.NewCommand(parameters));
-        this.SetRefreshTokenInCookie(response!.RefreshToken);
+        this.SetRefreshTokenInCookie(response.Data!.RefreshToken);
 
         return Ok(response);
     }

@@ -27,6 +27,7 @@ global using Users.Application.Helpers;
 global using Users.Application.Interfaces;
 global using Users.Application.Options;
 global using Users.Application.Responses;
+global using Users.Application.Security;
 global using Users.Application.Services;
 global using Users.Application.Settings;
 global using Users.Application.Templates;

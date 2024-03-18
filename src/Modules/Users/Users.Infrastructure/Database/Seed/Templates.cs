@@ -1,6 +1,4 @@
-﻿using Users.Application.Enums;
-
-namespace Users.Infrastructure.Database.Seed;
+﻿namespace Users.Infrastructure.Database.Seed;
 
 internal static class Templates
 {

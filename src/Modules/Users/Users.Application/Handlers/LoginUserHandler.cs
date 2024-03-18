@@ -1,23 +1,21 @@
-﻿using Users.Application.Security;
-
-namespace Users.Application.Handlers;
+﻿namespace Users.Application.Handlers;
 public record LoginUserParameters(string Email, string Password);
 
-public sealed class LoginUserHandler : ICommandHandler<LoginUserCommand, LoginResponse>
+public sealed class LoginUserHandler : ICommandHandler<LoginUserCommand, Response<LoginResponse>>
 {
-    public class LoginResponse : Response
+    public class LoginResponse
     {
         public string AuthorizationToken { get; }
         public string RefreshToken { get; }
 
-        public LoginResponse(string refreshToken, string authorizationToken) : base(success: true)
+        public LoginResponse(string refreshToken, string authorizationToken)
         {
             RefreshToken = refreshToken;
             AuthorizationToken = authorizationToken;
         }
     }
 
-    public record LoginUserCommand(string Email, string Password) : ICommand<LoginResponse>
+    public record LoginUserCommand(string Email, string Password) : ICommand<Response<LoginResponse>>
     {
         public static LoginUserCommand NewCommand(LoginUserParameters parameters)
         {
@@ -34,7 +32,7 @@ public sealed class LoginUserHandler : ICommandHandler<LoginUserCommand, LoginRe
         _settings = options!.Value;
     }
 
-    public async Task<LoginResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    public async Task<Response<LoginResponse>> Handle(LoginUserCommand request, CancellationToken cancellationToken)
     {
         var user = await _userRepository.GetUserByEmailAsync(request.Email);
         if (user == null)
@@ -59,6 +57,6 @@ public sealed class LoginUserHandler : ICommandHandler<LoginUserCommand, LoginRe
         var token = TokenGenerator.GenerateToken(user, roles, _settings);
         var refresh = await _userRepository.GenerateRefreshToken(user.Id);
 
-        return new LoginResponse(refresh.Value, token);
+        return Response<LoginResponse>.Ok(new LoginResponse(refresh.Value, token));
     }
 }
