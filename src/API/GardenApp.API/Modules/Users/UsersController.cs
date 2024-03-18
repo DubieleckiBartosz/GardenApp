@@ -1,13 +1,4 @@
-﻿using BuildingBlocks.Application.Wrappers;
-using Microsoft.AspNetCore.Authorization;
-using Swashbuckle.AspNetCore.Annotations;
-using Users.Application.Handlers;
-using static Users.Application.Handlers.ConfirmUserHandler;
-using static Users.Application.Handlers.LoginUserHandler;
-using static Users.Application.Handlers.RefreshTokenHandler;
-using static Users.Application.Integration.TestHandler;
-
-namespace GardenApp.API.Modules.Users;
+﻿namespace GardenApp.API.Modules.Users;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -34,7 +25,7 @@ public class UsersController : BaseController
 
     [ProducesResponseType(typeof(object), 400)]
     [ProducesResponseType(typeof(object), 500)]
-    [ProducesResponseType(typeof(LoginResponse), 200)]
+    [ProducesResponseType(typeof(Response<LoginResponse>), 200)]
     [SwaggerOperation(Summary = "User login")]
     [HttpPost("[action]")]
     public async Task<IActionResult> LoginUser([FromBody] LoginUserParameters parameters)
