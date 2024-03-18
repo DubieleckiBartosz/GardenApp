@@ -1,16 +1,26 @@
 ﻿namespace Users.Application.Handlers;
-public record RefreshTokenParameters();
 
-public sealed class RefreshTokenHandler : ICommandHandler<RefreshTokenCommand, Response>
+public sealed class RefreshTokenHandler : ICommandHandler<RefreshTokenCommand, Response<RefreshTokenResponse>>
 {
-    public record RefreshTokenCommand : ICommand<Response>;
+    public record RefreshTokenCommand(string RefreshToken) : ICommand<Response<RefreshTokenResponse>>;
+    public record RefreshTokenResponse(string RefreshToken, string AuthorizationToken);
 
-    public RefreshTokenHandler()
+    private readonly IUserRepository _userRepository;
+
+    private readonly JwtSettings _settings;
+
+    public RefreshTokenHandler(IUserRepository userRepository, IOptions<JwtSettings> options)
     {
+        _userRepository = userRepository;
+        _settings = options!.Value;
     }
 
-    public Task<Response> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
+    public async Task<Response<RefreshTokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var refreshToken = await _userRepository.GetRefreshTokenByValueNTAsync(request.RefreshToken)
+            ?? throw new NotFoundException(StringMessages.RefreshTokenNotFound);
+
+        var (token, refresh) = await _userRepository.GenerateAuthorizationTokensAsync(refreshToken.UserId, _settings);
+        return Response<RefreshTokenResponse>.Ok(new(refresh.Value, token));
     }
 }

@@ -1,8 +1,10 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using BuildingBlocks.Application.Wrappers;
+using Microsoft.AspNetCore.Authorization;
 using Swashbuckle.AspNetCore.Annotations;
 using Users.Application.Handlers;
 using static Users.Application.Handlers.ConfirmUserHandler;
 using static Users.Application.Handlers.LoginUserHandler;
+using static Users.Application.Handlers.RefreshTokenHandler;
 using static Users.Application.Integration.TestHandler;
 
 namespace GardenApp.API.Modules.Users;
@@ -39,6 +41,29 @@ public class UsersController : BaseController
     {
         var response = await CommandBus.Send(LoginUserCommand.NewCommand(parameters));
         this.SetRefreshTokenInCookie(response.Data!.RefreshToken);
+
+        return Ok(response);
+    }
+
+    [ProducesResponseType(401)]
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(Response<RefreshTokenResponse>), 200)]
+    [SwaggerOperation(Summary = "Refresh token")]
+    [HttpPost("[action]")]
+    public async Task<IActionResult> RefreshToken()
+    {
+        var refreshToken = Request.Cookies["cookieRefreshTokenKey"];
+        if (refreshToken == null)
+        {
+            return Unauthorized();
+        }
+
+        var response = await CommandBus.Send(new RefreshTokenCommand(refreshToken));
+        if (!string.IsNullOrEmpty(response.Data!.RefreshToken))
+        {
+            this.SetRefreshTokenInCookie(response.Data.RefreshToken);
+        }
 
         return Ok(response);
     }

@@ -96,6 +96,12 @@ internal class UserRepository : IUserRepository
         return user;
     }
 
+    public async Task<RefreshToken?> GetRefreshTokenByValueNTAsync(string tokenValue)
+    {
+        var refreshToken = await _usersContext.RefreshTokens.AsNoTracking().FirstOrDefaultAsync(_ => _.Value == tokenValue);
+        return refreshToken;
+    }
+
     public async Task SaveAsync()
     {
         await _usersContext.SaveChangesAsync();

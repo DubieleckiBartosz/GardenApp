@@ -3,18 +3,7 @@ public record LoginUserParameters(string Email, string Password);
 
 public sealed class LoginUserHandler : ICommandHandler<LoginUserCommand, Response<LoginResponse>>
 {
-    public class LoginResponse
-    {
-        public string AuthorizationToken { get; }
-        public string RefreshToken { get; }
-
-        public LoginResponse(string refreshToken, string authorizationToken)
-        {
-            RefreshToken = refreshToken;
-            AuthorizationToken = authorizationToken;
-        }
-    }
-
+    public record LoginResponse(string RefreshToken, string AuthorizationToken);
     public record LoginUserCommand(string Email, string Password) : ICommand<Response<LoginResponse>>
     {
         public static LoginUserCommand NewCommand(LoginUserParameters parameters)
@@ -53,9 +42,7 @@ public sealed class LoginUserHandler : ICommandHandler<LoginUserCommand, Respons
             throw new AuthException(StringMessages.PasswordInvalid, HttpStatusCode.BadRequest);
         }
 
-        var roles = await _userRepository.GetUserRolesByUserAsync(user);
-        var token = TokenGenerator.GenerateToken(user, roles, _settings);
-        var refresh = await _userRepository.GenerateRefreshToken(user.Id);
+        var (token, refresh) = await _userRepository.GenerateAuthorizationTokensAsync(user.Id, _settings);
 
         return Response<LoginResponse>.Ok(new LoginResponse(refresh.Value, token));
     }

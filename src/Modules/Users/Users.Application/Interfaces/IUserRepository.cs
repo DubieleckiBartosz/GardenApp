@@ -30,5 +30,7 @@ public interface IUserRepository
 
     Task<User?> GetUserWithRefreshTokenAsync(string userId);
 
+    Task<RefreshToken?> GetRefreshTokenByValueNTAsync(string tokenValue);
+
     Task SaveAsync();
 }
