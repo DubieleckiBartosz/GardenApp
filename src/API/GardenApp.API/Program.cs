@@ -34,10 +34,7 @@ builder.Services.AddEndpointsApiExplorer();
 
 builder.Host.UseSerilog((ctx, lc) => lc.LogConfigurationService(builder.Configuration));
 
-builder.Services.AddSwaggerGen(c =>
-{
-    c.EnableAnnotations();
-});
+builder.Services.GetSwaggerConfiguration();
 
 var app = builder.Build();
 
