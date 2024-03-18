@@ -15,6 +15,7 @@ global using Microsoft.AspNetCore.WebUtilities;
 global using Microsoft.Extensions.DependencyInjection;
 global using Microsoft.Extensions.Options;
 global using Microsoft.IdentityModel.Tokens;
+global using Serilog;
 global using System.IdentityModel.Tokens.Jwt;
 global using System.Net;
 global using System.Security.Claims;

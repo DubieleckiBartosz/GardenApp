@@ -2,5 +2,6 @@
 
 public enum UserTemplateType
 {
-    Confirmation = 1
+    Confirmation = 1,
+    ResetPassword = 2
 }

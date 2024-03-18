@@ -15,7 +15,7 @@ internal class DataSeeder
 
     internal async Task SeedTemplatesAsync()
     {
-        UserTemplateType[] types = { UserTemplateType.Confirmation };
+        UserTemplateType[] types = { UserTemplateType.Confirmation, UserTemplateType.ResetPassword };
 
         foreach (var templateType in types)
         {

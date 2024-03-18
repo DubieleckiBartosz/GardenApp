@@ -11,6 +11,7 @@ internal static class StringMessages
     internal const string TemplateNotFound = "Template not found.";
     internal const string UserNotFound = "User not found.";
     internal const string RefreshTokenNotFound = "Refresh token not found.";
+    internal const string OperationFailed = "Operation failed.";
 
     internal const string Unauthorized = "Unauthorized.";
 

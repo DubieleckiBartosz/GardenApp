@@ -7,4 +7,10 @@ internal static class TemplateCreator
             {"UserName", userName},
             {"VerificationUri", code}
         };
+
+    public static Dictionary<string, string> TemplateResetPassword(string resetToken, string path) => new Dictionary<string, string>
+        {
+            {"ResetToken", resetToken},
+            {"Path", path}
+        };
 }

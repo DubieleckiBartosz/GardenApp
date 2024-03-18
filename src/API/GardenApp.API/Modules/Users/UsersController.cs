@@ -1,4 +1,7 @@
-﻿namespace GardenApp.API.Modules.Users;
+﻿using Users.Domain.Users;
+using static Users.Application.Handlers.ForgotPasswordHandler;
+
+namespace GardenApp.API.Modules.Users;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -56,6 +59,17 @@ public class UsersController : BaseController
             this.SetRefreshTokenInCookie(response.Data.RefreshToken);
         }
 
+        return Ok(response);
+    }
+
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [SwaggerOperation(Summary = "Forgot password")]
+    [HttpPost("[action]")]
+    public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordParameters parameters)
+    {
+        var response = await CommandBus.Send(new ForgotPasswordCommand(parameters.Email));
         return Ok(response);
     }
 

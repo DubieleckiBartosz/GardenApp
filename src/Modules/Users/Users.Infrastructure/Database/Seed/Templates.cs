@@ -7,6 +7,7 @@ internal static class Templates
     internal static TemplateResponse Get(UserTemplateType type) => type switch
     {
         UserTemplateType.Confirmation => RegistrationConfirmationTemplate(),
+        UserTemplateType.ResetPassword => ResetPassowrdTemplate(),
         _ => throw new ArgumentOutOfRangeException(nameof(type), $"Not expected template type value: {type}"),
     };
 
@@ -17,6 +18,17 @@ internal static class Templates
                "<a href={VerificationUri}>" +
                "confirmation</a></p></body></html>";
         var subject = "Confirmation";
+
+        return new(subject, value);
+    }
+
+    private static TemplateResponse ResetPassowrdTemplate()
+    {
+        var value = "<!DOCTYPE html><html><body><h4>Reset Password Email</h4>" +
+                "<p>Please use the below token to reset your password with the <code>" +
+                "{Path}</code>api route: </p>" +
+                "<p><code>{ResetToken}</code></p></body></html> ";
+        var subject = "Reset Password";
 
         return new(subject, value);
     }

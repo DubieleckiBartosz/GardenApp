@@ -17,7 +17,7 @@ internal static class IdentityConfigurations
             options.Password.RequireUppercase = false;
             options.User.RequireUniqueEmail = true;
             options.SignIn.RequireConfirmedEmail = true;
-        }).AddEntityFrameworkStores<UsersContext>();
+        }).AddEntityFrameworkStores<UsersContext>().AddDefaultTokenProviders();
 
         services.Configure<DataProtectionTokenProviderOptions>(opt =>
                     opt.TokenLifespan = TimeSpan.FromHours(2));
