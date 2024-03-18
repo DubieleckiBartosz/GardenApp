@@ -23,6 +23,7 @@ global using System.Text;
 global using Users.Application.Enums;
 global using Users.Application.Interfaces;
 global using Users.Application.Options;
+global using Users.Application.Settings;
 global using Users.Domain.Users;
 global using Users.Infrastructure.Database;
 global using Users.Infrastructure.Database.Domain;

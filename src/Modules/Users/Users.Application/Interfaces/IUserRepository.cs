@@ -10,6 +10,8 @@ public interface IUserRepository
 
     Task<User?> GetUserByIdAsync(string userId);
 
+    Task<bool> CheckPasswordAsync(User user, string password);
+
     Task<bool> UserIsBlockedAsync(User user, string password);
 
     Task<IdentityResult> CreateUserAsync(User user, string password);
@@ -25,4 +27,8 @@ public interface IUserRepository
     Task<IdentityResult> SetTokenAsync(User user, string loginProvider, string tokenName, string token);
 
     Task<IdentityResult> ResetUserPasswordAsync(User user, string token, string password);
+
+    Task<User?> GetUserWithRefreshTokenAsync(string userId);
+
+    Task SaveAsync();
 }

@@ -11,7 +11,9 @@ public static class UsersApplicationConfigurations
 
     private static WebApplicationBuilder RegisterUsersOptions(this WebApplicationBuilder builder)
     {
-        builder.Services.Configure<UsersPathOptions>(builder.Configuration.GetSection("UsersPathOptions"));
+        builder.Services
+            .Configure<UsersPathOptions>(builder.Configuration.GetSection("UsersPathOptions"))
+            .Configure<JwtSettings>(builder.Configuration.GetSection("JwtSettings"));
 
         return builder;
     }

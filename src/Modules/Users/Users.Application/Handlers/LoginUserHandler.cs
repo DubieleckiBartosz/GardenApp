@@ -1,16 +1,64 @@
-﻿namespace Users.Application.Handlers;
+﻿using Users.Application.Security;
+
+namespace Users.Application.Handlers;
 public record LoginUserParameters(string Email, string Password);
 
-public sealed class LoginUserHandler : ICommandHandler<LoginUserCommand, Response>
+public sealed class LoginUserHandler : ICommandHandler<LoginUserCommand, LoginResponse>
 {
-    public record LoginUserCommand : ICommand<Response>;
-
-    public LoginUserHandler()
+    public class LoginResponse : Response
     {
+        public string AuthorizationToken { get; }
+        public string RefreshToken { get; }
+
+        public LoginResponse(string refreshToken, string authorizationToken) : base(success: true)
+        {
+            RefreshToken = refreshToken;
+            AuthorizationToken = authorizationToken;
+        }
     }
 
-    public Task<Response> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    public record LoginUserCommand(string Email, string Password) : ICommand<LoginResponse>
     {
-        throw new NotImplementedException();
+        public static LoginUserCommand NewCommand(LoginUserParameters parameters)
+        {
+            return new(parameters.Email, parameters.Password);
+        }
+    }
+
+    private readonly IUserRepository _userRepository;
+    private readonly JwtSettings _settings;
+
+    public LoginUserHandler(IUserRepository userRepository, IOptions<JwtSettings> options)
+    {
+        _userRepository = userRepository;
+        _settings = options!.Value;
+    }
+
+    public async Task<LoginResponse> Handle(LoginUserCommand request, CancellationToken cancellationToken)
+    {
+        var user = await _userRepository.GetUserByEmailAsync(request.Email);
+        if (user == null)
+        {
+            throw new AuthException(StringMessages.Unauthorized, HttpStatusCode.Unauthorized);
+        }
+
+        var blocked = await _userRepository.UserIsBlockedAsync(user, request.Password);
+        if (blocked)
+        {
+            throw new AuthException(StringMessages.UserBlocked, HttpStatusCode.Forbidden);
+        }
+
+        var passwordValid = await _userRepository.CheckPasswordAsync(user, request.Password);
+
+        if (!passwordValid)
+        {
+            throw new AuthException(StringMessages.PasswordInvalid, HttpStatusCode.BadRequest);
+        }
+
+        var roles = await _userRepository.GetUserRolesByUserAsync(user);
+        var token = TokenGenerator.GenerateToken(user, roles, _settings);
+        var refresh = await _userRepository.GenerateRefreshToken(user.Id);
+
+        return new LoginResponse(refresh.Value, token);
     }
 }

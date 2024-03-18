@@ -4,11 +4,13 @@ internal class UserRepository : IUserRepository
 {
     private readonly UserManager<User> _userManager;
     private readonly SignInManager<User> _signInManager;
+    private readonly UsersContext _usersContext;
 
-    public UserRepository(UserManager<User> userManager, SignInManager<User> signInManager)
+    public UserRepository(UserManager<User> userManager, SignInManager<User> signInManager, UsersContext usersContext)
     {
         _userManager = userManager ?? throw new ArgumentNullException(nameof(userManager));
         _signInManager = signInManager ?? throw new ArgumentNullException(nameof(signInManager));
+        _usersContext = usersContext;
     }
 
     public async Task<IdentityResult> CreateUserAsync(User user, string password)
@@ -39,6 +41,11 @@ internal class UserRepository : IUserRepository
     public async Task<User?> GetUserByIdAsync(string userId)
     {
         return await _userManager.FindByIdAsync(userId);
+    }
+
+    public async Task<bool> CheckPasswordAsync(User user, string password)
+    {
+        return await _userManager.CheckPasswordAsync(user, password);
     }
 
     public async Task<bool> UserIsBlockedAsync(User user, string password)
@@ -81,5 +88,16 @@ internal class UserRepository : IUserRepository
     {
         var result = await _userManager.ConfirmEmailAsync(user, token);
         return result;
+    }
+
+    public async Task<User?> GetUserWithRefreshTokenAsync(string userId)
+    {
+        var user = await _usersContext.Users.Include(_ => _.Refresh).FirstOrDefaultAsync(r => r.Id == userId);
+        return user;
+    }
+
+    public async Task SaveAsync()
+    {
+        await _usersContext.SaveChangesAsync();
     }
 }

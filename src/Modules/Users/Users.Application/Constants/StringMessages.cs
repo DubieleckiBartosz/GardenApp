@@ -10,4 +10,8 @@ internal static class StringMessages
 
     internal const string TemplateNotFound = "Template not found.";
     internal const string UserNotFound = "User not found.";
+    internal const string Unauthorized = "Unauthorized.";
+
+    internal const string UserBlocked = "User is blocked.";
+    internal const string PasswordInvalid = "Password invalid.";
 }

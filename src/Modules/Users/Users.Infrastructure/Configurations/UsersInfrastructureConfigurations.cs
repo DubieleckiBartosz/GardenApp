@@ -1,4 +1,6 @@
-﻿namespace Users.Infrastructure.Configurations;
+﻿using Users.Infrastructure.Clients;
+
+namespace Users.Infrastructure.Configurations;
 
 public static class UsersInfrastructureConfigurations
 {
@@ -15,7 +17,8 @@ public static class UsersInfrastructureConfigurations
 
         services
             .AddScoped<IOutboxAccessor, OutboxAccessor>()
-            .AddScoped<IUserRepository, UserRepository>();
+            .AddScoped<IUserRepository, UserRepository>()
+            .AddScoped<IPanelClient, PanelClient>();
 
         services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
 

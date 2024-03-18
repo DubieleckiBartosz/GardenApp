@@ -57,7 +57,7 @@ internal class DataSeeder
         var user = User.NewUser("user", "dev", "TestCity", "111-222-333", "user.gardenapp@dev.com");
         user.Confirm();
 
-        await SaveUser(user, "PasswordUser$123", UserRole.Admin);
+        await SaveUser(user, "PasswordUser$123", UserRole.User);
     }
 
     private async Task SaveUser(User user, string password, UserRole role)

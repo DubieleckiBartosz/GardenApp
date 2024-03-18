@@ -17,8 +17,7 @@ internal static class IdentityConfigurations
             options.Password.RequireUppercase = false;
             options.User.RequireUniqueEmail = true;
             options.SignIn.RequireConfirmedEmail = true;
-        })
-            .AddEntityFrameworkStores<UsersContext>();
+        }).AddEntityFrameworkStores<UsersContext>();
 
         services.Configure<DataProtectionTokenProviderOptions>(opt =>
                     opt.TokenLifespan = TimeSpan.FromHours(2));
@@ -31,8 +30,9 @@ internal static class IdentityConfigurations
         })
         .AddJwtBearer(x =>
         {
-            var secret = builder.Configuration.GetValue<string>("Secret")!;
-            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(secret));
+            var settings = new JwtSettings();
+            builder.Configuration.GetSection(nameof(JwtSettings)).Bind(settings);
+            var key = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(settings.Secret!));
 
             x.RequireHttpsMetadata = true;
             x.SaveToken = true;
@@ -43,8 +43,8 @@ internal static class IdentityConfigurations
                 ValidateAudience = true,
                 ValidateLifetime = true,
                 ClockSkew = TimeSpan.Zero,
-                ValidAudience = "https://localhost:7000/",
-                ValidIssuer = "https://localhost:7000/",
+                ValidAudience = settings.Audience,
+                ValidIssuer = settings.Issuer,
                 IssuerSigningKey = key,
             };
         });

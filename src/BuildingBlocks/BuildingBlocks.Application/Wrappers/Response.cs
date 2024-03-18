@@ -11,7 +11,7 @@ public class Response
     public Response()
     { }
 
-    protected Response(string? message, bool success)
+    protected Response(string? message = null, bool success = false)
     {
         Message = message;
         Success = success;

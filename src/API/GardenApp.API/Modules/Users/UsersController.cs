@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authorization;
+using Swashbuckle.AspNetCore.Annotations;
+using Users.Application.Handlers;
 using static Users.Application.Handlers.ConfirmUserHandler;
+using static Users.Application.Handlers.LoginUserHandler;
 using static Users.Application.Integration.TestHandler;
 
 namespace GardenApp.API.Modules.Users;
@@ -25,5 +28,31 @@ public class UsersController : BaseController
     {
         var result = await CommandBus.Send(new ConfirmUserCommand(code, email));
         return result.Success ? Ok(result) : BadRequest(result);
+    }
+
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(LoginResponse), 200)]
+    [SwaggerOperation(Summary = "User login")]
+    [HttpPost("[action]")]
+    public async Task<IActionResult> LoginUser([FromBody] LoginUserParameters parameters)
+    {
+        var response = await CommandBus.Send(LoginUserCommand.NewCommand(parameters));
+        this.SetRefreshTokenInCookie(response!.RefreshToken);
+
+        return Ok(response);
+    }
+
+    private void SetRefreshTokenInCookie(string refreshToken)
+    {
+        var cookieOptions = new CookieOptions
+        {
+            HttpOnly = true,
+            Expires = DateTime.UtcNow.AddDays(5),
+            IsEssential = true,
+            SameSite = SameSiteMode.None,
+            Secure = true,
+        };
+        Response.Cookies.Append("cookieRefreshTokenKey", refreshToken, cookieOptions);
     }
 }
