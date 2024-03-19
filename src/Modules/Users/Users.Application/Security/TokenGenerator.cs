@@ -4,11 +4,8 @@ namespace Users.Application.Security;
 
 internal static class TokenGenerator
 {
-    internal static async Task<(string, RefreshToken)> GenerateAuthorizationTokensAsync(this IUserRepository userRepository, string userId, JwtSettings jwtSettings)
+    internal static async Task<string> GenerateAuthorizationTokenAsync(this IUserRepository userRepository, User user, JwtSettings jwtSettings)
     {
-        var user = await userRepository.GetUserWithRefreshTokenAsync(userId) ??
-            throw new NotFoundException(StringMessages.UserNotFound);
-
         var roles = await userRepository.GetUserRolesByUserAsync(user);
 
         var roleClaims = new List<Claim>();
@@ -31,11 +28,6 @@ internal static class TokenGenerator
             expires: DateTime.UtcNow.AddMinutes(30),
             signingCredentials: signingCredentials);
 
-        var token = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
-
-        var refreshToken = user.GenerateNewRefreshToken(TimeSpan.FromDays(60));
-        await userRepository.SaveAsync();
-
-        return (token, refreshToken);
+        return new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
     }
 }

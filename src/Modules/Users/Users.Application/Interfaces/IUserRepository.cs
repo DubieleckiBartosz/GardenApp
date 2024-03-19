@@ -2,13 +2,9 @@
 
 public interface IUserRepository
 {
-    Task<User?> GetUserByNameAsync(string userName);
-
     Task<User?> GetUserByEmailAsync(string email);
 
     Task<string[]> GetUserRolesByUserAsync(User user);
-
-    Task<User?> GetUserByIdAsync(string userId);
 
     Task<bool> CheckPasswordAsync(User user, string password);
 
@@ -30,9 +26,11 @@ public interface IUserRepository
 
     Task<IdentityResult> ResetUserPasswordAsync(User user, string token, string password);
 
-    Task<User?> GetUserWithRefreshTokenAsync(string userId);
+    Task<User?> GetUserWithRefreshTokensByIdAsync(string userId);
 
     Task<RefreshToken?> GetRefreshTokenByValueNTAsync(string tokenValue);
+
+    Task<RefreshToken?> GetRefreshTokenByValueAsync(string tokenValue);
 
     Task SaveAsync();
 }

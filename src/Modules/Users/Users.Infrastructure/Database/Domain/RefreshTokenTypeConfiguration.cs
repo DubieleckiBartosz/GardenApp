@@ -11,5 +11,11 @@ internal class RefreshTokenTypeConfiguration : IEntityTypeConfiguration<RefreshT
         builder.Property(_ => _.Value).HasColumnName("Value").IsRequired();
         builder.Property(_ => _.TokenExpirationDate).HasColumnName("TokenExpirationDate").IsRequired();
         builder.Property(_ => _.UserId).HasColumnName("UserId").IsRequired();
+        builder.Property(_ => _.Revoked).HasColumnName("Revoked").HasDefaultValue("false").IsRequired();
+        builder.Property(_ => _.ReplacedByToken).HasColumnName("ReplacedByToken").IsRequired(false);
+
+        builder
+            .Ignore(_ => _.IsActive)
+            .Ignore(_ => _.IsExpired);
     }
 }

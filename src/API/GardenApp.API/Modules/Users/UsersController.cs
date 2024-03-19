@@ -1,5 +1,6 @@
 ﻿using static Users.Application.Handlers.ForgotPasswordHandler;
 using static Users.Application.Handlers.ResetPasswordHandler;
+using static Users.Application.Handlers.RevokeTokenHandler;
 
 namespace GardenApp.API.Modules.Users;
 
@@ -62,7 +63,6 @@ public class UsersController : BaseController
         return Ok(response);
     }
 
-    [AllowAnonymous]
     [ProducesResponseType(typeof(object), 400)]
     [ProducesResponseType(typeof(object), 500)]
     [SwaggerOperation(Summary = "Forgot password")]
@@ -76,10 +76,29 @@ public class UsersController : BaseController
     [AllowAnonymous]
     [ProducesResponseType(typeof(object), 500)]
     [ProducesResponseType(typeof(object), 400)]
+    [SwaggerOperation(Summary = "Reset password")]
     [HttpPost("reset-password")]
     public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordParameters parameters)
     {
         var response = await CommandBus.Send(ResetPasswordCommand.CreateNew(parameters));
+        return Ok(response);
+    }
+
+    [Authorize]
+    [ProducesResponseType(401)]
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(Response<string>), 200)]
+    [SwaggerOperation(Summary = "Revoke token")]
+    [HttpPost("[action]")]
+    public async Task<IActionResult> RevokeToken()
+    {
+        var refreshToken = Request.Cookies["cookieRefreshTokenKey"];
+        if (refreshToken == null)
+        {
+            return Unauthorized();
+        }
+
+        var response = await CommandBus.Send(new RevokeTokenCommand(refreshToken));
         return Ok(response);
     }
 

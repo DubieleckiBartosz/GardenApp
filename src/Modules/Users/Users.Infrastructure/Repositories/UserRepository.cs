@@ -23,11 +23,6 @@ internal class UserRepository : IUserRepository
         return await _userManager.AddToRoleAsync(user, role);
     }
 
-    public async Task<User?> GetUserByNameAsync(string userName)
-    {
-        return await _userManager.FindByNameAsync(userName);
-    }
-
     public async Task<User?> GetUserByEmailAsync(string email)
     {
         return await _userManager.FindByEmailAsync(email);
@@ -36,11 +31,6 @@ internal class UserRepository : IUserRepository
     public async Task<string[]> GetUserRolesByUserAsync(User user)
     {
         return (await _userManager.GetRolesAsync(user)).ToArray();
-    }
-
-    public async Task<User?> GetUserByIdAsync(string userId)
-    {
-        return await _userManager.FindByIdAsync(userId);
     }
 
     public async Task<bool> CheckPasswordAsync(User user, string password)
@@ -52,12 +42,6 @@ internal class UserRepository : IUserRepository
     {
         var result = await _signInManager.CheckPasswordSignInAsync(user, password, lockoutOnFailure: true);
         return !result.Succeeded;
-    }
-
-    public async Task<bool> UserIsStillAllowedToSignInAsync(User user)
-    {
-        var result = await _signInManager.CanSignInAsync(user);
-        return result;
     }
 
     public async Task<string> GenerateEmailConfirmationTokenAsync(User user)
@@ -96,15 +80,21 @@ internal class UserRepository : IUserRepository
         return result;
     }
 
-    public async Task<User?> GetUserWithRefreshTokenAsync(string userId)
+    public async Task<User?> GetUserWithRefreshTokensByIdAsync(string userId)
     {
-        var user = await _usersContext.Users.Include(_ => _.Refresh).FirstOrDefaultAsync(r => r.Id == userId);
+        var user = await _usersContext.Users.Include(_ => _.RefreshTokens).FirstOrDefaultAsync(r => r.Id == userId);
         return user;
     }
 
     public async Task<RefreshToken?> GetRefreshTokenByValueNTAsync(string tokenValue)
     {
         var refreshToken = await _usersContext.RefreshTokens.AsNoTracking().FirstOrDefaultAsync(_ => _.Value == tokenValue);
+        return refreshToken;
+    }
+
+    public async Task<RefreshToken?> GetRefreshTokenByValueAsync(string tokenValue)
+    {
+        var refreshToken = await _usersContext.RefreshTokens.FirstOrDefaultAsync(_ => _.Value == tokenValue);
         return refreshToken;
     }
 

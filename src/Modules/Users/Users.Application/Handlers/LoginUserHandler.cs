@@ -42,8 +42,20 @@ public sealed class LoginUserHandler : ICommandHandler<LoginUserCommand, Respons
             throw new AuthException(StringMessages.PasswordInvalid, HttpStatusCode.BadRequest);
         }
 
-        var (token, refresh) = await _userRepository.GenerateAuthorizationTokensAsync(user.Id, _settings);
+        var token = await _userRepository.GenerateAuthorizationTokenAsync(user, _settings);
 
-        return Response<LoginResponse>.Ok(new LoginResponse(refresh.Value, token));
+        var userWithTokens = await _userRepository.GetUserWithRefreshTokensByIdAsync(user.Id)
+            ?? throw new NotFoundException(StringMessages.UserNotFound);
+
+        var activeRefreshToken = userWithTokens.CurrentlyActiveRefreshToken;
+
+        if (activeRefreshToken == null)
+        {
+            var refreshToken = user.GenerateNewRefreshToken(TimeSpan.FromDays(60));
+            await _userRepository.SaveAsync();
+            return Response<LoginResponse>.Ok(new LoginResponse(refreshToken.Value, token));
+        }
+
+        return Response<LoginResponse>.Ok(new LoginResponse(activeRefreshToken.Value, token));
     }
 }

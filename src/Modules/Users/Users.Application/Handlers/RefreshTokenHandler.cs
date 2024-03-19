@@ -17,10 +17,23 @@ public sealed class RefreshTokenHandler : ICommandHandler<RefreshTokenCommand, R
 
     public async Task<Response<RefreshTokenResponse>> Handle(RefreshTokenCommand request, CancellationToken cancellationToken)
     {
-        var refreshToken = await _userRepository.GetRefreshTokenByValueNTAsync(request.RefreshToken)
+        var refreshTokenResult = await _userRepository.GetRefreshTokenByValueNTAsync(request.RefreshToken)
             ?? throw new NotFoundException(StringMessages.RefreshTokenNotFound);
 
-        var (token, refresh) = await _userRepository.GenerateAuthorizationTokensAsync(refreshToken.UserId, _settings);
-        return Response<RefreshTokenResponse>.Ok(new(refresh.Value, token));
+        if (!refreshTokenResult.IsActive)
+        {
+            throw new AuthException(StringMessages.TokenNotActive);
+        }
+
+        var userWithTokens = await _userRepository.GetUserWithRefreshTokensByIdAsync(refreshTokenResult.UserId)
+            ?? throw new NotFoundException(StringMessages.UserNotFound);
+
+        var token = await _userRepository.GenerateAuthorizationTokenAsync(userWithTokens, _settings);
+
+        var newRefreshToken = userWithTokens.NewRefreshToken(request.RefreshToken);
+
+        await _userRepository.SaveAsync();
+
+        return Response<RefreshTokenResponse>.Ok(new(newRefreshToken.Value, token));
     }
 }

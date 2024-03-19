@@ -12,7 +12,7 @@ using Users.Infrastructure.Database;
 namespace Users.Infrastructure.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20240317204931_Init1")]
+    [Migration("20240319211135_Init1")]
     partial class Init1
     {
         /// <inheritdoc />
@@ -219,6 +219,16 @@ namespace Users.Infrastructure.Migrations
                     b.Property<string>("Id")
                         .HasColumnType("text");
 
+                    b.Property<string>("ReplacedByToken")
+                        .HasColumnType("text")
+                        .HasColumnName("ReplacedByToken");
+
+                    b.Property<bool>("Revoked")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("Revoked");
+
                     b.Property<DateTime>("TokenExpirationDate")
                         .HasColumnType("timestamp with time zone")
                         .HasColumnName("TokenExpirationDate");
@@ -235,8 +245,7 @@ namespace Users.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("RefreshTokens", "users");
                 });
@@ -293,9 +302,6 @@ namespace Users.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<string>("RefreshTokenId")
                         .HasColumnType("text");
 
                     b.Property<string>("SecurityStamp")
@@ -374,8 +380,8 @@ namespace Users.Infrastructure.Migrations
             modelBuilder.Entity("Users.Domain.Users.RefreshToken", b =>
                 {
                     b.HasOne("Users.Domain.Users.User", "User")
-                        .WithOne("Refresh")
-                        .HasForeignKey("Users.Domain.Users.RefreshToken", "UserId")
+                        .WithMany("RefreshTokens")
+                        .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -384,7 +390,7 @@ namespace Users.Infrastructure.Migrations
 
             modelBuilder.Entity("Users.Domain.Users.User", b =>
                 {
-                    b.Navigation("Refresh");
+                    b.Navigation("RefreshTokens");
                 });
 #pragma warning restore 612, 618
         }

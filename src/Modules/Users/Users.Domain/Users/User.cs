@@ -1,14 +1,11 @@
-﻿using Microsoft.AspNetCore.Identity;
-
-namespace Users.Domain.Users;
+﻿namespace Users.Domain.Users;
 
 public class User : IdentityUser, IAggregateRoot
 {
     public string FirstName { get; }
     public string LastName { get; }
     public string City { get; }
-    public string? RefreshTokenId { get; private set; }
-    public RefreshToken? Refresh { get; private set; }
+    public List<RefreshToken> RefreshTokens { get; private set; } = new();
 
     private User()
     {
@@ -56,13 +53,36 @@ public class User : IdentityUser, IAggregateRoot
 
     public RefreshToken GenerateNewRefreshToken(TimeSpan duration)
     {
-        Refresh = RefreshToken.CreateNew(duration, this.Id);
+        if (CurrentlyActiveRefreshToken != null)
+        {
+            throw new SingleActiveTokenException();
+        }
 
-        return Refresh;
+        var newRefreshToken = RefreshToken.CreateNew(duration, this.Id);
+        RefreshTokens.Add(newRefreshToken);
+
+        return newRefreshToken;
+    }
+
+    public RefreshToken NewRefreshToken(string refreshTokenKey)
+    {
+        var result = RefreshTokens.SingleOrDefault(_ => _.Value == refreshTokenKey);
+        if (result == null)
+        {
+            throw new TokenNotFoundException(refreshTokenKey);
+        }
+
+        result.RevokeToken();
+        var refreshToken = this.GenerateNewRefreshToken(TimeSpan.FromDays(60));
+        result.ReplaceToken(refreshToken.Value);
+
+        return refreshToken;
     }
 
     public void Confirm()
     {
         EmailConfirmed = true;
     }
+
+    public RefreshToken? CurrentlyActiveRefreshToken => RefreshTokens?.FirstOrDefault(_ => _.IsActive);
 }
