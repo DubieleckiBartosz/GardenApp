@@ -78,6 +78,12 @@ internal class UserRepository : IUserRepository
         return result;
     }
 
+    public async Task<IdentityResult> RemoveTokenAsync(User user, string loginProvider, string tokenName)
+    {
+        var result = await _userManager.RemoveAuthenticationTokenAsync(user, loginProvider, tokenName);
+        return result;
+    }
+
     public async Task<IdentityResult> ResetUserPasswordAsync(User user, string token, string password)
     {
         var resetPassResult = await _userManager.ResetPasswordAsync(user, token, password);

@@ -77,7 +77,7 @@ internal sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand,
         queryParams["code"] = token;
         queryParams["email"] = user.Email;
 
-        var verificationUri = QueryHelpers.AddQueryString(_options.RouteUri.ToString(), queryParams!);
+        var verificationUri = QueryHelpers.AddQueryString(_options.ConfirmRouteUri.ToString(), queryParams!);
 
         await _usersEmailService.SendEmailAsync(new() { user.Email },
             TemplateCreator.TemplateRegisterAccount(user.UserName, verificationUri), UserTemplateType.Confirmation);

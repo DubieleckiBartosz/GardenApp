@@ -6,5 +6,6 @@ public class UsersPathOptions
     public string ResetPasswordPath { get; set; } = default!;
     public string ConfirmUserPath { get; set; } = default!;
 
-    public Uri RouteUri => new Uri(string.Concat($"{ClientAddress}", ConfirmUserPath));
+    public Uri ConfirmRouteUri => new Uri(string.Concat($"{ClientAddress}", ConfirmUserPath));
+    public Uri ResetRouteUri => new Uri(string.Concat($"{ClientAddress}", ResetPasswordPath));
 }

@@ -1,5 +1,5 @@
-﻿using Users.Domain.Users;
-using static Users.Application.Handlers.ForgotPasswordHandler;
+﻿using static Users.Application.Handlers.ForgotPasswordHandler;
+using static Users.Application.Handlers.ResetPasswordHandler;
 
 namespace GardenApp.API.Modules.Users;
 
@@ -70,6 +70,16 @@ public class UsersController : BaseController
     public async Task<IActionResult> ForgotPassword([FromBody] ForgotPasswordParameters parameters)
     {
         var response = await CommandBus.Send(new ForgotPasswordCommand(parameters.Email));
+        return Ok(response);
+    }
+
+    [AllowAnonymous]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(object), 400)]
+    [HttpPost("reset-password")]
+    public async Task<IActionResult> ResetPassword([FromBody] ResetPasswordParameters parameters)
+    {
+        var response = await CommandBus.Send(ResetPasswordCommand.CreateNew(parameters));
         return Ok(response);
     }
 

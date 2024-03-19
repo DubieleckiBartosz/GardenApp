@@ -21,15 +21,19 @@ public sealed class ForgotPasswordHandler : ICommandHandler<ForgotPasswordComman
 
     public async Task<Response> Handle(ForgotPasswordCommand request, CancellationToken cancellationToken)
     {
-        var user = await _userRepository.GetUserByEmailAsync(request.Email)
-            ?? throw new AuthException(StringMessages.OperationFailed);
+        var user = await _userRepository.GetUserByEmailAsync(request.Email);
+
+        if (user == null || !user.EmailConfirmed)
+        {
+            throw new AuthException(StringMessages.OperationFailed);
+        }
 
         var token = await _userRepository.GeneratePasswordResetTokenAsync(user);
 
-        await _userRepository.SetTokenAsync(user, "ResetPassword", "ResetPasswordToken", token);
+        await _userRepository.SetTokenAsync(user, TokenKeys.ResetPasswordLoginProvider, TokenKeys.ResetPasswordName, token);
 
         await _usersEmailService.SendEmailAsync(new() { user.Email },
-            TemplateCreator.TemplateResetPassword(token, _options.RouteUri.ToString()), UserTemplateType.ResetPassword);
+            TemplateCreator.TemplateResetPassword(token, _options.ResetRouteUri.ToString()), UserTemplateType.ResetPassword);
 
         return Response.Ok();
     }

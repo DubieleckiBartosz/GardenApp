@@ -26,6 +26,8 @@ public interface IUserRepository
 
     Task<IdentityResult> SetTokenAsync(User user, string loginProvider, string tokenName, string token);
 
+    Task<IdentityResult> RemoveTokenAsync(User user, string loginProvider, string tokenName);
+
     Task<IdentityResult> ResetUserPasswordAsync(User user, string token, string password);
 
     Task<User?> GetUserWithRefreshTokenAsync(string userId);

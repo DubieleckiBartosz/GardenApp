@@ -1,20 +1,40 @@
 ﻿namespace Users.Application.Handlers;
-public record ResetPasswordParameters(string Token, string Password, string ConfirmPassword);
+public record ResetPasswordParameters(string Token, string Email, string Password, string ConfirmPassword);
 
 public sealed class ResetPasswordHandler : ICommandHandler<ResetPasswordCommand, Response>
 {
-    public record ResetPasswordCommand(string Token, string Password, string ConfirmPassword) : ICommand<Response>
+    public record ResetPasswordCommand(string Token, string Email, string Password, string ConfirmPassword) : ICommand<Response>
     {
         public static ResetPasswordCommand CreateNew(ResetPasswordParameters parameters)
-            => new(parameters.Token, parameters.Password, parameters.ConfirmPassword);
+            => new(parameters.Token, parameters.Email, parameters.Password, parameters.ConfirmPassword);
     }
 
-    public ResetPasswordHandler()
+    private readonly IUserRepository _userRepository;
+
+    public ResetPasswordHandler(IUserRepository userRepository)
     {
+        _userRepository = userRepository;
     }
 
-    public Task<Response> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(ResetPasswordCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var user = await _userRepository.GetUserByEmailAsync(request.Email);
+        if (user == null)
+        {
+            throw new NotFoundException(StringMessages.UserNotFound);
+        }
+
+        var resetPassResult = await _userRepository.ResetUserPasswordAsync(user, request.Token, request.Password);
+
+        if (resetPassResult.Succeeded)
+        {
+            await _userRepository.RemoveTokenAsync(user, TokenKeys.ResetPasswordLoginProvider, TokenKeys.ResetPasswordName);
+            return Response.Ok();
+        }
+        else
+        {
+            var errors = resetPassResult.ReadResult();
+            return Response<IdentityErrorResponse>.Errors(errors);
+        }
     }
 }
