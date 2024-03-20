@@ -1,5 +1,8 @@
 ﻿namespace Offers.Infrastructure.Repositories;
 
-internal class GardenOfferItemRepository
+internal class GardenOfferItemRepository : IGardenOfferItemRepository
 {
+    public GardenOfferItemRepository()
+    {
+    }
 }
