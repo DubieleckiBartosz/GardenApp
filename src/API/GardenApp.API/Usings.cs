@@ -11,6 +11,7 @@ global using Microsoft.AspNetCore.Authorization;
 global using Microsoft.AspNetCore.Mvc;
 global using Microsoft.OpenApi.Models;
 global using Newtonsoft.Json;
+global using Offers.Infrastructure.Configurations;
 global using Panels.Application;
 global using Panels.Infrastructure.Configurations;
 global using Serilog;

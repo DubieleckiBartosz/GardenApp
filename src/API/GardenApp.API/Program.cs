@@ -17,6 +17,7 @@ builder
     .RegisterBBInfrastructureConfigurations()
     .GetUsersApplicationConfigurations()
     .GetUsersInfrastructureConfigurations()
+    .GetInfrastructureConfigurations()
     .RegisterPanelsInfrastructure();
 
 //Yes, we can write some dynamic method which could read all needed assemblies, but in this case we have control over it
