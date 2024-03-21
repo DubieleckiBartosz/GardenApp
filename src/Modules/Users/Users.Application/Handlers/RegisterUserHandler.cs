@@ -9,7 +9,7 @@ public record RegisterUserParameters(
     string Password,
     string ConfirmPassword);
 
-internal sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand, Response>
+public sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand, Response>
 {
     private readonly IUsersEmailService _usersEmailService;
     private readonly IUserRepository _userRepository;

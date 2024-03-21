@@ -1,4 +1,5 @@
 ﻿using static Users.Application.Handlers.ForgotPasswordHandler;
+using static Users.Application.Handlers.RegisterUserHandler;
 using static Users.Application.Handlers.ResetPasswordHandler;
 using static Users.Application.Handlers.RevokeTokenHandler;
 
@@ -25,6 +26,17 @@ public class UsersController : BaseController
     {
         var result = await CommandBus.Send(new ConfirmUserCommand(code, email));
         return result.Success ? Ok(result) : BadRequest(result);
+    }
+
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(Response), 200)]
+    [SwaggerOperation(Summary = "Register user")]
+    [HttpPost("[action]")]
+    public async Task<IActionResult> RegisterUser([FromBody] RegisterUserParameters parameters)
+    {
+        var response = await CommandBus.Send(RegisterUserCommand.NewCommand(parameters));
+        return Ok(response);
     }
 
     [ProducesResponseType(typeof(object), 400)]
