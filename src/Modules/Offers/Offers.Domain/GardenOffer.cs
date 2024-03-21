@@ -19,14 +19,13 @@ public class GardenOffer : Entity, IAggregateRoot
         string creatorId,
         string creatorName,
         string recipient,
-        string name,
         string description,
         decimal price,
-        Date expirationDate)
+        Date? expirationDate)
     {
-        if (name == null)
+        if (creatorName == null)
         {
-            throw new ArgumentNullException(nameof(name));
+            throw new ArgumentNullException(nameof(creatorName));
         }
 
         if (description == null)
@@ -40,7 +39,7 @@ public class GardenOffer : Entity, IAggregateRoot
         CreatorName = creatorName;
         Recipient = recipient;
         Status = OfferStatus.Pending;
-        ExpirationDate = expirationDate;
+        ExpirationDate = expirationDate ?? Clock.CurrentDate().AddDays(7);
         _offerItems = new();
     }
 
@@ -48,9 +47,8 @@ public class GardenOffer : Entity, IAggregateRoot
         string creatorId,
         string creatorName,
         string recipient,
-        string name,
         string description,
         decimal price,
-        Date expirationDate)
-        => new(creatorId, creatorName, recipient, name, description, price, expirationDate);
+        Date? expirationDate)
+        => new(creatorId, creatorName, recipient, description, price, expirationDate);
 }
