@@ -54,11 +54,28 @@ public class GardenOffer : Entity, IAggregateRoot
         Date? expirationDate)
         => new(creatorId, creatorName, recipient, description, price, expirationDate);
 
+    public void AddNewOfferItem(GardenOfferItem gardenOfferItem)
+    {
+        if (!OperationIsPossible)
+        {
+            throw new OfferCompletedException(this.Id);
+        }
+
+        var item = _offerItems.FirstOrDefault(_ => _.Name == gardenOfferItem.Name);
+        if (item != null)
+        {
+            throw new OfferItemExistsException(Id, gardenOfferItem.Name);
+        }
+
+        _offerItems.Add(gardenOfferItem);
+        Version++;
+    }
+
     public void Complete()
     {
-        if (Status != OfferStatus.Pending)
+        if (!OperationIsPossible)
         {
-            throw new IncorrectStatusException(Status, OfferStatus.Completed);
+            throw new NewStatusException(Status, OfferStatus.Completed);
         }
 
         if (!_offerItems.Any())
@@ -70,4 +87,6 @@ public class GardenOffer : Entity, IAggregateRoot
 
         this.AddEvent(new OfferCompleted(Recipient, CreatorName, TotalPrice));
     }
+
+    private bool OperationIsPossible => Status == OfferStatus.Pending;
 }

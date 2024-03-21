@@ -13,7 +13,7 @@ internal class CompleteOfferHandler : ICommandHandler<CompleteOffer, Response>
 
     public async Task<Response> Handle(CompleteOffer request, CancellationToken cancellationToken)
     {
-        var offer = await _gardenOfferRepository.GetGardenOfferByIdAsync(request.GardenOfferId);
+        var offer = await _gardenOfferRepository.GetGardenOfferWithItemsByIdAsync(request.GardenOfferId);
 
         if (offer == null)
         {
