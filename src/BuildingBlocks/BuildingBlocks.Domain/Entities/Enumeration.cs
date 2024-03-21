@@ -4,9 +4,9 @@ public class Enumeration : IComparable
 {
     public string Name { get; private set; }
 
-    public int Id { get; private set; }
+    public short Id { get; private set; }
 
-    protected Enumeration(int id, string name)
+    protected Enumeration(short id, string name)
     {
         (Id, Name) = (id, name);
     }

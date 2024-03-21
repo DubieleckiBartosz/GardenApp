@@ -2,43 +2,35 @@
 
 public class GardenOfferItem : Entity
 {
-    public string CreatorId { get; }
     public string Code { get; }
-    public string Name { get; private set; }
-    public string Description { get; private set; }
+    public string Name { get; }
     public decimal Price { get; private set; }
-    public bool IsAvailable { get; private set; }
 
     private GardenOfferItem()
     {
     }
 
     private GardenOfferItem(
-        string creatorId,
+        string code,
         string name,
-        string description,
-        decimal price,
-        bool isAvailable)
+        decimal price)
     {
+        if (code == null)
+        {
+            throw new ArgumentNullException(nameof(code));
+        }
+
         if (name == null)
         {
             throw new ArgumentNullException(nameof(name));
         }
 
-        if (description == null)
-        {
-            throw new ArgumentNullException(nameof(description));
-        }
-
-        Code = CodeGenerator.GenerateUniqueCode();
+        Code = code;
         Name = name;
-        Description = description;
         Price = price;
-        IsAvailable = isAvailable;
-        CreatorId = creatorId;
     }
 
-    public GardenOfferItem NewGardenOfferItem(
-        string creatorId, string name, string description, decimal price, bool isAvailable)
-        => new(creatorId, name, description, price, isAvailable);
+    public static GardenOfferItem NewGardenOfferItem(
+        string creatorId, string name, decimal price)
+        => new(creatorId, name, price);
 }

@@ -1,1 +1,10 @@
-﻿
+﻿global using BuildingBlocks.Application.Contracts.Mediator;
+global using BuildingBlocks.Application.Contracts.Repositories;
+global using BuildingBlocks.Application.Contracts.Services;
+global using BuildingBlocks.Application.Validators;
+global using BuildingBlocks.Application.Wrappers;
+global using FluentValidation;
+global using Offers.Application.Contracts;
+global using Offers.Application.Models.DataAccess;
+global using Offers.Domain;
+global using static Offers.Application.Handlers.AddGardenOfferItemHandler;
