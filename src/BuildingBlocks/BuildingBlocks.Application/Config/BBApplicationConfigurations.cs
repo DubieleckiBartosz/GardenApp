@@ -16,6 +16,7 @@ public static class BBApplicationConfigurations
 
     public static WebApplicationBuilder RegisterDependencyInjection(this WebApplicationBuilder builder)
     {
+        builder.Services.AddTransient<IDomainDecorator, MediatorDecorator>();
         return builder;
     }
 

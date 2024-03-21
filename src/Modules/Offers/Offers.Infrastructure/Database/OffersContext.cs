@@ -3,12 +3,19 @@
 internal class OffersContext : DbContext, IUnitOfWork
 {
     internal const string OffersSchema = "offers";
+    private readonly IDomainDecorator _decorator;
+
     internal DbSet<GardenOffer> GardenOffers { get; set; }
 
     internal DbSet<GardenOfferItem> GardenOfferItems { get; set; }
 
     public OffersContext(DbContextOptions<OffersContext> options) : base(options)
     {
+    }
+
+    public OffersContext(IDomainDecorator decorator, DbContextOptions<OffersContext> options) : base(options)
+    {
+        _decorator = decorator;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -46,6 +53,9 @@ internal class OffersContext : DbContext, IUnitOfWork
         return await base.SaveChangesAsync(cancellationToken);
     }
 
-    public async Task<int> SaveAsync(CancellationToken cancellationToken = default) =>
-        await SaveChangesAsync(cancellationToken);
+    public async Task<int> SaveAsync(CancellationToken cancellationToken = default)
+    {
+        await this._decorator.DispatchDomainEventsAsync(this);
+        return await SaveChangesAsync(cancellationToken);
+    }
 }
