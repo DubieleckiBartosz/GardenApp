@@ -12,4 +12,5 @@ global using Offers.Domain;
 global using Offers.Domain.ValueTypes;
 global using Serilog;
 global using static Offers.Application.Handlers.AddGardenOfferItemHandler;
+global using static Offers.Application.Handlers.CompleteOfferHandler;
 global using static Offers.Application.Handlers.CreateGardenOfferHandler;

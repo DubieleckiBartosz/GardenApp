@@ -11,8 +11,4 @@
     <ProjectReference Include="..\Offers.Domain\Offers.Domain.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Handlers\Notifications\" />
-  </ItemGroup>
-
 </Project>

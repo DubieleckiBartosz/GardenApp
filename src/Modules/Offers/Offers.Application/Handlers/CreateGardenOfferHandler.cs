@@ -21,7 +21,7 @@ internal class CreateGardenOfferHandler : ICommandHandler<CreateGardenOfferComma
 
     public async Task<Response> Handle(CreateGardenOfferCommand request, CancellationToken cancellationToken)
     {
-        var currentOffer = _gardenOfferRepository.GetGardenOfferByRecipientAndStatusAsync(request.Recipient, OfferStatus.Pending);
+        var currentOffer = _gardenOfferRepository.GetGardenOfferByRecipientAndStatusNTAsync(request.Recipient, OfferStatus.Pending);
         if (currentOffer != null)
         {
             throw new BadRequestException(ErrorMessages.SingleOfferInPendingStatus);

@@ -18,8 +18,11 @@ internal class GardenOfferRepository : IGardenOfferRepository
         await _gardenOffers.AddAsync(gardenOffer);
     }
 
-    public async Task<GardenOffer?> GetGardenOfferByRecipientAndStatusAsync(string recipient, OfferStatus offerStatus) =>
-        await _gardenOffers.FirstOrDefaultAsync(_ => _.Recipient == recipient && _.Status == offerStatus);
+    public async Task<GardenOffer?> GetGardenOfferByIdAsync(int offerId) =>
+        await _gardenOffers.AsNoTracking().FirstOrDefaultAsync(_ => _.Id == offerId);
+
+    public async Task<GardenOffer?> GetGardenOfferByRecipientAndStatusNTAsync(string recipient, OfferStatus offerStatus) =>
+        await _gardenOffers.AsNoTracking().FirstOrDefaultAsync(_ => _.Recipient == recipient && _.Status == offerStatus);
 
     public async Task<GardenOffer?> GetGardenOfferWithItemsByIdAsync(int offerId) =>
         await _gardenOffers.IncludePaths(GardenOfferEntityTypeConfiguration.OfferItems)

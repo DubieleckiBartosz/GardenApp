@@ -13,7 +13,9 @@ public class GardenOffer : Entity, IAggregateRoot
     public bool IsExpired => ExpirationDate.Value <= Clock.CurrentDate();
 
     private GardenOffer()
-    { }
+    {
+        _offerItems = new();
+    }
 
     private GardenOffer(
         string creatorId,
@@ -51,4 +53,21 @@ public class GardenOffer : Entity, IAggregateRoot
         decimal price,
         Date? expirationDate)
         => new(creatorId, creatorName, recipient, description, price, expirationDate);
+
+    public void Complete()
+    {
+        if (Status != OfferStatus.Pending)
+        {
+            throw new IncorrectStatusException(Status, OfferStatus.Completed);
+        }
+
+        if (!_offerItems.Any())
+        {
+            throw new OfferDetailsRequiredException();
+        }
+
+        Status = OfferStatus.Completed;
+
+        this.AddEvent(new OfferCompleted(Recipient, CreatorName, TotalPrice));
+    }
 }
