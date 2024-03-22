@@ -43,6 +43,7 @@ public class GardenOffer : Entity, IAggregateRoot
         Status = OfferStatus.Pending;
         ExpirationDate = expirationDate ?? Clock.CurrentDate().AddDays(7);
         _offerItems = new();
+        Version++;
     }
 
     public static GardenOffer NewGardenOffer(

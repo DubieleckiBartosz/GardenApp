@@ -1,12 +1,13 @@
 ﻿namespace Offers.Application.Handlers;
 
-internal class CreateGardenOfferHandler : ICommandHandler<CreateGardenOfferCommand, Response>
+public class CreateGardenOfferHandler : ICommandHandler<CreateGardenOfferCommand, Response<CreateGardenOfferResponse>>
 {
+    public record CreateGardenOfferResponse(int NewOfferId);
     public record CreateGardenOfferCommand(
         string Recipient,
         string Description,
         decimal Price,
-        DateTime? ExpirationDate = null) : ICommand<Response>;
+        DateTime? ExpirationDate = null) : ICommand<Response<CreateGardenOfferResponse>>;
 
     private readonly IGardenOfferRepository _gardenOfferRepository;
     private readonly ICurrentUser _currentUser;
@@ -19,9 +20,9 @@ internal class CreateGardenOfferHandler : ICommandHandler<CreateGardenOfferComma
         _logger = logger;
     }
 
-    public async Task<Response> Handle(CreateGardenOfferCommand request, CancellationToken cancellationToken)
+    public async Task<Response<CreateGardenOfferResponse>> Handle(CreateGardenOfferCommand request, CancellationToken cancellationToken)
     {
-        var currentOffer = _gardenOfferRepository.GetGardenOfferByRecipientAndStatusNTAsync(request.Recipient, OfferStatus.Pending);
+        var currentOffer = await _gardenOfferRepository.GetGardenOfferByRecipientAndStatusNTAsync(request.Recipient, OfferStatus.Pending);
         if (currentOffer != null)
         {
             throw new BadRequestException(ErrorMessages.SingleOfferInPendingStatus);
@@ -40,6 +41,6 @@ internal class CreateGardenOfferHandler : ICommandHandler<CreateGardenOfferComma
 
         _logger.Information($"A new gardening offer has been created [CreatorId: {_currentUser.UserId}, Recipient: {request.Recipient}]");
 
-        return new();
+        return Response<CreateGardenOfferResponse>.Ok(new(newOffer.Id));
     }
 }

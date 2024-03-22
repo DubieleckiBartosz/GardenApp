@@ -1,3 +1,5 @@
+using Offers.Application.Reference;
+
 var builder = WebApplication.CreateBuilder(args);
 var configuration = builder.Configuration;
 var env = builder.Environment;
@@ -23,6 +25,7 @@ builder
 //Yes, we can write some dynamic method which could read all needed assemblies, but in this case we have control over it
 var assemblyTypes = new Type[]
 {
+    typeof(OffersAssemblyReference),
     typeof(PanelsAppAssemblyReference),
     typeof(UsersAssemblyReference)
 };

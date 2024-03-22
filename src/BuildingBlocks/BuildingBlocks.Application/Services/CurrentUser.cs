@@ -27,7 +27,7 @@ internal class CurrentUser : ICurrentUser
     {
         get
         {
-            return Claims?.Claims?.FirstOrDefault(_ => _.Type == GardenAppClaimTypes.Subject)?.Value!;
+            return Claims?.Claims?.FirstOrDefault(_ => _.Type == GardenAppClaimTypes.NameIdentifier)?.Value!;
         }
     }
 

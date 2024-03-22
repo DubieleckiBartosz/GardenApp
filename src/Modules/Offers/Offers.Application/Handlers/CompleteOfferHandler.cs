@@ -1,8 +1,8 @@
 ﻿namespace Offers.Application.Handlers;
 
-internal class CompleteOfferHandler : ICommandHandler<CompleteOffer, Response>
+public class CompleteOfferHandler : ICommandHandler<CompleteOfferCommand, Response>
 {
-    public record CompleteOffer(int GardenOfferId) : ICommand<Response>;
+    public record CompleteOfferCommand(int GardenOfferId) : ICommand<Response>;
 
     private readonly IGardenOfferRepository _gardenOfferRepository;
 
@@ -11,7 +11,7 @@ internal class CompleteOfferHandler : ICommandHandler<CompleteOffer, Response>
         _gardenOfferRepository = gardenOfferRepository;
     }
 
-    public async Task<Response> Handle(CompleteOffer request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(CompleteOfferCommand request, CancellationToken cancellationToken)
     {
         var offer = await _gardenOfferRepository.GetGardenOfferWithItemsByIdAsync(request.GardenOfferId);
 
@@ -24,6 +24,6 @@ internal class CompleteOfferHandler : ICommandHandler<CompleteOffer, Response>
 
         await _gardenOfferRepository.UnitOfWork.SaveAsync(cancellationToken);
 
-        return new();
+        return Response.Ok();
     }
 }

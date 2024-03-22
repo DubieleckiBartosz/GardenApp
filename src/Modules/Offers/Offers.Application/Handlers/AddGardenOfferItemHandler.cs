@@ -1,8 +1,15 @@
 ﻿namespace Offers.Application.Handlers;
 
-public class AddGardenOfferItemHandler : ICommandHandler<AddGardenOfferItemCommand, Response>
+public class AddGardenOfferItemHandler : ICommandHandler<AddGardenOfferItemCommand, Response<AddGardenOfferItemResponse>>
 {
-    public record AddGardenOfferItemCommand(int OfferId, string Name, string Description, decimal Price) : ICommand<Response>;
+    public record AddGardenOfferItemResponse(int NewOfferItemId);
+
+    public record AddGardenOfferItemCommand(
+        int OfferId,
+        string Name,
+        string Description,
+        decimal Price)
+        : ICommand<Response<AddGardenOfferItemResponse>>;
 
     private readonly IGardenOfferRepository _gardenOfferItemRepository;
     private readonly ICurrentUser _currentUser;
@@ -13,7 +20,7 @@ public class AddGardenOfferItemHandler : ICommandHandler<AddGardenOfferItemComma
         _currentUser = currentUser;
     }
 
-    public async Task<Response> Handle(AddGardenOfferItemCommand request, CancellationToken cancellationToken)
+    public async Task<Response<AddGardenOfferItemResponse>> Handle(AddGardenOfferItemCommand request, CancellationToken cancellationToken)
     {
         var offer = await _gardenOfferItemRepository.GetGardenOfferWithItemsByIdAsync(request.OfferId);
         if (offer == null)
@@ -26,6 +33,6 @@ public class AddGardenOfferItemHandler : ICommandHandler<AddGardenOfferItemComma
         offer.AddNewOfferItem(newItem);
         await _gardenOfferItemRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
-        return new();
+        return Response<AddGardenOfferItemResponse>.Ok(new(newItem.Id));
     }
 }

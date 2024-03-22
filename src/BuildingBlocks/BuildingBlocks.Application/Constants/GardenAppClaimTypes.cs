@@ -1,6 +1,6 @@
 ﻿namespace BuildingBlocks.Application.Constants;
 
-public class GardenAppClaimTypes
+public static class GardenAppClaimTypes
 {
     public const string Role = "role";
     public const string Subject = "sub";

@@ -33,6 +33,9 @@ internal class GardenOfferEntityTypeConfiguration : IEntityTypeConfiguration<Gar
             _.Property(p => p.Code).HasColumnName("Code").IsRequired();
             _.Property(p => p.Name).HasColumnName("Name").IsRequired();
             _.Property(p => p.Price).HasColumnName("Price").IsRequired();
+
+            _.Property<DateTime>("Created").HasColumnName("Created").IsRequired();
+            _.Property<DateTime>("LastModified").HasColumnName("LastModified").IsRequired();
         });
 
         builder.Property<DateTime>("Created").HasColumnName("Created").IsRequired();

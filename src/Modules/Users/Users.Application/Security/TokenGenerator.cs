@@ -13,10 +13,10 @@ internal static class TokenGenerator
 
         var claims = new[]
         {
-            new Claim(ClaimTypes.Name, $"{user.UserName}"),
+            new Claim(GardenAppClaimTypes.UserName, $"{user.UserName}"),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
-            new Claim(ClaimTypes.Email, user.Email),
-            new Claim(ClaimTypes.NameIdentifier, user.Id)
+            new Claim(GardenAppClaimTypes.Email, user.Email),
+            new Claim(GardenAppClaimTypes.NameIdentifier, user.Id)
         }.Union(roleClaims);
 
         var symmetricSecurityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings.Secret!));

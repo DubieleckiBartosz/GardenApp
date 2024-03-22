@@ -28,6 +28,7 @@ public class GardenOfferItem : Entity
         Code = code;
         Name = name.ToUpper();
         Price = price;
+        Version++;
     }
 
     public static GardenOfferItem NewGardenOfferItem(
