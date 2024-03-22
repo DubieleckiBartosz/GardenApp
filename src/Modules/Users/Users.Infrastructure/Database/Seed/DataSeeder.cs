@@ -49,12 +49,12 @@ internal class DataSeeder
 
     internal async Task SeedAdminAsync()
     {
-        var userAdmin = User.NewUser("admin", "dev", "TestCity", "123-123-123", "admin.gardenapp@dev.com");
+        var userAdmin = User.NewUser("admin", "dev", "123-123-123", "admin.gardenapp@dev.com");
         userAdmin.Confirm();
 
         await SaveUser(userAdmin, "PasswordAdmin$123", UserRole.Admin);
 
-        var user = User.NewUser("user", "dev", "TestCity", "111-222-333", "user.gardenapp@dev.com");
+        var user = User.NewUser("user", "dev", "111-222-333", "user.gardenapp@dev.com");
         user.Confirm();
 
         await SaveUser(user, "PasswordUser$123", UserRole.User);

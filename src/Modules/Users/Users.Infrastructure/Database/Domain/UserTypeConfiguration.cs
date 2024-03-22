@@ -9,7 +9,6 @@ internal class UserTypeConfiguration : IEntityTypeConfiguration<User>
 
         builder.Property(_ => _.FirstName).HasColumnName("FirstName").IsRequired();
         builder.Property(_ => _.LastName).HasColumnName("LastName").IsRequired();
-        builder.Property(_ => _.City).HasColumnName("City").IsRequired();
 
         builder.HasMany(_ => _.RefreshTokens).WithOne(x => x.User).HasForeignKey(_ => _.UserId);
     }

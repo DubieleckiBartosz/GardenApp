@@ -2,21 +2,18 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
-using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Users.Infrastructure.Database;
 
 #nullable disable
 
-namespace Users.Infrastructure.Migrations
+namespace Users.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20240319211135_Init1")]
-    partial class Init1
+    partial class UsersContextModelSnapshot : ModelSnapshot
     {
-        /// <inheritdoc />
-        protected override void BuildTargetModel(ModelBuilder modelBuilder)
+        protected override void BuildModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -257,11 +254,6 @@ namespace Users.Infrastructure.Migrations
 
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
-
-                    b.Property<string>("City")
-                        .IsRequired()
-                        .HasColumnType("text")
-                        .HasColumnName("City");
 
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()

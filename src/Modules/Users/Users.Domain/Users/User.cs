@@ -4,7 +4,6 @@ public class User : IdentityUser, IAggregateRoot
 {
     public string FirstName { get; }
     public string LastName { get; }
-    public string City { get; }
     public List<RefreshToken> RefreshTokens { get; private set; } = new();
 
     private User()
@@ -14,13 +13,11 @@ public class User : IdentityUser, IAggregateRoot
     private User(
         StringValue firstName,
         StringValue lastName,
-        StringValue city,
         Phone phoneNumber,
         Email email) : base($"{firstName}_{lastName}")
     {
         FirstName = firstName;
         LastName = lastName;
-        City = city;
         PhoneNumber = phoneNumber;
         Email = email;
         EmailConfirmed = false;
@@ -29,7 +26,6 @@ public class User : IdentityUser, IAggregateRoot
     public static User NewUser(
         string firstName,
         string lastName,
-        string city,
         Phone phoneNumber,
         Email email)
     {
@@ -43,12 +39,7 @@ public class User : IdentityUser, IAggregateRoot
             throw new ArgumentNullException(nameof(lastName));
         }
 
-        if (city == null)
-        {
-            throw new ArgumentNullException(nameof(city));
-        }
-
-        return new User(firstName!, lastName!, city!, phoneNumber, email);
+        return new User(firstName!, lastName!, phoneNumber, email);
     }
 
     public RefreshToken GenerateNewRefreshToken(TimeSpan duration)

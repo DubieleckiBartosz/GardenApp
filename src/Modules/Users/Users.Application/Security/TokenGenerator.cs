@@ -1,6 +1,4 @@
-﻿using System.Data;
-
-namespace Users.Application.Security;
+﻿namespace Users.Application.Security;
 
 internal static class TokenGenerator
 {

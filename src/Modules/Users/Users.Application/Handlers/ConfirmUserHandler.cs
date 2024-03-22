@@ -19,23 +19,14 @@ public sealed class ConfirmUserHandler : ICommandHandler<ConfirmUserCommand, Res
         {
             throw new NotFoundException(StringMessages.UserNotFound);
         }
-        using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+
+        var result = await _userRepository.ConfirmUserAsync(user!, request.Code);
+        if (!result.Succeeded!)
         {
-            var result = await _userRepository.ConfirmUserAsync(user!, request.Code);
-            if (!result.Succeeded!)
-            {
-                var errors = result.ReadResult();
-                return Response<IdentityErrorResponse>.Errors(errors);
-            }
-
-            var resultClient = await _panelClient.CreateNewPanelAsync(new CreateNewPanelRequest(user.Email, user.UserName, user.Id, user.City));
-
-            if (resultClient!.Success)
-            {
-                scope.Complete();
-            }
-
-            return Response.Ok();
+            var errors = result.ReadResult();
+            return Response<IdentityErrorResponse>.Errors(errors);
         }
+
+        return Response.Ok();
     }
 }

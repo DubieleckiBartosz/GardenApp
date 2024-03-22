@@ -1,7 +1,6 @@
 ﻿namespace Users.Application.Handlers;
 
 public record RegisterUserParameters(
-    string City,
     string Email,
     string PhoneNumber,
     string FirstName,
@@ -16,7 +15,6 @@ public sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand, R
     private readonly UsersPathOptions _options;
 
     public record RegisterUserCommand(
-        string City,
         string Email,
         string PhoneNumber,
         string FirstName,
@@ -27,7 +25,6 @@ public sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand, R
         public static RegisterUserCommand NewCommand(RegisterUserParameters parameters)
         {
             return new RegisterUserCommand(
-                parameters.City,
                 parameters.Email,
                 parameters.PhoneNumber,
                 parameters.FirstName,
@@ -55,7 +52,7 @@ public sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand, R
             throw new AuthException(StringMessages.UnableNewAccount);
         }
 
-        var user = User.NewUser(request.FirstName, request.LastName, request.City, request.PhoneNumber, request.Email);
+        var user = User.NewUser(request.FirstName, request.LastName, request.PhoneNumber, request.Email);
         var createResult = await _userRepository.CreateUserAsync(user, request.Password);
         if (!createResult.Succeeded!)
         {
