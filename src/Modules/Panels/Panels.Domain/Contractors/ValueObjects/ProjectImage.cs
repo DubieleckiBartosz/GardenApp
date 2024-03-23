@@ -2,16 +2,16 @@
 
 internal class ProjectImage : ValueObject
 {
-    public Guid ProjectId { get; }
+    public int ProjectId { get; }
     public string Key { get; }
 
-    private ProjectImage(Guid projectId, string key)
+    private ProjectImage(int projectId, string key)
     {
         ProjectId = projectId;
         Key = key;
     }
 
-    public static ProjectImage CreateNew(Guid projectId, string key) => new ProjectImage(projectId, key);
+    public static ProjectImage CreateNew(int projectId, string key) => new ProjectImage(projectId, key);
 
     protected override IEnumerable<object?> GetEqualityComponents()
     {

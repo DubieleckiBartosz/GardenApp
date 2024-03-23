@@ -56,15 +56,15 @@ public sealed class RegisterUserHandler : ICommandHandler<RegisterUserCommand, R
         var createResult = await _userRepository.CreateUserAsync(user, request.Password);
         if (!createResult.Succeeded!)
         {
-            var errors = createResult.ReadResult();
-            return Response<IdentityErrorResponse>.Errors(errors);
+            var errors = createResult.ReadErrors();
+            throw new ErrorListException(errors);
         }
 
-        var resultRole = await _userRepository.UserToRoleAsync(user, UserRole.User.ToString());
+        var resultRole = await _userRepository.UserToRoleAsync(user, UserRole.User);
         if (!resultRole.Succeeded!)
         {
-            var errors = resultRole.ReadResult();
-            return Response<List<IdentityErrorResponse>>.Error(errors);
+            var errors = createResult.ReadErrors();
+            throw new ErrorListException(errors);
         }
 
         var token = await _userRepository.GenerateEmailConfirmationTokenAsync(user);

@@ -86,7 +86,7 @@ public class ErrorHandlingMiddleware
     {
         IReadOnlyList<string>? errors = null;
 
-        if (exception is ValidationErrorListException validationErrorListException)
+        if (exception is ErrorListException validationErrorListException)
         {
             errors = validationErrorListException.Errors;
         }

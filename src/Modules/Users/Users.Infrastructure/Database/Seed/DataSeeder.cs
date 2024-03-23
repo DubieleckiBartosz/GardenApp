@@ -34,7 +34,7 @@ internal class DataSeeder
 
     internal async Task SeedRolesAsync()
     {
-        UserRole[] roles = { UserRole.Admin, UserRole.User };
+        UserRole[] roles = { UserRole.Admin, UserRole.User, UserRole.Business };
 
         foreach (var role in roles)
         {

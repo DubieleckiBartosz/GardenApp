@@ -2,6 +2,7 @@
 
 public class Entity
 {
+    public int Id { get; }
     public int Version { get; protected set; }
 
     private readonly List<IDomainEvent> _events = new();

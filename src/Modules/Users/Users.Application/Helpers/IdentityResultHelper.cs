@@ -12,4 +12,6 @@ internal static class IdentityResultHelper
 
         return errors;
     }
+
+    public static IEnumerable<string> ReadErrors(this IdentityResult result) => result.Errors.Select(_ => _.Description);
 }

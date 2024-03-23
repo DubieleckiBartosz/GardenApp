@@ -3,7 +3,6 @@
 public class GardenOffer : Entity, IAggregateRoot
 {
     private readonly List<GardenOfferItem> _offerItems;
-    public int Id { get; }
     public string CreatorId { get; }
     public string CreatorName { get; }
     public string Description { get; private set; }

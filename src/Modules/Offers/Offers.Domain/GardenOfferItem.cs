@@ -2,7 +2,6 @@
 
 public class GardenOfferItem : Entity
 {
-    public int Id { get; }
     public string Code { get; }
     public string Name { get; }
     public decimal Price { get; private set; }
@@ -29,7 +28,7 @@ public class GardenOfferItem : Entity
         Code = code;
         Name = name.ToUpper();
         Price = price;
-        Version++;
+        IncrementVersion();
     }
 
     public static GardenOfferItem NewGardenOfferItem(

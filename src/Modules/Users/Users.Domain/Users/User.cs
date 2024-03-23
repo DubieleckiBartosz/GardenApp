@@ -1,11 +1,10 @@
 ﻿namespace Users.Domain.Users;
 
+//In the MVP version, we don't have accounts other than business ones.
 public class User : IdentityUser, IAggregateRoot
 {
-    public string FirstName { get; }
-    public string LastName { get; }
-    public string? BusinessId { get; private set; }
-    public string? BusinessName { get; private set; }
+    public string? FirstName { get; }
+    public string? LastName { get; }
     public List<RefreshToken> RefreshTokens { get; private set; } = new();
 
     private User()
@@ -13,16 +12,33 @@ public class User : IdentityUser, IAggregateRoot
     }
 
     private User(
-        StringValue firstName,
-        StringValue lastName,
-        Phone phoneNumber,
-        Email email) : base($"{firstName}_{lastName}")
+    StringValue? firstName,
+    StringValue? lastName,
+    string name,
+    Phone phoneNumber,
+    Email email) : base(name)
     {
         FirstName = firstName;
         LastName = lastName;
         PhoneNumber = phoneNumber;
         Email = email;
         EmailConfirmed = false;
+    }
+
+    private User(
+        string name,
+        Phone phoneNumber,
+        Email email) : this(null, null, name, phoneNumber, email)
+    { }
+
+    public static User NewBusinessUser(string name, Phone phoneNumber, Email email)
+    {
+        if (name == null)
+        {
+            throw new ArgumentNullException(nameof(name));
+        }
+
+        return new User(name, phoneNumber, email);
     }
 
     public static User NewUser(
@@ -41,7 +57,7 @@ public class User : IdentityUser, IAggregateRoot
             throw new ArgumentNullException(nameof(lastName));
         }
 
-        return new User(firstName!, lastName!, phoneNumber, email);
+        return new User(firstName!, lastName!, $"{firstName}_{lastName}", phoneNumber, email);
     }
 
     public RefreshToken GenerateNewRefreshToken(TimeSpan duration)
@@ -70,17 +86,6 @@ public class User : IdentityUser, IAggregateRoot
         result.ReplaceToken(refreshToken.Value);
 
         return refreshToken;
-    }
-
-    public void AddBusinessData(string businessId, string businessName)
-    {
-        if (BusinessId != null)
-        {
-            throw new BusinessExistsException(Id, businessId);
-        }
-
-        BusinessId = businessId;
-        BusinessName = businessName;
     }
 
     public void Confirm()

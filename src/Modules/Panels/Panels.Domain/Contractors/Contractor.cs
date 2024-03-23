@@ -3,7 +3,7 @@
 internal class Contractor : Entity, IAggregateRoot
 {
     private readonly List<Project> _projects;
-    public Guid Id { get; }
+    public string BusinessUserId { get; }
     public string Name { get; }
     public Email Email { get; }
     public Phone? Phone { get; private set; }
@@ -14,8 +14,9 @@ internal class Contractor : Entity, IAggregateRoot
         _projects = new();
     }
 
-    private Contractor(Email email, string name, Phone? phone)
+    private Contractor(string businessUser, Email email, string name, Phone? phone)
     {
+        BusinessUserId = businessUser;
         Email = email;
         Phone = phone;
         Name = name;
@@ -24,10 +25,11 @@ internal class Contractor : Entity, IAggregateRoot
     }
 
     public static Contractor CreateContractor(
+        string businessUser,
         Email email,
         string name,
         Phone? phone)
-        => new Contractor(email, name, phone);
+        => new Contractor(businessUser, email, name, phone);
 
     public void AddNewProject(string description)
     {
@@ -35,7 +37,7 @@ internal class Contractor : Entity, IAggregateRoot
         IncrementVersion();
     }
 
-    public void RemoveProject(Guid projectId)
+    public void RemoveProject(int projectId)
     {
         var project = _projects.FirstOrDefault(_ => _.Id == projectId);
         if (project == null)

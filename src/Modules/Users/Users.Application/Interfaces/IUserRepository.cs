@@ -2,6 +2,8 @@
 
 public interface IUserRepository
 {
+    Task<User?> GetUserByIdAsync(string userId);
+
     Task<User?> GetUserByEmailAsync(string email);
 
     Task<string[]> GetUserRolesByUserAsync(User user);
@@ -12,7 +14,7 @@ public interface IUserRepository
 
     Task<IdentityResult> CreateUserAsync(User user, string password);
 
-    Task<IdentityResult> UserToRoleAsync(User user, string role);
+    Task<IdentityResult> UserToRoleAsync(User user, UserRole role);
 
     Task<IdentityResult> ConfirmUserAsync(User user, string token);
 

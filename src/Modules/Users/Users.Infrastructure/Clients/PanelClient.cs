@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.Application.Wrappers;
-using BuildingBlocks.Infrastructure.Module;
-
-namespace Users.Infrastructure.Clients;
+﻿namespace Users.Infrastructure.Clients;
 
 internal class PanelClient : IPanelClient
 {
@@ -12,9 +9,9 @@ internal class PanelClient : IPanelClient
         _client = client;
     }
 
-    public async Task<ResponseClient<string>> CreateNewPanelAsync(CreateNewPanelRequest request)
+    public async Task<ResponseClient> CreateNewContractorAsync(CreateNewContractorRequest request)
     {
-        var result = await _client.SendAsync<ResponseClient<string>>("panel/create", request);
+        var result = await _client.SendAsync<ResponseClient>("panel/create", request);
         return result ?? throw new InvalidOperationException("Response is null when calling the 'panel/create' module client");
     }
 }

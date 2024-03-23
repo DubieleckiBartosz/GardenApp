@@ -2,5 +2,5 @@
 
 public interface IPanelClient
 {
-    Task<ResponseClient<string>> CreateNewPanelAsync(CreateNewPanelRequest request);
+    Task<ResponseClient> CreateNewContractorAsync(CreateNewContractorRequest request);
 }

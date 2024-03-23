@@ -2,16 +2,16 @@
 
 internal class LogoImage : ValueObject
 {
-    public Guid ContractorId { get; }
+    public int ContractorId { get; }
     public string Key { get; }
 
-    private LogoImage(Guid contractorId, string key)
+    private LogoImage(int contractorId, string key)
     {
         ContractorId = contractorId;
         Key = key;
     }
 
-    public static LogoImage CreateProjectImage(Guid contractorId, string key) => new LogoImage(contractorId, key);
+    public static LogoImage CreateProjectImage(int contractorId, string key) => new LogoImage(contractorId, key);
 
     protected override IEnumerable<object?> GetEqualityComponents()
     {

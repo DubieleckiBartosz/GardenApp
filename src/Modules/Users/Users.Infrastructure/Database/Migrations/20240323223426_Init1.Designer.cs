@@ -12,7 +12,7 @@ using Users.Infrastructure.Database;
 namespace Users.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(UsersContext))]
-    [Migration("20240322165909_Init1")]
+    [Migration("20240323223426_Init1")]
     partial class Init1
     {
         /// <inheritdoc />
@@ -270,12 +270,10 @@ namespace Users.Infrastructure.Database.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("FirstName");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("LastName");
 

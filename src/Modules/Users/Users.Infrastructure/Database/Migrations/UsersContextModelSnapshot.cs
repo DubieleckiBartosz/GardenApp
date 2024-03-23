@@ -255,14 +255,6 @@ namespace Users.Infrastructure.Database.Migrations
                     b.Property<int>("AccessFailedCount")
                         .HasColumnType("integer");
 
-                    b.Property<string>("BusinessId")
-                        .HasColumnType("text")
-                        .HasColumnName("BusinessId");
-
-                    b.Property<string>("BusinessName")
-                        .HasColumnType("text")
-                        .HasColumnName("BusinessName");
-
                     b.Property<string>("ConcurrencyStamp")
                         .IsConcurrencyToken()
                         .HasColumnType("text");
@@ -275,12 +267,10 @@ namespace Users.Infrastructure.Database.Migrations
                         .HasColumnType("boolean");
 
                     b.Property<string>("FirstName")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("FirstName");
 
                     b.Property<string>("LastName")
-                        .IsRequired()
                         .HasColumnType("text")
                         .HasColumnName("LastName");
 

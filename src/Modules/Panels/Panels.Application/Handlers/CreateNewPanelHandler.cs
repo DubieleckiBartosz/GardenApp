@@ -2,10 +2,10 @@
 
 public class CreateNewPanelHandler : ICommandHandler<CreateNewPanelCommand, Response>
 {
-    public record CreateNewPanelCommand() : ICommand<Response>;
+    public record CreateNewPanelCommand(string Email, string BusinessName, string BusinessUserId) : ICommand<Response>;
 
-    public Task<Response> Handle(CreateNewPanelCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(CreateNewPanelCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return Response.Ok();
     }
 }

@@ -3,8 +3,7 @@
 public class Project : Entity
 {
     private readonly List<ProjectImage> _images;
-    public Guid Id { get; }
-    public Guid ContractorId { get; }
+    public int ContractorId { get; }
     public Date Created { get; }
     public string Description { get; private set; }
 
@@ -13,7 +12,7 @@ public class Project : Entity
         _images = new();
     }
 
-    private Project(Guid contractorId, string description)
+    private Project(int contractorId, string description)
     {
         ContractorId = contractorId;
         Description = description;
@@ -22,7 +21,7 @@ public class Project : Entity
         IncrementVersion();
     }
 
-    internal static Project NewProject(Guid contractorId, string description) => new(contractorId, description);
+    internal static Project NewProject(int contractorId, string description) => new(contractorId, description);
 
     internal void UpdateDescription(string newDescription)
     {

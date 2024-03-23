@@ -23,8 +23,8 @@ public sealed class ConfirmUserHandler : ICommandHandler<ConfirmUserCommand, Res
         var result = await _userRepository.ConfirmUserAsync(user!, request.Code);
         if (!result.Succeeded!)
         {
-            var errors = result.ReadResult();
-            return Response<IdentityErrorResponse>.Errors(errors);
+            var errors = result.ReadErrors();
+            throw new ErrorListException(errors);
         }
 
         return Response.Ok();

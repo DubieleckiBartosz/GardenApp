@@ -1,1 +1,1 @@
-﻿public record CreateNewPanelRequest(string Email, string UserName, string UserId, string City);
+﻿public record CreateNewContractorRequest(string Email, string BusinessName, string BusinessUserId);

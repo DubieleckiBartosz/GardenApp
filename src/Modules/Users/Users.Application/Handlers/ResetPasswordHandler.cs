@@ -33,8 +33,8 @@ public sealed class ResetPasswordHandler : ICommandHandler<ResetPasswordCommand,
         }
         else
         {
-            var errors = resetPassResult.ReadResult();
-            return Response<IdentityErrorResponse>.Errors(errors);
+            var errors = resetPassResult.ReadErrors();
+            throw new ErrorListException(errors);
         }
     }
 }

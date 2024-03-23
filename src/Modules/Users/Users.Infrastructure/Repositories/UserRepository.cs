@@ -18,9 +18,14 @@ internal class UserRepository : IUserRepository
         return await _userManager.CreateAsync(user, password);
     }
 
-    public async Task<IdentityResult> UserToRoleAsync(User user, string role)
+    public async Task<IdentityResult> UserToRoleAsync(User user, UserRole role)
     {
-        return await _userManager.AddToRoleAsync(user, role);
+        return await _userManager.AddToRoleAsync(user, role.ToString());
+    }
+
+    public async Task<User?> GetUserByIdAsync(string userId)
+    {
+        return await _userManager.FindByIdAsync(userId);
     }
 
     public async Task<User?> GetUserByEmailAsync(string email)

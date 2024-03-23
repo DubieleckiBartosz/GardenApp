@@ -34,7 +34,7 @@ public class ValidationPipelineBehavior<TRequest, TResponse> : IPipelineBehavior
 
             _logger.Warning(message.Serialize());
 
-            throw new ValidationErrorListException(errorList.Select(_ => _.ErrorMessage));
+            throw new ErrorListException(errorList.Select(_ => _.ErrorMessage));
         }
 
         return await next();

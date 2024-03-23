@@ -18,7 +18,7 @@ public class StringValue : ValueObject
 
     public static implicit operator StringValue?(string? value) => value == null ? null : new StringValue(value);
 
-    public static implicit operator string(StringValue value) => value.Value;
+    public static implicit operator string?(StringValue? value) => value?.Value;
 
     public override string ToString() => Value;
 

@@ -1,10 +1,12 @@
 ﻿global using BuildingBlocks.Application.Contracts.Integration;
 global using BuildingBlocks.Application.Contracts.Repositories;
 global using BuildingBlocks.Application.Options;
+global using BuildingBlocks.Application.Wrappers;
 global using BuildingBlocks.Domain.Time;
 global using BuildingBlocks.Domain.Types;
 global using BuildingBlocks.Infrastructure.Config;
 global using BuildingBlocks.Infrastructure.Database.EntityFramework;
+global using BuildingBlocks.Infrastructure.Module;
 global using BuildingBlocks.Infrastructure.Outbox;
 global using Microsoft.AspNetCore.Authentication.JwtBearer;
 global using Microsoft.AspNetCore.Builder;
