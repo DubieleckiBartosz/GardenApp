@@ -4,7 +4,7 @@ internal class Contractor : Entity, IAggregateRoot
 {
     private readonly List<Project> _projects;
     public Guid Id { get; }
-    public string Name { get; private set; }
+    public string Name { get; }
     public Email Email { get; }
     public Phone? Phone { get; private set; }
     public LogoImage? Logo { get; private set; }
@@ -14,11 +14,10 @@ internal class Contractor : Entity, IAggregateRoot
         _projects = new();
     }
 
-    private Contractor(Email email, string name, Phone? phone, LogoImage? logo)
+    private Contractor(Email email, string name, Phone? phone)
     {
         Email = email;
         Phone = phone;
-        Logo = logo;
         Name = name;
         _projects = new();
         IncrementVersion();
@@ -27,9 +26,8 @@ internal class Contractor : Entity, IAggregateRoot
     public static Contractor CreateContractor(
         Email email,
         string name,
-        Phone? phone,
-        LogoImage? logo)
-        => new Contractor(email, name, phone, logo);
+        Phone? phone)
+        => new Contractor(email, name, phone);
 
     public void AddNewProject(string description)
     {

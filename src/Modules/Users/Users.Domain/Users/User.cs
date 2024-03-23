@@ -72,6 +72,17 @@ public class User : IdentityUser, IAggregateRoot
         return refreshToken;
     }
 
+    public void AddBusinessData(string businessId, string businessName)
+    {
+        if (BusinessId != null)
+        {
+            throw new BusinessExistsException(Id, businessId);
+        }
+
+        BusinessId = businessId;
+        BusinessName = businessName;
+    }
+
     public void Confirm()
     {
         EmailConfirmed = true;
