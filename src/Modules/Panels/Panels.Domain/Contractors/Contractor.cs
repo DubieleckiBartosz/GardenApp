@@ -1,6 +1,6 @@
 ﻿namespace Panels.Domain.Contractors;
 
-internal class Contractor : Entity, IAggregateRoot
+public class Contractor : Entity, IAggregateRoot
 {
     private readonly List<Project> _projects;
     public string BusinessUserId { get; }

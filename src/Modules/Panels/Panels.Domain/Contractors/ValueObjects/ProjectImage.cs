@@ -1,6 +1,6 @@
 ﻿namespace Panels.Domain.Contractors.ValueObjects;
 
-internal class ProjectImage : ValueObject
+public class ProjectImage : ValueObject
 {
     public int ProjectId { get; }
     public string Key { get; }

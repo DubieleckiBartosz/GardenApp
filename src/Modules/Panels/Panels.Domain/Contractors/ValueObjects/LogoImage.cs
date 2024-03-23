@@ -1,21 +1,25 @@
 ﻿namespace Panels.Domain.Contractors.ValueObjects;
 
-internal class LogoImage : ValueObject
+public class LogoImage : ValueObject
 {
-    public int ContractorId { get; }
     public string Key { get; }
 
-    private LogoImage(int contractorId, string key)
+    public LogoImage(string key)
     {
-        ContractorId = contractorId;
+        if (key == null)
+        {
+            throw new ArgumentNullException(nameof(key));
+        }
+
         Key = key;
     }
 
-    public static LogoImage CreateProjectImage(int contractorId, string key) => new LogoImage(contractorId, key);
+    public static implicit operator LogoImage(string key) => new(key);
+
+    public static implicit operator string(LogoImage logo) => logo.Key;
 
     protected override IEnumerable<object?> GetEqualityComponents()
     {
-        yield return ContractorId;
         yield return Key;
     }
 }
