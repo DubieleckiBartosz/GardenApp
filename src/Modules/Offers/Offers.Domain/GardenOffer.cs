@@ -3,6 +3,7 @@
 public class GardenOffer : Entity, IAggregateRoot
 {
     private readonly List<GardenOfferItem> _offerItems;
+    public int Id { get; }
     public string CreatorId { get; }
     public string CreatorName { get; }
     public string Description { get; private set; }
@@ -43,7 +44,7 @@ public class GardenOffer : Entity, IAggregateRoot
         Status = OfferStatus.Pending;
         ExpirationDate = expirationDate ?? Clock.CurrentDate().AddDays(7);
         _offerItems = new();
-        Version++;
+        IncrementVersion();
     }
 
     public static GardenOffer NewGardenOffer(
@@ -69,7 +70,7 @@ public class GardenOffer : Entity, IAggregateRoot
         }
 
         _offerItems.Add(gardenOfferItem);
-        Version++;
+        IncrementVersion();
     }
 
     public void Complete()

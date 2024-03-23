@@ -4,6 +4,8 @@ public class User : IdentityUser, IAggregateRoot
 {
     public string FirstName { get; }
     public string LastName { get; }
+    public string? BusinessId { get; private set; }
+    public string? BusinessName { get; private set; }
     public List<RefreshToken> RefreshTokens { get; private set; } = new();
 
     private User()
