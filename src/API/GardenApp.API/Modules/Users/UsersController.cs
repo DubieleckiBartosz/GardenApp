@@ -1,10 +1,4 @@
-﻿using static Users.Application.Handlers.ForgotPasswordHandler;
-using static Users.Application.Handlers.RegisterBusinessHandler;
-using static Users.Application.Handlers.RegisterUserHandler;
-using static Users.Application.Handlers.ResetPasswordHandler;
-using static Users.Application.Handlers.RevokeTokenHandler;
-
-namespace GardenApp.API.Modules.Users;
+﻿namespace GardenApp.API.Modules.Users;
 
 [Route("api/[controller]")]
 [ApiController]
@@ -40,6 +34,7 @@ public class UsersController : BaseController
         return Ok(response);
     }
 
+    [ApiExplorerSettings(IgnoreApi = true)]
     [ProducesResponseType(typeof(object), 400)]
     [ProducesResponseType(typeof(object), 500)]
     [ProducesResponseType(typeof(Response), 200)]
