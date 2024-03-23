@@ -1,1 +1,1 @@
-﻿public record CreateNewContractorRequest(string Email, string BusinessName, string BusinessUserId);
+﻿public record CreateNewContractorRequest(string Email, string BusinessName, string BusinessUserId, string Phone);

@@ -1,6 +1,4 @@
-﻿using System.Transactions;
-
-namespace Users.Application.Handlers;
+﻿namespace Users.Application.Handlers;
 
 public record RegisterBusinessParameters(
     string Email,
@@ -70,7 +68,9 @@ public sealed class RegisterBusinessHandler : ICommandHandler<RegisterBusinessCo
                 var errors = createResult.ReadErrors();
                 throw new ErrorListException(errors);
             }
-            var resultClient = await _panelClient.CreateNewContractorAsync(new CreateNewContractorRequest(businessUser.Email, request.Name, businessUser.Id));
+            var resultClient = await _panelClient.CreateNewContractorAsync(
+                new CreateNewContractorRequest(businessUser.Email, request.Name, businessUser.Id, request.PhoneNumber));
+
             if (resultClient!.Success)
             {
                 scope.Complete();
