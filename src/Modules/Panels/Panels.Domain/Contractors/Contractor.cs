@@ -2,12 +2,19 @@
 
 public class Contractor : Entity, IAggregateRoot
 {
+    private string _socialMediaLinks = string.Empty;
     private readonly List<Project> _projects;
     public string BusinessUserId { get; }
     public string Name { get; }
     public Email Email { get; }
     public Phone? Phone { get; private set; }
     public LogoImage? Logo { get; private set; }
+
+    public LinkList Links
+    {
+        get { return (LinkList)_socialMediaLinks; }
+        set { _socialMediaLinks = value; }
+    }
 
     private Contractor()
     {

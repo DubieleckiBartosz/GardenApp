@@ -36,6 +36,13 @@ internal class ContractorEntityTypeConfiguration : IEntityTypeConfiguration<Cont
             .IsRequired(false)
             .HasDefaultValue(null);
 
+        builder
+            .Property<string>("_socialMediaLinks")
+            .HasColumnName("SocialMediaLinks")
+            .IsRequired(false);
+
+        builder.Ignore(_ => _.Links);
+
         builder.OwnsMany<Project>(Projects, _ =>
         {
             _.WithOwner().HasForeignKey("ContractorId");
