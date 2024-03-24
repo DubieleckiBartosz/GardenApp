@@ -1,4 +1,4 @@
-﻿namespace Panels.Domain.Exceptions;
+﻿namespace Panels.Domain.Contractors.Exceptions;
 
 internal class UniqueImageKeyException : BaseException
 {

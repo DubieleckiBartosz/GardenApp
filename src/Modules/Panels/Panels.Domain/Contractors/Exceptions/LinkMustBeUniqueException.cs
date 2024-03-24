@@ -1,4 +1,4 @@
-﻿namespace Panels.Domain.Exceptions;
+﻿namespace Panels.Domain.Contractors.Exceptions;
 
 public class LinkMustBeUniqueException : BaseException
 {
