@@ -1,4 +1,4 @@
-﻿namespace Panels.Application.Handlers;
+﻿namespace Panels.Application.Handlers.Commands;
 
 public class CreateNewContractorHandler : ICommandHandler<CreateNewContractorCommand, Response>
 {

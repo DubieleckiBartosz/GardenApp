@@ -28,4 +28,4 @@ global using Panels.Infrastructure.Integration;
 global using Panels.Infrastructure.Processing;
 global using Panels.Infrastructure.Repositories;
 global using Serilog;
-global using static Panels.Application.Handlers.CreateNewContractorHandler;
+global using static Panels.Application.Handlers.Commands.CreateNewContractorHandler;
