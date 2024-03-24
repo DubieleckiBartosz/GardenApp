@@ -55,4 +55,36 @@ public class Contractor : Entity, IAggregateRoot
         _projects.Remove(project);
         IncrementVersion();
     }
+
+    public void AddLogo(LogoImage logoImage)
+    {
+        Logo = logoImage;
+        IncrementVersion();
+    }
+
+    public void RemoveLogo()
+    {
+        if (Logo == null)
+        {
+            throw new LogoNotFoundException(this.Id);
+        }
+
+        Logo = null;
+        IncrementVersion();
+    }
+
+    public void AddLink(SocialMediaLink link)
+    {
+        _socialMediaLinks = Links.AddLink(link);
+        IncrementVersion();
+    }
+
+    public void RemoveLink(LinkType linkType)
+    {
+        var link = Links.LinkByType(linkType)
+            ?? throw new LinkNotFoundException(linkType, this.Id);
+
+        _socialMediaLinks = Links.RemoveLink(link);
+        IncrementVersion();
+    }
 }

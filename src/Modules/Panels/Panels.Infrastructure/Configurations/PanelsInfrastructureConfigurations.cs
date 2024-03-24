@@ -1,6 +1,7 @@
 ﻿using BuildingBlocks.Application.Wrappers;
 using MediatR;
-using static Panels.Application.Features.CreateNewPanel.CreateNewPanelHandler;
+using Panels.Application.Handlers.Integration;
+using static Panels.Application.Handlers.CreateNewPanelHandler;
 
 namespace Panels.Infrastructure.Configurations;
 

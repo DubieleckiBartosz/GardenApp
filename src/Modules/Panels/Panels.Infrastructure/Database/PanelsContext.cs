@@ -5,6 +5,7 @@ internal sealed class PanelsContext : DbContext
     internal const string PanelsSchema = "panels";
 
     public DbSet<InboxMessage> InboxMessages { get; set; }
+    public DbSet<Contractor> Contractors { get; set; }
 
     public PanelsContext()
     {

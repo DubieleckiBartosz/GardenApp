@@ -2,7 +2,7 @@
 using BuildingBlocks.Application.Contracts.Integration;
 using Panels.Application.Constants;
 
-namespace Panels.Application.Handlers;
+namespace Panels.Application.Handlers.Integration;
 
 [IntegrationEventDecorator(IntegrationEventNavigators.TestNavigator)]
 public class TestIntegrationEvent : IntegrationEvent

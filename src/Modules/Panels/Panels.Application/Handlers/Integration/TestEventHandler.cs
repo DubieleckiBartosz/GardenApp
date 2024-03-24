@@ -1,6 +1,6 @@
 ﻿using BuildingBlocks.Application.Contracts.Integration;
 
-namespace Panels.Application.Handlers;
+namespace Panels.Application.Handlers.Integration;
 
 internal class TestEventHandler : IEventHandler<TestIntegrationEvent>
 {

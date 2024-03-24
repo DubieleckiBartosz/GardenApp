@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <Folder Include="Configurations\" />
-    <Folder Include="Handlers\Integration\" />
   </ItemGroup>
 
 </Project>
