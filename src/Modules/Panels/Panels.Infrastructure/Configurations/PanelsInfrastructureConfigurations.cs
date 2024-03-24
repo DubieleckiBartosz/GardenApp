@@ -1,9 +1,4 @@
-﻿using BuildingBlocks.Application.Wrappers;
-using MediatR;
-using Panels.Application.Handlers.Integration;
-using static Panels.Application.Handlers.CreateNewPanelHandler;
-
-namespace Panels.Infrastructure.Configurations;
+﻿namespace Panels.Infrastructure.Configurations;
 
 public static class PanelsInfrastructureConfigurations
 {
@@ -19,6 +14,11 @@ public static class PanelsInfrastructureConfigurations
 
         //HOSTED service
         builder.Services.AddHostedService<InboxProcess>();
+
+        //REPOSITORIES
+        builder.Services
+            .AddScoped<IContractorRepository, ContractorRepository>()
+            .AddScoped<IContractorRepositoryDao, ContractorRepositoryDao>();
 
         return builder;
     }
@@ -69,7 +69,7 @@ public static class PanelsInfrastructureConfigurations
     public static WebApplication RegisterClient(this WebApplication app)
     {
         app.UseModuleRequests()
-            .Subscribe<CreateNewPanelCommand, Response>("panel/create",
+            .Subscribe<CreateNewContractorCommand, Response>("panel/create",
                 (command, serviceProvider, cancellationToken)
                     => serviceProvider.GetRequiredService<IMediator>().Send(command, cancellationToken));
         return app;

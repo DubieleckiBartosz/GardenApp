@@ -11,7 +11,6 @@ public sealed class RegisterBusinessHandler : ICommandHandler<RegisterBusinessCo
 {
     private readonly IUsersEmailService _usersEmailService;
     private readonly IUserRepository _userRepository;
-    private readonly IPanelClient _panelClient;
     private readonly UsersPathOptions _options;
     public record RegisterBusinessCommand(
         string Email,
@@ -34,12 +33,10 @@ public sealed class RegisterBusinessHandler : ICommandHandler<RegisterBusinessCo
     public RegisterBusinessHandler(
         IUsersEmailService usersEmailService,
         IUserRepository userRepository,
-        IOptions<UsersPathOptions> options,
-        IPanelClient panelClient)
+        IOptions<UsersPathOptions> options)
     {
         _usersEmailService = usersEmailService;
         _userRepository = userRepository;
-        _panelClient = panelClient;
         _options = options?.Value ?? throw new ArgumentNullException(nameof(options));
     }
 
@@ -53,28 +50,18 @@ public sealed class RegisterBusinessHandler : ICommandHandler<RegisterBusinessCo
 
         var businessUser = User.NewBusinessUser(request.Name, request.PhoneNumber, request.Email);
 
-        using (var scope = new TransactionScope(TransactionScopeAsyncFlowOption.Enabled))
+        var createResult = await _userRepository.CreateUserAsync(businessUser, request.Password);
+        if (!createResult.Succeeded!)
         {
-            var createResult = await _userRepository.CreateUserAsync(businessUser, request.Password);
-            if (!createResult.Succeeded!)
-            {
-                var errors = createResult.ReadErrors();
-                throw new ErrorListException(errors);
-            }
+            var errors = createResult.ReadErrors();
+            throw new ErrorListException(errors);
+        }
 
-            var resultRole = await _userRepository.UserToRoleAsync(businessUser, UserRole.Business);
-            if (!resultRole.Succeeded!)
-            {
-                var errors = createResult.ReadErrors();
-                throw new ErrorListException(errors);
-            }
-            var resultClient = await _panelClient.CreateNewContractorAsync(
-                new CreateNewContractorRequest(businessUser.Email, request.Name, businessUser.Id, request.PhoneNumber));
-
-            if (resultClient!.Success)
-            {
-                scope.Complete();
-            }
+        var resultRole = await _userRepository.UserToRoleAsync(businessUser, UserRole.Business);
+        if (!resultRole.Succeeded!)
+        {
+            var errors = createResult.ReadErrors();
+            throw new ErrorListException(errors);
         }
 
         var token = await _userRepository.GenerateEmailConfirmationTokenAsync(businessUser);

@@ -38,15 +38,15 @@ public class LinkList
 
     public static explicit operator LinkList(string links)
     {
-        List<SocialMediaLink> cities = links.Split(';')
+        List<SocialMediaLink> data = links.Split(';')
             .Select(x => (SocialMediaLink)x)
             .ToList();
 
-        return new LinkList(cities);
+        return new LinkList(data);
     }
 
-    public static implicit operator string(LinkList cityList)
+    public static implicit operator string(LinkList linkList)
     {
-        return string.Join(";", cityList._links.Select(x => x.ToString()));
+        return string.Join(";", linkList._links.Select(x => x.ToString()));
     }
 }

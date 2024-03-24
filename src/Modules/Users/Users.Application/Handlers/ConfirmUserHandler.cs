@@ -27,6 +27,19 @@ public sealed class ConfirmUserHandler : ICommandHandler<ConfirmUserCommand, Res
             throw new ErrorListException(errors);
         }
 
+        var resultClient = await _panelClient.CreateNewContractorAsync(
+           new CreateNewContractorRequest(user.Email, user.UserName, user.Id, user.PhoneNumber));
+
+        if (!resultClient!.Success)
+        {
+            if (resultClient.Errors != null)
+            {
+                throw new ErrorListException(resultClient.Errors);
+            }
+
+            throw new InvalidOperationException(StringMessages.OperationFailed);
+        }
+
         return Response.Ok();
     }
 }
