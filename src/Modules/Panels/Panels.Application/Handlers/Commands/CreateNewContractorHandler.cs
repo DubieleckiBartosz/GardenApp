@@ -1,6 +1,6 @@
 ﻿namespace Panels.Application.Handlers.Commands;
 
-public class CreateNewContractorHandler : ICommandHandler<CreateNewContractorCommand, Response>
+public sealed class CreateNewContractorHandler : ICommandHandler<CreateNewContractorCommand, Response>
 {
     public record CreateNewContractorCommand(string Email, string BusinessName, string BusinessUserId, string Phone) : ICommand<Response>;
 

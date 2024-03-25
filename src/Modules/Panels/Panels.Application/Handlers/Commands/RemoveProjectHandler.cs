@@ -1,5 +1,11 @@
 ﻿namespace Panels.Application.Handlers.Commands;
 
-internal class RemoveProjectHandler
+public sealed class RemoveProjectHandler : ICommandHandler<RemoveProjectCommand, Response>
 {
+    public record RemoveProjectCommand() : ICommand<Response>;
+
+    public Task<Response> Handle(RemoveProjectCommand request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 }

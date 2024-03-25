@@ -1,5 +1,11 @@
 ﻿namespace Panels.Application.Handlers.Commands;
 
-internal class RemoveLogoHandler
+public sealed class RemoveLogoHandler : ICommandHandler<RemoveLogoCommand, Response>
 {
+    public record RemoveLogoCommand() : ICommand<Response>;
+
+    public Task<Response> Handle(RemoveLogoCommand request, CancellationToken cancellationToken)
+    {
+        throw new NotImplementedException();
+    }
 }
