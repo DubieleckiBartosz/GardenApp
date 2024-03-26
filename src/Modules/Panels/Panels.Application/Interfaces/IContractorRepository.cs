@@ -2,6 +2,8 @@
 
 public interface IContractorRepository
 {
+    Task<Contractor?> GetByBusinessIdAsync(string businessId);
+
     Task<Contractor?> GetByBusinessIdNTAsync(string businessId);
 
     Task CreateNewContractorAsync(Contractor contractor);

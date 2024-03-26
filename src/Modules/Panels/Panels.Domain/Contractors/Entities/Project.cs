@@ -1,4 +1,4 @@
-﻿namespace Panels.Domain.Contractors.Projects;
+﻿namespace Panels.Domain.Contractors.Entities;
 
 public class Project : Entity
 {
@@ -37,7 +37,7 @@ public class Project : Entity
             throw new UniqueImageKeyException(key);
         }
 
-        _images.Add(ProjectImage.CreateNew(this.Id, key));
+        _images.Add(ProjectImage.CreateNew(Id, key));
         IncrementVersion();
     }
 

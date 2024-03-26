@@ -20,7 +20,7 @@ global using Panels.Application;
 global using Panels.Application.Handlers.Integration;
 global using Panels.Application.Interfaces;
 global using Panels.Domain.Contractors;
-global using Panels.Domain.Contractors.Projects;
+global using Panels.Domain.Contractors.Entities;
 global using Panels.Domain.Contractors.ValueObjects;
 global using Panels.Infrastructure.Database;
 global using Panels.Infrastructure.Inbox;

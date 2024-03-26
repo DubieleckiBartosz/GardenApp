@@ -14,9 +14,14 @@ internal class ContractorRepository : IContractorRepository
         await _panelsContext.AddAsync(contractor);
     }
 
-    public async Task<Contractor?> GetByBusinessIdNTAsync(string businessId)
+    public async Task<Contractor?> GetByBusinessIdAsync(string businessId)
     {
         return await _panelsContext.Contractors.FirstOrDefaultAsync(_ => _.BusinessUserId == businessId);
+    }
+
+    public async Task<Contractor?> GetByBusinessIdNTAsync(string businessId)
+    {
+        return await _panelsContext.Contractors.AsNoTracking().FirstOrDefaultAsync(_ => _.BusinessUserId == businessId);
     }
 
     public async Task SaveChangesAsync()

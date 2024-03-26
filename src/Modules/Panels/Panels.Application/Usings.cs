@@ -1,9 +1,12 @@
 ﻿global using BuildingBlocks.Application.Contracts.Mediator;
 global using BuildingBlocks.Application.Contracts.Services;
+global using BuildingBlocks.Application.Exceptions;
 global using BuildingBlocks.Application.Wrappers;
 global using Panels.Application.Constants;
 global using Panels.Application.Interfaces;
 global using Panels.Domain.Contractors;
+global using Panels.Domain.Contractors.ValueObjects;
+global using Panels.Domain.Contractors.ValueTypes;
 global using static Panels.Application.Handlers.Commands.AddLinkHandler;
 global using static Panels.Application.Handlers.Commands.AddLogoHandler;
 global using static Panels.Application.Handlers.Commands.AddProjectImageHandler;

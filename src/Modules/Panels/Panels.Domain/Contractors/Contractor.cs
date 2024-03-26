@@ -44,6 +44,17 @@ public class Contractor : Entity, IAggregateRoot
         IncrementVersion();
     }
 
+    public void UpdateProjectDescription(int projectId, string description)
+    {
+        var project = _projects.SingleOrDefault(_ => _.Id == projectId);
+        if (project == null)
+        {
+            throw new ProjectNotFoundException(projectId);
+        }
+
+        project.UpdateDescription(description);
+    }
+
     public void RemoveProject(int projectId)
     {
         var project = _projects.FirstOrDefault(_ => _.Id == projectId);

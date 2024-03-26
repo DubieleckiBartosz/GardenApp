@@ -6,6 +6,11 @@ public class LinkList
     private List<SocialMediaLink> _links { get; }
     public List<SocialMediaLink> Values => _links;
 
+    private LinkList()
+    {
+        _links = new();
+    }
+
     public LinkList(List<SocialMediaLink> links)
     {
         _links = links;
@@ -38,6 +43,11 @@ public class LinkList
 
     public static explicit operator LinkList(string links)
     {
+        if (string.IsNullOrEmpty(links))
+        {
+            return new();
+        }
+
         List<SocialMediaLink> data = links.Split(';')
             .Select(x => (SocialMediaLink)x)
             .ToList();

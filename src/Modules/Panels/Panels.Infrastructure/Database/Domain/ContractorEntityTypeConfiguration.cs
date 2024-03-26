@@ -1,4 +1,6 @@
-﻿namespace Panels.Infrastructure.Database.Domain;
+﻿using Panels.Domain.Contractors.Entities;
+
+namespace Panels.Infrastructure.Database.Domain;
 
 internal class ContractorEntityTypeConfiguration : IEntityTypeConfiguration<Contractor>
 {

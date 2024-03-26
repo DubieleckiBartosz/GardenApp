@@ -10,8 +10,8 @@ public sealed class AddProjectImageHandler : ICommandHandler<AddProjectImageComm
         _contractorRepository = contractorRepository;
     }
 
-    public Task<Response> Handle(AddProjectImageCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(AddProjectImageCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        return Response.Ok();
     }
 }
