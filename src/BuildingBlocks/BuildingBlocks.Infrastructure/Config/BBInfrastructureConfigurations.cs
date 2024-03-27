@@ -4,7 +4,7 @@ public static class BBInfrastructureConfigurations
 {
     public static WebApplicationBuilder RegisterBBInfrastructureConfigurations(this WebApplicationBuilder builder)
     {
-        builder.RegisterDependencyInjection();
+        builder.RegisterDependencyInjection().AddMinio();
 
         return builder;
     }
@@ -52,6 +52,21 @@ public static class BBInfrastructureConfigurations
             .AddSingleton<IModuleClient, ModuleClient>()
             .AddSingleton<IModuleSubscriber, ModuleSubscriber>()
             .AddSingleton<IModuleActionRegistration, ModuleActionRegistration>();
+
+        //FILE STOREAGE
+        builder.Services.AddScoped<IFileStorage, FileStorage.FileStorage>();
+
+        return builder;
+    }
+
+    public static WebApplicationBuilder AddMinio(this WebApplicationBuilder builder)
+    {
+        if (builder.Configuration.GetSection("MinioOptions:IsActive").Get<bool>())
+        {
+            builder.Services.Configure<MinioOptions>(builder.Configuration.GetSection("MinioOptions"));
+            builder.Services.TryAddSingleton(sp => sp.GetRequiredService<IMinioFactory>().CreateClient());
+            builder.Services.AddSingleton<IMinioService, MinioService>();
+        }
 
         return builder;
     }
