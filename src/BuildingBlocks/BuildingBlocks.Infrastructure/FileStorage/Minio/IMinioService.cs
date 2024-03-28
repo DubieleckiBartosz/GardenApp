@@ -4,5 +4,9 @@ public interface IMinioService
 {
     Task<byte[]?> GetFile(GetObjectArgs args, string objName);
 
+    Task CreateBucketWhenNotFound(string bucketName);
+
     Task SaveFile(PutObjectArgs args);
+
+    Task ConfirmAsync(StatObjectArgs statObjectArgs);
 }

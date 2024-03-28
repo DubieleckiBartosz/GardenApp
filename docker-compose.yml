@@ -66,5 +66,7 @@ services:
     networks:
       - gardenapp-network   
     environment:
-        MINIO_ROOT_USER: testkey123
-        MINIO_ROOT_PASSWORD: testsecretkey  
+        # MINIO_ROOT_USER: usertest
+        # MINIO_ROOT_PASSWORD: userpassword  
+        MINIO_ACCESS_KEY: Q3AM3UQ867SPQQA43P2F
+        MINIO_SECRET_KEY: zuf+tfteSlswRu7BJ86wtrueekitnifILbZam1KYY3TG

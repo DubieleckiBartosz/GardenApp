@@ -1,6 +1,4 @@
-﻿using Panels.Domain.Contractors.ValueTypes;
-
-namespace GardenApp.API.Modules.Panels;
+﻿namespace GardenApp.API.Modules.Panels;
 
 [Authorize(Roles = "Admin,Business")]
 [Route("api/[controller]")]
@@ -17,6 +15,17 @@ public class PanelsController : BaseController
     [SwaggerOperation(Summary = "Add social media link to contractor")]
     [HttpPost("[action]")]
     public async Task<IActionResult> AddLink([FromBody] AddLinkCommand command)
+    {
+        var response = await CommandBus.Send(command);
+        return Ok(response);
+    }
+
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(Response), 200)]
+    [SwaggerOperation(Summary = "Add logo to contractor")]
+    [HttpPost("[action]")]
+    public async Task<IActionResult> AddLogo([FromForm] AddLogoCommand command)
     {
         var response = await CommandBus.Send(command);
         return Ok(response);

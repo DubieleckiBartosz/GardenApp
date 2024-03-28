@@ -3,20 +3,19 @@
 internal class MinioService : IMinioService
 {
     private readonly IMinioClient _minioClient;
-    private readonly IOptionsMonitor<MinioOptions> _optionsMonitor;
     private readonly ILogger _logger;
+    private readonly bool _isActive;
 
-    public MinioService(IMinioClient client, IOptionsMonitor<MinioOptions> optionsMonitor, ILogger logger)
+    public MinioService(IMinioFactory factory, IConfiguration configuration, ILogger logger)
     {
-        _minioClient = client;
-        _optionsMonitor = optionsMonitor;
+        _minioClient = factory.CreateClient();
         _logger = logger;
+        _isActive = configuration.GetSection("MinioOptions:IsActive").Get<bool>();
     }
 
     public async Task<byte[]?> GetFile(GetObjectArgs args, string objName)
     {
-        var options = _optionsMonitor.Get(string.Empty);
-        if (options.IsActive)
+        if (_isActive)
         {
             try
             {
@@ -39,14 +38,28 @@ internal class MinioService : IMinioService
         }
     }
 
+    public async Task CreateBucketWhenNotFound(string bucketName)
+    {
+        bool found = await _minioClient.BucketExistsAsync(new BucketExistsArgs().WithBucket(bucketName));
+        if (!found)
+        {
+            await _minioClient.MakeBucketAsync(new MakeBucketArgs().WithBucket(bucketName));
+        }
+    }
+
+    public async Task ConfirmAsync(StatObjectArgs statObjectArgs)
+    {
+        await _minioClient.StatObjectAsync(statObjectArgs);
+    }
+
     public async Task SaveFile(PutObjectArgs args)
     {
-        var options = _optionsMonitor.Get(string.Empty);
-        if (options.IsActive)
+        if (_isActive)
         {
             try
             {
-                await _minioClient.PutObjectAsync(args).ConfigureAwait(false);
+                var response = await _minioClient.PutObjectAsync(args).ConfigureAwait(false);
+                _logger.Information($"Minio upload response: {JsonConvert.SerializeObject(response)}");
             }
             catch (Exception ex)
             {

@@ -1,35 +1,27 @@
 ﻿namespace BuildingBlocks.Infrastructure.FileStorage.Minio;
 
-//https://github.dev/appany/Minio.AspNetCore
-public class MinioFactory : IMinioFactory
+internal interface IMinioFactory
 {
-    private readonly IOptionsMonitor<MinioOptions> optionsMonitor;
+    IMinioClient CreateClient();
+}
 
-    public MinioFactory(IOptionsMonitor<MinioOptions> optionsMonitor)
+internal class MinioFactory : IMinioFactory
+{
+    private readonly IConfiguration _configuration;
+
+    public MinioFactory(IConfiguration configuration)
     {
-        this.optionsMonitor = optionsMonitor;
+        _configuration = configuration;
     }
 
     public IMinioClient CreateClient()
     {
-        return CreateClient(string.Empty);
-    }
-
-    public IMinioClient CreateClient(string name)
-    {
-        var options = optionsMonitor.Get(name);
+        var minioOptions = new MinioOptions();
+        _configuration.GetSection(nameof(MinioOptions)).Bind(minioOptions);
 
         var client = new MinioClient()
-          .WithEndpoint(options.Endpoint)
-          .WithCredentials(options.AccessKey, options.SecretKey)
-          .WithSessionToken(options.SessionToken) as MinioClient;
-
-        if (!string.IsNullOrEmpty(options.Region))
-        {
-            client.WithRegion(options.Region);
-        }
-
-        options.Configure?.Invoke(client!);
+            .WithEndpoint(minioOptions.Endpoint)
+            .WithCredentials(minioOptions.AccessKey, minioOptions.SecretKey) as MinioClient;
 
         return client.Build();
     }

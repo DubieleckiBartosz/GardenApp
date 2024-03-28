@@ -63,9 +63,9 @@ public static class BBInfrastructureConfigurations
     {
         if (builder.Configuration.GetSection("MinioOptions:IsActive").Get<bool>())
         {
-            builder.Services.Configure<MinioOptions>(builder.Configuration.GetSection("MinioOptions"));
-            builder.Services.TryAddSingleton(sp => sp.GetRequiredService<IMinioFactory>().CreateClient());
-            builder.Services.AddSingleton<IMinioService, MinioService>();
+            builder.Services
+                .AddScoped<IMinioService, MinioService>()
+                .AddSingleton<IMinioFactory, MinioFactory>();
         }
 
         return builder;

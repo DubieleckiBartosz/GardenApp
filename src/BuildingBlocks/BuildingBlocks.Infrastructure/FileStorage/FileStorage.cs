@@ -10,28 +10,41 @@ public class FileStorage : IFileStorage
     }
 
     //Default max size equals 2MB
-    public async Task<string?> Save(IFormFile formFile, string bucket, int maxSize = 2097152)
+    public async Task<string?> Save(IFormFile formFile, string name, string bucket, int maxSize = 2097152)
     {
+        await _minioService.CreateBucketWhenNotFound(bucket);
+
         using (var memoryStream = new MemoryStream())
         {
             await formFile.CopyToAsync(memoryStream);
+            memoryStream.Position = 0;
+
             if (memoryStream.Length < maxSize)
             {
-                var byteArray = memoryStream.ToArray();
+                //Create object args
                 var putObjectArgs = new PutObjectArgs()
                     .WithBucket(bucket)
-                    .WithObject(formFile.Name)
+                    .WithObject(name)
                     .WithStreamData(memoryStream)
-                    .WithObjectSize(byteArray.Length);
+                    .WithObjectSize(memoryStream.Length)
+                    .WithContentType(formFile.ContentType);
 
+                //Upload the file
                 await _minioService.SaveFile(putObjectArgs);
-                return null;
             }
             else
             {
                 return "The file is too large.";
             }
         }
+
+        //Confirm upload
+        var statObj = new StatObjectArgs()
+            .WithBucket(bucket)
+            .WithObject(name);
+
+        await _minioService.ConfirmAsync(statObj);
+        return null;
     }
 
     public async Task<byte[]?> GetFileAsync(string name, string bucket)
