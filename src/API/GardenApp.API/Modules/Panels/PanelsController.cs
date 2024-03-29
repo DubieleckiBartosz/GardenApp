@@ -47,7 +47,7 @@ public class PanelsController : BaseController
 
     [ProducesResponseType(typeof(object), 400)]
     [ProducesResponseType(typeof(object), 500)]
-    [ProducesResponseType(typeof(Response), 200)]
+    [ProducesResponseType(typeof(CreateProjectResponse), 200)]
     [SwaggerOperation(Summary = "Create a new project")]
     [HttpPost("[action]")]
     public async Task<IActionResult> CreateProject([FromBody] CreateProjectCommand command)

@@ -40,10 +40,13 @@ public class Contractor : Entity, IAggregateRoot
         Phone? phone)
         => new Contractor(businessUser, email, name, phone);
 
-    public void AddNewProject(string description)
+    public Project AddNewProject(string description)
     {
-        _projects.Add(Project.NewProject(this.Id, description));
+        var project = Project.NewProject(this.Id, description);
+        _projects.Add(project);
         IncrementVersion();
+
+        return project;
     }
 
     public void AddProjectImage(int projectId, string image)

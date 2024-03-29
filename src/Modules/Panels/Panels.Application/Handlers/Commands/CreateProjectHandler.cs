@@ -1,8 +1,18 @@
 ﻿namespace Panels.Application.Handlers.Commands;
 
-public sealed class CreateProjectHandler : ICommandHandler<CreateProjectCommand, Response>
+public sealed class CreateProjectHandler : ICommandHandler<CreateProjectCommand, Response<CreateProjectResponse>>
 {
-    public record CreateProjectCommand(string Description) : ICommand<Response>;
+    public class CreateProjectResponse
+    {
+        public int ProjectId { get; }
+
+        public CreateProjectResponse(int projectId)
+        {
+            ProjectId = projectId;
+        }
+    }
+
+    public record CreateProjectCommand(string Description) : ICommand<Response<CreateProjectResponse>>;
     private readonly IContractorRepository _contractorRepository;
     private readonly ICurrentUser _currentUser;
 
@@ -12,7 +22,7 @@ public sealed class CreateProjectHandler : ICommandHandler<CreateProjectCommand,
         _currentUser = currentUser;
     }
 
-    public async Task<Response> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
+    public async Task<Response<CreateProjectResponse>> Handle(CreateProjectCommand request, CancellationToken cancellationToken)
     {
         var contractor = await _contractorRepository.GetByBusinessIdAsync(_currentUser.UserId);
         if (contractor == null)
@@ -20,9 +30,9 @@ public sealed class CreateProjectHandler : ICommandHandler<CreateProjectCommand,
             throw new NotFoundException(ErrorMessages.ContractorNotFound(_currentUser.UserId));
         }
 
-        contractor.AddNewProject(request.Description);
+        var project = contractor.AddNewProject(request.Description);
         await _contractorRepository.SaveChangesAsync();
 
-        return Response.Ok();
+        return Response<CreateProjectResponse>.Ok(new CreateProjectResponse(project.Id));
     }
 }
