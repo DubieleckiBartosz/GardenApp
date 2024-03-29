@@ -1,6 +1,8 @@
-﻿namespace Panels.Application.Interfaces;
+﻿using BuildingBlocks.Application.Contracts.Repositories;
 
-public interface IContractorRepository
+namespace Panels.Application.Interfaces;
+
+public interface IContractorRepository : IRepository<Contractor>
 {
     Task<Contractor?> GetByBusinessIdAsync(string businessId);
 

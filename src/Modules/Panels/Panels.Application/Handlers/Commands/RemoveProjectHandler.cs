@@ -21,7 +21,7 @@ public sealed class RemoveProjectHandler : ICommandHandler<RemoveProjectCommand,
         }
 
         contractor.RemoveProject(request.ProjectId);
-        await _contractorRepository.SaveChangesAsync();
+        await _contractorRepository.UnitOfWork.SaveAsync(cancellationToken);
 
         return Response.Ok();
     }

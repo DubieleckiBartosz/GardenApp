@@ -4,6 +4,8 @@ internal class ContractorRepository : IContractorRepository
 {
     private readonly PanelsContext _panelsContext;
 
+    public IUnitOfWork UnitOfWork => _panelsContext;
+
     public ContractorRepository(PanelsContext panelsContext)
     {
         _panelsContext = panelsContext;

@@ -6,6 +6,7 @@ public class Project : Entity
     public int ContractorId { get; }
     public Date Created { get; }
     public string Description { get; private set; }
+    internal IEnumerable<ProjectImage> Images => _images;
 
     private Project()
     {

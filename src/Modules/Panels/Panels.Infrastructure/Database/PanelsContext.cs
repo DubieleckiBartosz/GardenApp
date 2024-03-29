@@ -1,8 +1,9 @@
 ﻿namespace Panels.Infrastructure.Database;
 
-internal sealed class PanelsContext : DbContext
+internal sealed class PanelsContext : DbContext, IUnitOfWork
 {
     internal const string PanelsSchema = "panels";
+    private readonly IDomainDecorator _decorator;
 
     public DbSet<InboxMessage> InboxMessages { get; set; }
     public DbSet<Contractor> Contractors { get; set; }
@@ -11,8 +12,9 @@ internal sealed class PanelsContext : DbContext
     {
     }
 
-    public PanelsContext(DbContextOptions<PanelsContext> options) : base(options)
+    public PanelsContext(IDomainDecorator decorator, DbContextOptions<PanelsContext> options) : base(options)
     {
+        _decorator = decorator;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -31,8 +33,7 @@ internal sealed class PanelsContext : DbContext
             .Entries()
             .Where(e => watcherTypes.Contains(e.Entity.GetType()) && e.State
                 is EntityState.Added
-                or EntityState.Modified
-                or EntityState.Deleted);
+                or EntityState.Modified);
 
         foreach (var entityEntry in entries)
         {
@@ -51,5 +52,12 @@ internal sealed class PanelsContext : DbContext
         }
 
         return await base.SaveChangesAsync(cancellationToken);
+    }
+
+    public async Task<int> SaveAsync(CancellationToken cancellationToken = default)
+    {
+        await this._decorator.DispatchDomainEventsAsync(this);
+
+        return await SaveChangesAsync(cancellationToken);
     }
 }

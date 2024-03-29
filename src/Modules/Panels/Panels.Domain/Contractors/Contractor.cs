@@ -1,4 +1,6 @@
-﻿namespace Panels.Domain.Contractors;
+﻿using Panels.Domain.Contractors.Entities;
+
+namespace Panels.Domain.Contractors;
 
 public class Contractor : Entity, IAggregateRoot
 {
@@ -44,6 +46,17 @@ public class Contractor : Entity, IAggregateRoot
         IncrementVersion();
     }
 
+    public void AddProjectImage(int projectId, string image)
+    {
+        var project = _projects.SingleOrDefault(_ => _.Id == projectId);
+        if (project == null)
+        {
+            throw new ProjectNotFoundException(projectId);
+        }
+
+        project.AddImage(image);
+    }
+
     public void UpdateProjectDescription(int projectId, string description)
     {
         var project = _projects.SingleOrDefault(_ => _.Id == projectId);
@@ -62,8 +75,14 @@ public class Contractor : Entity, IAggregateRoot
         {
             throw new ProjectNotFoundException(projectId);
         }
-
         _projects.Remove(project);
+
+        var images = project.Images?.Select(_ => _.Key);
+        if (images != null)
+        {
+            this.AddEvent(new ProjectRemoved(images));
+        }
+
         IncrementVersion();
     }
 

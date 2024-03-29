@@ -4,6 +4,7 @@ global using BuildingBlocks.Domain.Exceptions;
 global using BuildingBlocks.Domain.Time;
 global using BuildingBlocks.Domain.ValueObjects;
 global using Panels.Domain.Contractors.Entities;
+global using Panels.Domain.Contractors.Events;
+global using Panels.Domain.Contractors.Exceptions;
 global using Panels.Domain.Contractors.ValueObjects;
 global using Panels.Domain.Contractors.ValueTypes;
-global using Panels.Domain.Contractors.Exceptions;

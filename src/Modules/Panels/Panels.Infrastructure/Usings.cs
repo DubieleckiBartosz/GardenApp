@@ -1,12 +1,15 @@
 ﻿global using BuildingBlocks.Application.Contracts.Integration;
+global using BuildingBlocks.Application.Contracts.Repositories;
 global using BuildingBlocks.Application.Options;
 global using BuildingBlocks.Application.Settings;
 global using BuildingBlocks.Application.Tools;
 global using BuildingBlocks.Application.Wrappers;
+global using BuildingBlocks.Domain.Abstractions;
 global using BuildingBlocks.Domain.Time;
 global using BuildingBlocks.Domain.ValueObjects;
 global using BuildingBlocks.Infrastructure.Config;
 global using BuildingBlocks.Infrastructure.Database.Dapper;
+global using BuildingBlocks.Infrastructure.Database.EntityFramework.Extensions;
 global using BuildingBlocks.Infrastructure.Inbox;
 global using MediatR;
 global using Microsoft.AspNetCore.Builder;

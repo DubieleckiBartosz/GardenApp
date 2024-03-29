@@ -1,4 +1,5 @@
-﻿using static Panels.Application.Handlers.Commands.RemoveLogoHandler;
+﻿using static Panels.Application.Handlers.Commands.AddProjectImageHandler;
+using static Panels.Application.Handlers.Commands.RemoveLogoHandler;
 
 namespace GardenApp.API.Modules.Panels;
 
@@ -28,6 +29,17 @@ public class PanelsController : BaseController
     [SwaggerOperation(Summary = "Add logo to contractor")]
     [HttpPost("[action]")]
     public async Task<IActionResult> AddLogo([FromForm] AddLogoCommand command)
+    {
+        var response = await CommandBus.Send(command);
+        return Ok(response);
+    }
+
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(Response), 200)]
+    [SwaggerOperation(Summary = "Add new project image")]
+    [HttpPost("[action]")]
+    public async Task<IActionResult> AddProjectImage([FromForm] AddProjectImageCommand command)
     {
         var response = await CommandBus.Send(command);
         return Ok(response);

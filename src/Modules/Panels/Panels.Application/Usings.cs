@@ -1,6 +1,7 @@
 ﻿global using BuildingBlocks.Application.Contracts;
 global using BuildingBlocks.Application.Contracts.Mediator;
 global using BuildingBlocks.Application.Contracts.Services;
+global using BuildingBlocks.Application.Decorators;
 global using BuildingBlocks.Application.Exceptions;
 global using BuildingBlocks.Application.Wrappers;
 global using Microsoft.AspNetCore.Http;
@@ -9,6 +10,7 @@ global using Panels.Application.Constants;
 global using Panels.Application.Interfaces;
 global using Panels.Application.Tools;
 global using Panels.Domain.Contractors;
+global using Panels.Domain.Contractors.Events;
 global using Panels.Domain.Contractors.ValueObjects;
 global using Panels.Domain.Contractors.ValueTypes;
 global using Serilog;
