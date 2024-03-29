@@ -47,11 +47,6 @@ internal class MinioService : IMinioService
         }
     }
 
-    public async Task ConfirmAsync(StatObjectArgs statObjectArgs)
-    {
-        await _minioClient.StatObjectAsync(statObjectArgs);
-    }
-
     public async Task SaveFile(PutObjectArgs args)
     {
         if (_isActive)

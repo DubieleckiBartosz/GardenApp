@@ -38,12 +38,6 @@ public class FileStorage : IFileStorage
             }
         }
 
-        //Confirm upload
-        //var statObj = new StatObjectArgs()
-        //    .WithBucket(bucket)
-        //    .WithObject(name);
-
-        //await _minioService.ConfirmAsync(statObj);
         return null;
     }
 

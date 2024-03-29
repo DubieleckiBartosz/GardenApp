@@ -9,6 +9,4 @@ public interface IMinioService
     Task SaveFile(PutObjectArgs args);
 
     Task RemoveFileAsync(RemoveObjectArgs args);
-
-    Task ConfirmAsync(StatObjectArgs statObjectArgs);
 }
