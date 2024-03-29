@@ -29,7 +29,7 @@ public sealed class AddLogoHandler : ICommandHandler<AddLogoCommand, Response>
         }
 
         var uniqueName = request.FormFile.CreateName();
-        var error = await _fileStorage.Save(request.FormFile, uniqueName, _configuration["FileCollections:ProjectImages"]!);
+        var error = await _fileStorage.Save(request.FormFile, uniqueName, _configuration["FileCollections:LogoImages"]!);
         if (error != null)
         {
             throw new BadRequestException(error);
