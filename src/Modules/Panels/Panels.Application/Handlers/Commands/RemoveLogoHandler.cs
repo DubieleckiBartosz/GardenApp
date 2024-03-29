@@ -39,7 +39,7 @@ public sealed class RemoveLogoHandler : ICommandHandler<RemoveLogoCommand, Respo
 
         await _fileStorage.RemoveFileAsync(logo!, _configuration["FileCollections:LogoImages"]!);
 
-        await _contractorRepository.SaveChangesAsync();
+        await _contractorRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return Response.Ok();
     }

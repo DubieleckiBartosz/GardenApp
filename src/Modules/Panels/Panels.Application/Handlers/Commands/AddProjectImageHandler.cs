@@ -36,7 +36,7 @@ public sealed class AddProjectImageHandler : ICommandHandler<AddProjectImageComm
             throw new BadRequestException(error);
         }
 
-        await _contractorRepository.UnitOfWork.SaveChangesAsync();
+        await _contractorRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return Response.Ok();
     }

@@ -21,7 +21,7 @@ public sealed class RemoveLinkHandler : ICommandHandler<RemoveLinkCommand, Respo
         }
 
         contractor.RemoveLink(request.LinkType);
-        await _contractorRepository.SaveChangesAsync();
+        await _contractorRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return Response.Ok();
     }

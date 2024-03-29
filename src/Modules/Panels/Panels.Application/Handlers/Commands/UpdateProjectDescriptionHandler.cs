@@ -21,7 +21,7 @@ public sealed class UpdateProjectDescriptionHandler : ICommandHandler<UpdateProj
         }
 
         contractor.UpdateProjectDescription(request.ProjectId, request.Description);
-        await _contractorRepository.SaveChangesAsync();
+        await _contractorRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return Response.Ok();
     }

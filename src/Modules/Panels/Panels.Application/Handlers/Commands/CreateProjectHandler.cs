@@ -31,7 +31,7 @@ public sealed class CreateProjectHandler : ICommandHandler<CreateProjectCommand,
         }
 
         var project = contractor.AddNewProject(request.Description);
-        await _contractorRepository.SaveChangesAsync();
+        await _contractorRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return Response<CreateProjectResponse>.Ok(new CreateProjectResponse(project.Id));
     }

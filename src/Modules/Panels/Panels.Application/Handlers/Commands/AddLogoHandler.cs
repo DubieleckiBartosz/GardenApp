@@ -36,7 +36,7 @@ public sealed class AddLogoHandler : ICommandHandler<AddLogoCommand, Response>
         }
 
         contractor.AddLogo(uniqueName);
-        await _contractorRepository.SaveChangesAsync();
+        await _contractorRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return Response.Ok();
     }

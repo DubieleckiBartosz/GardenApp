@@ -1,6 +1,4 @@
-﻿using Panels.Domain.Contractors.Entities;
-
-namespace Panels.Domain.Contractors;
+﻿namespace Panels.Domain.Contractors;
 
 public class Contractor : Entity, IAggregateRoot
 {

@@ -23,7 +23,7 @@ public sealed class CreateNewContractorHandler : ICommandHandler<CreateNewContra
 
         var newContractor = Contractor.CreateContractor(request.BusinessUserId, request.Email, request.BusinessName, request.Phone);
         await _contractorRepository.CreateNewContractorAsync(newContractor);
-        await _contractorRepository.SaveChangesAsync();
+        await _contractorRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return Response.Ok();
     }

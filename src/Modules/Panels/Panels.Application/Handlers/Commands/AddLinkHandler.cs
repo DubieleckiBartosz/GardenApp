@@ -24,7 +24,7 @@ public sealed class AddLinkHandler : ICommandHandler<AddLinkCommand, Response>
         var link = SocialMediaLink.LinkCreator[request.LinkType].Invoke(request.Link);
         contractor.AddLink(link);
 
-        await _contractorRepository.SaveChangesAsync();
+        await _contractorRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
         return Response.Ok();
     }
 }
