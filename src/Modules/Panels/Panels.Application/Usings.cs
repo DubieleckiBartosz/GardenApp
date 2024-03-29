@@ -11,6 +11,7 @@ global using Panels.Application.Tools;
 global using Panels.Domain.Contractors;
 global using Panels.Domain.Contractors.ValueObjects;
 global using Panels.Domain.Contractors.ValueTypes;
+global using Serilog;
 global using static Panels.Application.Handlers.Commands.AddLinkHandler;
 global using static Panels.Application.Handlers.Commands.AddLogoHandler;
 global using static Panels.Application.Handlers.Commands.AddProjectImageHandler;

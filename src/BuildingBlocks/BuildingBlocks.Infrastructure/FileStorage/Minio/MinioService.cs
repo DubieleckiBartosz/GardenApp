@@ -68,6 +68,21 @@ internal class MinioService : IMinioService
         }
     }
 
+    public async Task RemoveFileAsync(RemoveObjectArgs args)
+    {
+        if (_isActive)
+        {
+            try
+            {
+                await _minioClient.RemoveObjectAsync(args).ConfigureAwait(false);
+            }
+            catch (Exception ex)
+            {
+                throw new IOException(ex.Message, ex);
+            }
+        }
+    }
+
     private byte[]? ReadAllBytes(Stream str)
     {
         if (str is MemoryStream)

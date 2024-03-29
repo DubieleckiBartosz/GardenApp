@@ -39,12 +39,21 @@ public class FileStorage : IFileStorage
         }
 
         //Confirm upload
-        var statObj = new StatObjectArgs()
-            .WithBucket(bucket)
-            .WithObject(name);
+        //var statObj = new StatObjectArgs()
+        //    .WithBucket(bucket)
+        //    .WithObject(name);
 
-        await _minioService.ConfirmAsync(statObj);
+        //await _minioService.ConfirmAsync(statObj);
         return null;
+    }
+
+    public async Task RemoveFileAsync(string name, string bucket)
+    {
+        var removeObjectArgs = new RemoveObjectArgs()
+                    .WithBucket(bucket)
+                    .WithObject(name);
+
+        await _minioService.RemoveFileAsync(removeObjectArgs);
     }
 
     public async Task<byte[]?> GetFileAsync(string name, string bucket)

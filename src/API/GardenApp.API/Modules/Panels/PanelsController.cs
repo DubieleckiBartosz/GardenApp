@@ -1,4 +1,6 @@
-﻿namespace GardenApp.API.Modules.Panels;
+﻿using static Panels.Application.Handlers.Commands.RemoveLogoHandler;
+
+namespace GardenApp.API.Modules.Panels;
 
 [Authorize(Roles = "Admin,Business")]
 [Route("api/[controller]")]
@@ -50,6 +52,17 @@ public class PanelsController : BaseController
     public async Task<IActionResult> UpdateProject([FromBody] UpdateProjectDescriptionCommand command)
     {
         var response = await CommandBus.Send(command);
+        return Ok(response);
+    }
+
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(Response), 200)]
+    [SwaggerOperation(Summary = "Remove logo")]
+    [HttpDelete("[action]")]
+    public async Task<IActionResult> RemoveLogo()
+    {
+        var response = await CommandBus.Send(new RemoveLogoCommand());
         return Ok(response);
     }
 
