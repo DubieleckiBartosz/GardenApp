@@ -83,8 +83,6 @@ public class Contractor : Entity, IAggregateRoot
         {
             this.AddEvent(new ProjectRemoved(images));
         }
-
-        IncrementVersion();
     }
 
     public void AddLogo(LogoImage logoImage)
@@ -100,8 +98,9 @@ public class Contractor : Entity, IAggregateRoot
             throw new LogoNotFoundException(this.Id);
         }
 
+        var key = Logo.Key;
         Logo = null;
-        IncrementVersion();
+        this.AddEvent(new LogoRemoved(key));
     }
 
     public void AddLink(SocialMediaLink link)

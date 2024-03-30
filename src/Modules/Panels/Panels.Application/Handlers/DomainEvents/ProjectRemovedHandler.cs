@@ -15,11 +15,6 @@ internal class ProjectRemovedHandler : IDomainEventHandler<ProjectRemoved>
 
     public async Task Handle(DomainEvent<ProjectRemoved> notification, CancellationToken cancellationToken)
     {
-        if (notification == null)
-        {
-            throw new ArgumentNullException(nameof(notification));
-        }
-
         var @event = notification.Event;
         var logId = Guid.NewGuid().ToString();
         foreach (var image in @event.Images)
