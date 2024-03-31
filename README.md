@@ -30,6 +30,7 @@ It will create following services: <br/>
 - pgAdmin
 - smtp4dev
 - SEQ
+- Minio
 
 ## Features
 
