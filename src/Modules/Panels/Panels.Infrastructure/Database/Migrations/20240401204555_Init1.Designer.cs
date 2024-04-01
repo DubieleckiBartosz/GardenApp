@@ -12,8 +12,8 @@ using Panels.Infrastructure.Database;
 namespace Panels.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(PanelsContext))]
-    [Migration("20240324001358_Init2")]
-    partial class Init2
+    [Migration("20240401204555_Init1")]
+    partial class Init1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -102,9 +102,56 @@ namespace Panels.Infrastructure.Database.Migrations
                     b.ToTable("Contractors", "panels");
                 });
 
-            modelBuilder.Entity("Panels.Domain.Contractors.Contractor", b =>
+            modelBuilder.Entity("Panels.Domain.Projects.Project", b =>
                 {
-                    b.OwnsMany("Panels.Domain.Contractors.Projects.Project", "_projects", b1 =>
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("integer");
+
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BusinessId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("BusinessId");
+
+                    b.Property<int>("ContractorId")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("Created")
+                        .HasColumnType("timestamp with time zone")
+                        .HasColumnName("Created");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Description");
+
+                    b.Property<int>("Version")
+                        .HasColumnType("integer");
+
+                    b.Property<bool>("_isRemoved")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("boolean")
+                        .HasDefaultValue(false)
+                        .HasColumnName("IsRemoved");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("ContractorId");
+
+                    b.ToTable("Projects", "panels");
+                });
+
+            modelBuilder.Entity("Panels.Domain.Projects.Project", b =>
+                {
+                    b.HasOne("Panels.Domain.Contractors.Contractor", null)
+                        .WithMany()
+                        .HasForeignKey("ContractorId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.OwnsMany("Panels.Domain.Projects.ValueObjects.ProjectImage", "_images", b1 =>
                         {
                             b1.Property<int>("Id")
                                 .ValueGeneratedOnAdd()
@@ -112,59 +159,24 @@ namespace Panels.Infrastructure.Database.Migrations
 
                             NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b1.Property<int>("Id"));
 
-                            b1.Property<int>("ContractorId")
-                                .HasColumnType("integer");
-
-                            b1.Property<DateTime>("Created")
-                                .HasColumnType("timestamp with time zone")
-                                .HasColumnName("Created");
-
-                            b1.Property<string>("Description")
+                            b1.Property<string>("Key")
                                 .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("Description");
+                                .HasColumnType("text");
 
-                            b1.Property<int>("Version")
+                            b1.Property<int>("ProjectId")
                                 .HasColumnType("integer");
 
                             b1.HasKey("Id");
 
-                            b1.HasIndex("ContractorId");
+                            b1.HasIndex("ProjectId");
 
-                            b1.ToTable("Projects", "panels");
+                            b1.ToTable("ProjectImages", "panels");
 
                             b1.WithOwner()
-                                .HasForeignKey("ContractorId");
-
-                            b1.OwnsMany("Panels.Domain.Contractors.ValueObjects.ProjectImage", "_images", b2 =>
-                                {
-                                    b2.Property<int>("Id")
-                                        .ValueGeneratedOnAdd()
-                                        .HasColumnType("integer");
-
-                                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b2.Property<int>("Id"));
-
-                                    b2.Property<string>("Key")
-                                        .IsRequired()
-                                        .HasColumnType("text");
-
-                                    b2.Property<int>("ProjectId")
-                                        .HasColumnType("integer");
-
-                                    b2.HasKey("Id");
-
-                                    b2.HasIndex("ProjectId");
-
-                                    b2.ToTable("ProjectImages", "panels");
-
-                                    b2.WithOwner()
-                                        .HasForeignKey("ProjectId");
-                                });
-
-                            b1.Navigation("_images");
+                                .HasForeignKey("ProjectId");
                         });
 
-                    b.Navigation("_projects");
+                    b.Navigation("_images");
                 });
 #pragma warning restore 612, 618
         }

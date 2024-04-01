@@ -7,6 +7,7 @@ internal sealed class PanelsContext : DbContext, IUnitOfWork
 
     public DbSet<InboxMessage> InboxMessages { get; set; }
     public DbSet<Contractor> Contractors { get; set; }
+    public DbSet<Project> Projects { get; set; }
 
     public PanelsContext()
     {

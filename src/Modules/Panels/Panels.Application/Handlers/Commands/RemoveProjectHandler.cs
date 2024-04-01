@@ -3,25 +3,28 @@
 public sealed class RemoveProjectHandler : ICommandHandler<RemoveProjectCommand, Response>
 {
     public record RemoveProjectCommand(int ProjectId) : ICommand<Response>;
-    private readonly IContractorRepository _contractorRepository;
+    private readonly IProjectRepository _projectRepository;
     private readonly ICurrentUser _currentUser;
 
-    public RemoveProjectHandler(IContractorRepository contractorRepository, ICurrentUser currentUser)
+    public RemoveProjectHandler(
+        ICurrentUser currentUser,
+        IProjectRepository projectRepository)
     {
-        _contractorRepository = contractorRepository;
         _currentUser = currentUser;
+        _projectRepository = projectRepository;
     }
 
     public async Task<Response> Handle(RemoveProjectCommand request, CancellationToken cancellationToken)
     {
-        var contractor = await _contractorRepository.GetByBusinessIdAsync(_currentUser.UserId);
-        if (contractor == null)
+        var project = await _projectRepository.GetByProjectIdAsync(request.ProjectId);
+        if (project == null || project.BusinessId != _currentUser.UserId)
         {
-            throw new NotFoundException(ErrorMessages.ContractorNotFound(_currentUser.UserId));
+            throw new NotFoundException(ErrorMessages.ProjectNotFound(request.ProjectId, _currentUser.UserId));
         }
 
-        contractor.RemoveProject(request.ProjectId);
-        await _contractorRepository.UnitOfWork.SaveAsync(cancellationToken);
+        project.Remove();
+
+        await _projectRepository.UnitOfWork.SaveAsync(cancellationToken);
 
         return Response.Ok();
     }

@@ -3,7 +3,6 @@
 public class Contractor : Entity, IAggregateRoot
 {
     private string _socialMediaLinks = string.Empty;
-    private readonly List<Project> _projects;
     public string BusinessUserId { get; }
     public string Name { get; }
     public Email Email { get; }
@@ -18,7 +17,6 @@ public class Contractor : Entity, IAggregateRoot
 
     private Contractor()
     {
-        _projects = new();
     }
 
     private Contractor(string businessUser, Email email, string name, Phone? phone)
@@ -27,7 +25,6 @@ public class Contractor : Entity, IAggregateRoot
         Email = email;
         Phone = phone;
         Name = name;
-        _projects = new();
         IncrementVersion();
     }
 
@@ -38,52 +35,7 @@ public class Contractor : Entity, IAggregateRoot
         Phone? phone)
         => new Contractor(businessUser, email, name, phone);
 
-    public Project AddNewProject(string description)
-    {
-        var project = Project.NewProject(this.Id, description);
-        _projects.Add(project);
-        IncrementVersion();
-
-        return project;
-    }
-
-    public void AddProjectImage(int projectId, string image)
-    {
-        var project = _projects.SingleOrDefault(_ => _.Id == projectId);
-        if (project == null)
-        {
-            throw new ProjectNotFoundException(projectId);
-        }
-
-        project.AddImage(image);
-    }
-
-    public void UpdateProjectDescription(int projectId, string description)
-    {
-        var project = _projects.SingleOrDefault(_ => _.Id == projectId);
-        if (project == null)
-        {
-            throw new ProjectNotFoundException(projectId);
-        }
-
-        project.UpdateDescription(description);
-    }
-
-    public void RemoveProject(int projectId)
-    {
-        var project = _projects.FirstOrDefault(_ => _.Id == projectId);
-        if (project == null)
-        {
-            throw new ProjectNotFoundException(projectId);
-        }
-        _projects.Remove(project);
-
-        var images = project.Images?.Select(_ => _.Key);
-        if (images != null)
-        {
-            this.AddEvent(new ProjectRemoved(images));
-        }
-    }
+    public Project AddNewProject(string description) => Project.NewProject(this.Id, description, this.BusinessUserId);
 
     public void AddLogo(LogoImage logoImage)
     {

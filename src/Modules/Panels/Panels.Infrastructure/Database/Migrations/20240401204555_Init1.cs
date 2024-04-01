@@ -29,6 +29,7 @@ namespace Panels.Infrastructure.Database.Migrations
                     LogoKey = table.Column<string>(type: "text", nullable: true),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     LastModified = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    SocialMediaLinks = table.Column<string>(type: "text", nullable: true),
                     Version = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -60,8 +61,10 @@ namespace Panels.Infrastructure.Database.Migrations
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
                     ContractorId = table.Column<int>(type: "integer", nullable: false),
+                    BusinessId = table.Column<string>(type: "text", nullable: false),
                     Created = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     Description = table.Column<string>(type: "text", nullable: false),
+                    IsRemoved = table.Column<bool>(type: "boolean", nullable: false, defaultValue: false),
                     Version = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>

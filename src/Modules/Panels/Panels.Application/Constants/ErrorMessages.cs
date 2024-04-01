@@ -6,4 +6,6 @@ internal static class ErrorMessages
 
     //Methods
     internal static string ContractorNotFound(string businessId) => $"Contractor not found. [BusinessId: {businessId}]";
+
+    internal static string ProjectNotFound(int projectId, string businessId) => $"Project not found. [ProjectId: {projectId}, BusinessId: {businessId}]";
 }

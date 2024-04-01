@@ -1,36 +1,46 @@
-﻿namespace Panels.Domain.Contractors.Entities;
+﻿using static System.Net.Mime.MediaTypeNames;
 
-public class Project : Entity
+namespace Panels.Domain.Projects;
+
+public class Project : Entity, IAggregateRoot
 {
+    private bool _isRemoved;
+
     private readonly List<ProjectImage> _images;
     public int ContractorId { get; }
+    public string BusinessId { get; }
     public Date Created { get; }
     public string Description { get; private set; }
-    internal IEnumerable<ProjectImage> Images => _images;
+    public IEnumerable<ProjectImage> Images => _images;
 
     private Project()
     {
         _images = new();
     }
 
-    private Project(int contractorId, string description)
+    private Project(int contractorId, string description, string businessId)
     {
         ContractorId = contractorId;
+        BusinessId = businessId;
         Description = description;
         Created = Clock.CurrentDate();
         _images = new();
+        _isRemoved = false;
         IncrementVersion();
     }
 
-    internal static Project NewProject(int contractorId, string description) => new(contractorId, description);
+    internal static Project NewProject(
+        int contractorId,
+        string description,
+        string businessId) => new(contractorId, description, businessId);
 
-    internal void UpdateDescription(string newDescription)
+    public void UpdateDescription(string newDescription)
     {
         Description = newDescription;
         IncrementVersion();
     }
 
-    internal void AddImage(string key)
+    public void AddImage(string key)
     {
         var image = _images.FirstOrDefault(_ => _.Key == key);
         if (image != null)
@@ -42,7 +52,7 @@ public class Project : Entity
         IncrementVersion();
     }
 
-    internal void RemoveImage(string key)
+    public void RemoveImage(string key)
     {
         var image = _images.FirstOrDefault(_ => _.Key == key);
         if (image == null)
@@ -52,5 +62,17 @@ public class Project : Entity
 
         _images.Remove(image);
         IncrementVersion();
+    }
+
+    public void Remove()
+    {
+        var images = _images?.Select(_ => _.Key);
+        _images?.Clear();
+        _isRemoved = true;
+
+        if (images != null)
+        {
+            this.AddEvent(new ProjectRemoved(images));
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿namespace Panels.Domain.Contractors.ValueObjects;
+﻿namespace Panels.Domain.Projects.ValueObjects;
 
 public class ProjectImage : ValueObject
 {

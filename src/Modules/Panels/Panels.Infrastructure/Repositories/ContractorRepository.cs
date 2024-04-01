@@ -25,9 +25,4 @@ internal class ContractorRepository : IContractorRepository
     {
         return await _panelsContext.Contractors.AsNoTracking().FirstOrDefaultAsync(_ => _.BusinessUserId == businessId);
     }
-
-    public async Task SaveChangesAsync()
-    {
-        await _panelsContext.SaveChangesAsync();
-    }
 }

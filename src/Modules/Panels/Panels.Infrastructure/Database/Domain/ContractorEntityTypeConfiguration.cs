@@ -1,12 +1,7 @@
-﻿using Panels.Domain.Contractors.Entities;
-
-namespace Panels.Infrastructure.Database.Domain;
+﻿namespace Panels.Infrastructure.Database.Domain;
 
 internal class ContractorEntityTypeConfiguration : IEntityTypeConfiguration<Contractor>
 {
-    internal const string Projects = "_projects";
-    internal const string Images = "_images";
-
     public void Configure(EntityTypeBuilder<Contractor> builder)
     {
         builder.ToTable("Contractors");
@@ -44,31 +39,6 @@ internal class ContractorEntityTypeConfiguration : IEntityTypeConfiguration<Cont
             .IsRequired(false);
 
         builder.Ignore(_ => _.Links);
-
-        builder.OwnsMany<Project>(Projects, _ =>
-        {
-            _.WithOwner().HasForeignKey("ContractorId");
-            _.ToTable("Projects");
-            _.HasKey(k => k.Id);
-
-            _.Property(p => p.Created)
-                .HasColumnName("Created")
-                .HasConversion(x => x.Value, x => new Date(x))
-                .IsRequired();
-
-            _.Property(p => p.Description).HasColumnName("Description").IsRequired();
-
-            _.OwnsMany<ProjectImage>(Images, x =>
-            {
-                x.WithOwner().HasForeignKey("ProjectId");
-                x.ToTable("ProjectImages");
-
-                x.Property<int>("Id");
-                x.HasKey("Id");
-
-                x.Property(p => p.Key).IsRequired();
-            });
-        });
 
         builder.Property<DateTime>("Created").HasColumnName("Created").IsRequired();
         builder.Property<DateTime>("LastModified").HasColumnName("LastModified").IsRequired();

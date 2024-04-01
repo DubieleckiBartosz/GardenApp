@@ -1,4 +1,6 @@
-﻿namespace Panels.Application.Handlers.DomainEvents;
+﻿using Panels.Domain.Projects.Events;
+
+namespace Panels.Application.Handlers.DomainEvents;
 
 internal class ProjectRemovedHandler : IDomainEventHandler<ProjectRemoved>
 {

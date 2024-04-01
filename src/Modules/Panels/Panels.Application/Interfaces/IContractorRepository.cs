@@ -9,6 +9,4 @@ public interface IContractorRepository : IRepository<Contractor>
     Task<Contractor?> GetByBusinessIdNTAsync(string businessId);
 
     Task CreateNewContractorAsync(Contractor contractor);
-
-    Task SaveChangesAsync();
 }

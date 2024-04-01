@@ -1,5 +1,6 @@
 ﻿using static Panels.Application.Handlers.Commands.AddProjectImageHandler;
 using static Panels.Application.Handlers.Commands.RemoveLogoHandler;
+using static Panels.Application.Handlers.Commands.RemoveProjectImageHandler;
 
 namespace GardenApp.API.Modules.Panels;
 
@@ -86,6 +87,17 @@ public class PanelsController : BaseController
     public async Task<IActionResult> RemoveProject([FromRoute] int projectId)
     {
         var response = await CommandBus.Send(new RemoveProjectCommand(projectId));
+        return Ok(response);
+    }
+
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(Response), 200)]
+    [SwaggerOperation(Summary = "Remove project image")]
+    [HttpDelete("[action]/{projectId}/{imageKey}")]
+    public async Task<IActionResult> RemoveProjectImage([FromRoute] int projectId, [FromRoute] string imageKey)
+    {
+        var response = await CommandBus.Send(new RemoveProjectImageCommand(projectId, imageKey));
         return Ok(response);
     }
 

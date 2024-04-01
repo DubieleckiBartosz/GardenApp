@@ -18,7 +18,8 @@ public static class PanelsInfrastructureConfigurations
         //REPOSITORIES
         builder.Services
             .AddScoped<IContractorRepository, ContractorRepository>()
-            .AddScoped<IContractorRepositoryDao, ContractorRepositoryDao>();
+            .AddScoped<IContractorRepositoryDao, ContractorRepositoryDao>()
+            .AddScoped<IProjectRepository, ProjectRepository>();
 
         return builder;
     }
