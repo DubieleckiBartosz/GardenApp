@@ -1,0 +1,15 @@
+﻿global using BuildingBlocks.Application.Contracts.Repositories;
+global using BuildingBlocks.Application.Options;
+global using BuildingBlocks.Domain.Abstractions;
+global using BuildingBlocks.Infrastructure.Config;
+global using BuildingBlocks.Infrastructure.Database.EntityFramework.Extensions;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Works.Application.Interfaces.Repositories;
+global using Works.Domain.GardeningWorks;
+global using Works.Domain.WorkItems;
+global using Works.Infrastructure.Database;
+global using Works.Infrastructure.Repositories;
