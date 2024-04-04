@@ -21,7 +21,7 @@ Thanks to the application gardening companies can manage their resources better,
 You can run the necessary dependencies to check the current state of application using [docker compose](https://docs.docker.com/compose/), currently excluding volumes:
 
 ```shell
-docker-compose -f docker-compose.yml up
+docker-compose -f docker-compose.yml up -d
 ``` 
 
 It will create following services: <br/>
