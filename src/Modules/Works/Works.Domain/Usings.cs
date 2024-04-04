@@ -1,6 +1,13 @@
 ﻿global using BuildingBlocks.Domain.Abstractions;
 global using BuildingBlocks.Domain.Entities;
+global using BuildingBlocks.Domain.Exceptions;
+global using BuildingBlocks.Domain.Time;
 global using BuildingBlocks.Domain.ValueObjects;
-global using Works.Domain.Entities;
-global using Works.Domain.ValueObjects;
-global using Works.Domain.ValueTypes;
+global using Works.Domain.GardeningWorks.Exceptions;
+global using Works.Domain.GardeningWorks.ValueObjects;
+global using Works.Domain.GardeningWorks.ValueTypes;
+global using Works.Domain.WorkItems;
+global using Works.Domain.WorkItems.Entities;
+global using Works.Domain.WorkItems.Exceptions;
+global using Works.Domain.WorkItems.ValueObjects;
+global using Works.Domain.WorkItems.ValueTypes;

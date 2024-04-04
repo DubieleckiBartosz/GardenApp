@@ -1,4 +1,4 @@
-﻿namespace Works.Domain.ValueObjects;
+﻿namespace Works.Domain.WorkItems.ValueObjects;
 
 public class Weather : ValueObject
 {
@@ -13,8 +13,7 @@ public class Weather : ValueObject
         32 + (int)(TemperatureC / 0.5556);
 
     private Weather()
-    {
-    }
+    { }
 
     public Weather(
         int clouds,
