@@ -4,7 +4,7 @@ public class FutureDate : ValueObject
 {
     public DateTime Value { get; }
 
-    private FutureDate(DateTime value)
+    public FutureDate(DateTime value)
     {
         if (value < Clock.CurrentDate())
         {

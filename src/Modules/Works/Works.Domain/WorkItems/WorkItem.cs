@@ -2,17 +2,16 @@
 
 public class WorkItem : Entity, IAggregateRoot
 {
-    private List<TimeWeatherRecord> _timeWeatherRecords;
-    public int GardeningWorkId { get; set; }
+    public int GardeningWorkId { get; }
     public string Name { get; private set; }
     public int? EstimatedTimeInMinutes { get; private set; }
     public int? RealTimeInMinutes { get; private set; }
     public WorkItemStatus Status { get; private set; }
-    public IEnumerable<TimeWeatherRecord> TimeWeatherRecords => _timeWeatherRecords;
+    public List<TimeWeatherRecord> TimeWeatherRecords { get; private set; }
 
     private WorkItem()
     {
-        _timeWeatherRecords = new List<TimeWeatherRecord>();
+        TimeWeatherRecords = new List<TimeWeatherRecord>();
     }
 
     private WorkItem(int gardeningWorkId, string name, int? estimatedTimeInMinutes)
@@ -20,7 +19,7 @@ public class WorkItem : Entity, IAggregateRoot
         GardeningWorkId = gardeningWorkId;
         Name = name;
         EstimatedTimeInMinutes = estimatedTimeInMinutes;
-        _timeWeatherRecords = new();
+        TimeWeatherRecords = new List<TimeWeatherRecord>();
         Status = WorkItemStatus.OnHold;
     }
 
@@ -33,14 +32,14 @@ public class WorkItem : Entity, IAggregateRoot
     {
         var newTimeWeatherRecord = new TimeWeatherRecord(timeLog, weather);
 
-        _timeWeatherRecords.Add(newTimeWeatherRecord);
+        TimeWeatherRecords.Add(newTimeWeatherRecord);
 
         RealTimeInMinutes += timeLog.Minutes;
     }
 
     public void UpdateTimeWeatherRecord(int timeWeatherRecordId, int minutes, DateTime date)
     {
-        var record = _timeWeatherRecords.FirstOrDefault(_ => _.Id == timeWeatherRecordId);
+        var record = TimeWeatherRecords.FirstOrDefault(_ => _.Id == timeWeatherRecordId);
         if (record == null)
         {
             throw new RecordNotFoundException(timeWeatherRecordId);

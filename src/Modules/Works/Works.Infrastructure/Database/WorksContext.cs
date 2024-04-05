@@ -5,6 +5,9 @@ internal class WorksContext : DbContext, IUnitOfWork
     internal const string WorksSchema = "works";
     private readonly IDomainDecorator _decorator;
 
+    internal DbSet<WorkItem> WorkItems { get; set; }
+    internal DbSet<WorkItem> GardeningWorks { get; set; }
+
     public WorksContext()
     {
     }

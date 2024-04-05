@@ -7,7 +7,7 @@ public class GardeningWork : Entity, IAggregateRoot
     public DateTime? RealStartDate { get; private set; }
     public FutureDate? PlannedEndDate { get; private set; }
     public DateTime? RealEndDate { get; private set; }
-    public Location Location { get; }
+    public Location Location { get; private set; }
     public GardeningWorkStatus Status { get; private set; }
 
     private GardeningWork()
