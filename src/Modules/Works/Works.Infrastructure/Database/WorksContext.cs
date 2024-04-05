@@ -6,7 +6,7 @@ internal class WorksContext : DbContext, IUnitOfWork
     private readonly IDomainDecorator _decorator;
 
     internal DbSet<WorkItem> WorkItems { get; set; }
-    internal DbSet<WorkItem> GardeningWorks { get; set; }
+    internal DbSet<GardeningWork> GardeningWorks { get; set; }
 
     public WorksContext()
     {
