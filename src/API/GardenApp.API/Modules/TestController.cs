@@ -1,5 +1,6 @@
 ﻿using Works.Application.Interfaces.Services;
 using Works.Application.Models.Weather.Forecast;
+using Works.Application.Models.Weather.History;
 
 namespace GardenApp.API.Modules;
 
@@ -21,17 +22,24 @@ public class TestController : ControllerBase
         return Ok(response);
     }
 
+    [HttpGet("[action]")]
+    public async Task<IActionResult> GetLocationByCityNameAsync([FromQuery] string cityName)
+    {
+        var response = await _weatherService.GetLocationByCityNameAsync(cityName);
+        return Ok(response);
+    }
+
     [HttpPost("[action]")]
-    public async Task<IActionResult> GetForecastsAsync([FromQuery] ForecastRequest request)
+    public async Task<IActionResult> GetForecastsAsync([FromBody] ForecastRequest request)
     {
         var response = await _weatherService.GetForecastsAsync(request);
         return Ok(response);
     }
 
-    [HttpGet("[action]")]
-    public async Task<IActionResult> GetLocationByCityNameAsync([FromQuery] string cityName)
+    [HttpPost("[action]")]
+    public async Task<IActionResult> GetHistoryAsync([FromBody] HistoryRequest request)
     {
-        var response = await _weatherService.GetLocationByCityNameAsync(cityName);
+        var response = await _weatherService.GetHistoryAsync(request);
         return Ok(response);
     }
 }
