@@ -22,6 +22,7 @@ global using Users.Application.Configurations;
 global using Users.Application.Handlers;
 global using Users.Application.Reference;
 global using Users.Infrastructure.Configurations;
+global using Works.Application.Config;
 global using Works.Application.Reference;
 global using Works.Infrastructure.Configurations;
 global using static Offers.Application.Handlers.AddGardenOfferItemHandler;

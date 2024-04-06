@@ -4,7 +4,13 @@ public static class WorksInfrastructureConfigurations
 {
     public static WebApplicationBuilder RegisterWorksInfrastructure(this WebApplicationBuilder builder)
     {
-        builder.WorksDatabaseConfiguration().WorksDependencyInjection();
+        builder.Services.AddMemoryCache();
+
+        builder
+            .WorksDatabaseConfiguration()
+            .WorksDependencyInjection()
+            .RegisterWeatherClient();
+
         return builder;
     }
 
@@ -26,6 +32,27 @@ public static class WorksInfrastructureConfigurations
         var connectionString = options.ConnectionString + schema;
 
         builder.RegisterEntityFrameworkNpg<WorksContext>(connectionString, schema);
+
+        return builder;
+    }
+
+    private static WebApplicationBuilder RegisterWeatherClient(this WebApplicationBuilder builder)
+    {
+        builder.Services
+            .AddScoped<CachedWeatherHandler>()
+            .AddSingleton<IWeatherClient, WeatherClient>();
+
+        builder.Services.AddHttpClient("weather", _ =>
+        {
+            _.BaseAddress = new(builder.Configuration["WeatherClient:BaseAddress"]!);
+            _.Timeout = TimeSpan.FromSeconds(5);
+        })
+          .AddPolicyHandler(Policy
+          .HandleResult<HttpResponseMessage>(r =>
+                !r.IsSuccessStatusCode).RetryAsync(3, (de, cnt, c) =>
+                {
+                    Log.Error($"RetryCount: {cnt}, result = {de.Result.StatusCode}. Date-{Clock.CurrentDate()}");
+                }));
 
         return builder;
     }
