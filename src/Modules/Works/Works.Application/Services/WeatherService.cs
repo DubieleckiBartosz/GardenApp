@@ -9,7 +9,7 @@ internal class WeatherService : IWeatherService
         _weatherClient = weatherClient;
     }
 
-    public async Task<WeatherResponse> GetActualWeatherAsync(string cityName)
+    public async Task<ActualResponse> GetActualWeatherAsync(string cityName)
     {
         if (string.IsNullOrEmpty(cityName))
         {
@@ -21,10 +21,10 @@ internal class WeatherService : IWeatherService
             throw new NotFoundException(WeatherError.CityNotFound(cityName));
         }
 
-        return JsonConvert.DeserializeObject<WeatherResponse>(response)!;
+        return JsonConvert.DeserializeObject<ActualResponse>(response)!;
     }
 
-    public async Task<WeathersResponse> GetForecastsAsync(WeathersRequest request)
+    public async Task<ForecastResponse> GetForecastsAsync(ForecastRequest request)
     {
         if (request == null)
         {
@@ -43,13 +43,42 @@ internal class WeatherService : IWeatherService
             throw new BadRequestException(WeatherError.CountryCodeNotFound(request.CountryCode));
         }
 
-        var response = await _weatherClient.GetWeathersAsync(request.CountryCode, request.CityName);
+        var response = await _weatherClient.GetForecastAsync(request.CountryCode, request.CityName);
 
         if (response == null)
         {
             throw new NotFoundException(WeatherError.WeatherNotFound(request.CountryCode, request.CityName));
         }
 
-        return JsonConvert.DeserializeObject<WeathersResponse>(response)!;
+        return JsonConvert.DeserializeObject<ForecastResponse>(response)!;
+    }
+
+    public async Task<GeoLocation> GetLocationByCityNameAsync(string cityName)
+    {
+        var response = await _weatherClient.GetLocationByCityAsync(cityName);
+
+        if (response == null)
+        {
+            throw new NotFoundException(WeatherError.LocationNotFound(cityName));
+        }
+
+        return JsonConvert.DeserializeObject<List<GeoLocation>>(response)![0];
+    }
+
+    public async Task<HistoryResponse> GetHistoryAsync(HistoryRequest request)
+    {
+        if (request == null)
+        {
+            throw new BadRequestException(WeatherError.RequestIsNull);
+        }
+
+        var response = await _weatherClient.GetHistoryWeatherDataAsync(request.Lat, request.Lon, request.StartDate, request.EndDate);
+
+        if (response == null)
+        {
+            throw new NotFoundException(WeatherError.HistoryNotFound(request.Lat, request.Lon, request.StartDate, request.EndDate));
+        }
+
+        return JsonConvert.DeserializeObject<HistoryResponse>(response)!;
     }
 }

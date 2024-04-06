@@ -2,7 +2,11 @@
 
 public interface IWeatherClient
 {
-    Task<string?> GetWeathersAsync(string countryCode, string cityName);
+    Task<string?> GetForecastAsync(string countryCode, string cityName);
 
     Task<string?> GetActualWeatherDataAsync(string cityName);
+
+    Task<string?> GetHistoryWeatherDataAsync(double lat, double lon, long start, long end);
+
+    Task<string?> GetLocationByCityAsync(string cityName);
 }

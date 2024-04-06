@@ -1,6 +1,6 @@
-﻿namespace Works.Application.Models;
+﻿namespace Works.Application.Models.Weather.Forecast;
 
-internal class WeathersRequest
+public class ForecastRequest
 {
     public string CityName { get; init; }
     public string CountryCode { get; init; }

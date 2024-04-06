@@ -1,8 +1,12 @@
 ﻿namespace Works.Application.Interfaces.Services;
 
-internal interface IWeatherService
+public interface IWeatherService
 {
-    Task<WeatherResponse> GetActualWeatherAsync(string cityName);
+    Task<ActualResponse> GetActualWeatherAsync(string cityName);
 
-    Task<WeathersResponse> GetForecastsAsync(WeathersRequest request);
+    Task<ForecastResponse> GetForecastsAsync(ForecastRequest request);
+
+    Task<GeoLocation> GetLocationByCityNameAsync(string cityName);
+
+    Task<HistoryResponse> GetHistoryAsync(HistoryRequest request);
 }

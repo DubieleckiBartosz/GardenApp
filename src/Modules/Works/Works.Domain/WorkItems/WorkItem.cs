@@ -30,13 +30,14 @@ public class WorkItem : Entity, IAggregateRoot
         return new WorkItem(gardeningWorkId, businessId, name, estimatedTimeInMinutes);
     }
 
-    public void AddTimeWeatherRecord(TimeLog timeLog, Weather weather)
+    public TimeWeatherRecord AddTimeWeatherRecord(TimeLog timeLog, Weather weather)
     {
         var newTimeWeatherRecord = new TimeWeatherRecord(timeLog, weather);
 
         TimeWeatherRecords.Add(newTimeWeatherRecord);
 
         RealTimeInMinutes += timeLog.Minutes;
+        return newTimeWeatherRecord;
     }
 
     public void UpdateTimeWeatherRecord(int timeWeatherRecordId, int minutes, DateTime date, Weather weather)

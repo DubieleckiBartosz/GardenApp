@@ -1,6 +1,6 @@
 ﻿namespace Works.Application.Interfaces.Repositories;
 
-public interface IGardeningWorkRepository
+public interface IGardeningWorkRepository : IRepository<GardeningWork>
 {
     Task<GardeningWork?> GetGardeningWorkByIdAsync(int gardeningWorkId);
 

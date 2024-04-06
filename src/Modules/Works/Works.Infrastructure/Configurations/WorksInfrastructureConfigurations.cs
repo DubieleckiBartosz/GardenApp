@@ -44,7 +44,6 @@ public static class WorksInfrastructureConfigurations
 
         builder.Services.AddHttpClient("weather", _ =>
         {
-            _.BaseAddress = new(builder.Configuration["WeatherClient:BaseAddress"]!);
             _.Timeout = TimeSpan.FromSeconds(5);
         })
           .AddPolicyHandler(Policy

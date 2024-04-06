@@ -11,4 +11,8 @@ internal static class WeatherError
     public static string WeatherNotFound(string code, string cityName) => $"The weather client response is null. [Code: {code}, City name: {cityName}]";
 
     public static string CityNotFound(string cityName) => $"The weather client response is null. [City name: {cityName}]";
+
+    public static string LocationNotFound(string cityName) => $"Location not found. [City name: {cityName}]";
+
+    public static string HistoryNotFound(double lat, double lon, long start, long end) => $"History not found. [Lat: {lat}, Lon: {lon}, Start: {start}, End: {end}]";
 }

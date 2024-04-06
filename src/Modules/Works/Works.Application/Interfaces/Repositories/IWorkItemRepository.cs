@@ -1,8 +1,6 @@
-﻿using Works.Domain.WorkItems;
+﻿namespace Works.Application.Interfaces.Repositories;
 
-namespace Works.Application.Interfaces.Repositories;
-
-public interface IWorkItemRepository
+public interface IWorkItemRepository : IRepository<WorkItem>
 {
     Task<WorkItem?> GetWorkItemByIdAsync(int workItemId);
 
