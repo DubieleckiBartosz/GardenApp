@@ -1,6 +1,4 @@
-﻿using Works.Domain.GardeningWorks;
-
-namespace Works.Application.Interfaces.Repositories;
+﻿namespace Works.Application.Interfaces.Repositories;
 
 public interface IGardeningWorkRepository
 {

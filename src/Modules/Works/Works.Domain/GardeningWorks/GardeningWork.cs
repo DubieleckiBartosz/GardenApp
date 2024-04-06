@@ -2,6 +2,7 @@
 
 public class GardeningWork : Entity, IAggregateRoot
 {
+    public string BusinessId { get; }
     public Email ClientEmail { get; }
     public FutureDate PlannedStartDate { get; private set; }
     public DateTime? RealStartDate { get; private set; }
@@ -15,6 +16,7 @@ public class GardeningWork : Entity, IAggregateRoot
     }
 
     private GardeningWork(
+        string businessId,
         Email clientEmail,
         FutureDate plannedStartDate,
         DateTime? realStartDate,
@@ -29,9 +31,11 @@ public class GardeningWork : Entity, IAggregateRoot
         RealEndDate = realEndDate;
         Location = location;
         Status = GardeningWorkStatus.OnHold;
+        BusinessId = businessId;
     }
 
     public static GardeningWork Create(
+        string businessId,
         string clientEmail,
         DateTime plannedStartDate,
         DateTime? realStartDate,
@@ -40,6 +44,7 @@ public class GardeningWork : Entity, IAggregateRoot
         Location location)
     {
         return new GardeningWork(
+            businessId,
             clientEmail,
             plannedStartDate,
             realStartDate,
@@ -55,7 +60,7 @@ public class GardeningWork : Entity, IAggregateRoot
             throw new BadStatusException(Status, this.Id);
         }
 
-        return WorkItem.Create(this.Id, name, estimatedTimeInMinutes);
+        return WorkItem.Create(this.Id, this.BusinessId, name, estimatedTimeInMinutes);
     }
 
     public void UpdateStatus(GardeningWorkStatus gardeningWorkStatus) => Status = gardeningWorkStatus;

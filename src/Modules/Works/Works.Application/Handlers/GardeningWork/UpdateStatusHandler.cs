@@ -8,6 +8,15 @@ public sealed class UpdateStatusHandler : ICommandHandler<GardeningWorkUpdateSta
             => new(parameters.GardeningWorkId, parameters.NewStatus);
     }
 
+    private readonly IGardeningWorkRepository _gardeningWorkRepository;
+    private readonly ICurrentUser _currentUser;
+
+    public UpdateStatusHandler(IGardeningWorkRepository gardeningWorkRepository, ICurrentUser currentUser)
+    {
+        _gardeningWorkRepository = gardeningWorkRepository;
+        _currentUser = currentUser;
+    }
+
     public Task<Response> Handle(GardeningWorkUpdateStatusCommand request, CancellationToken cancellationToken)
     {
         throw new NotImplementedException();

@@ -14,6 +14,11 @@ internal class WorkItemEntityTypeConfiguration : IEntityTypeConfiguration<WorkIt
             .WithMany()
             .HasForeignKey(_ => _.GardeningWorkId);
 
+        builder
+            .Property(_ => _.BusinessId)
+            .HasColumnName("BusinessId")
+            .IsRequired();
+
         builder.HasMany(_ => _.TimeWeatherRecords).WithOne();
 
         builder.Property(p => p.Status)

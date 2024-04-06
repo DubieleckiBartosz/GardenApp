@@ -34,6 +34,15 @@ public sealed class AddGardeningWorkHandler : ICommandHandler<AddGardeningWorkCo
         }
     }
 
+    private readonly IGardeningWorkRepository _gardeningWorkRepository;
+    private readonly ICurrentUser _currentUser;
+
+    public AddGardeningWorkHandler(IGardeningWorkRepository gardeningWorkRepository, ICurrentUser currentUser)
+    {
+        _gardeningWorkRepository = gardeningWorkRepository;
+        _currentUser = currentUser;
+    }
+
     public async Task<Response<AddGardeningWorkResponse>> Handle(AddGardeningWorkCommand request, CancellationToken cancellationToken)
     {
         return Response<AddGardeningWorkResponse>.Ok(new AddGardeningWorkResponse(1));

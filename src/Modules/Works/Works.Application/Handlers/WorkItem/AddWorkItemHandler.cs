@@ -1,4 +1,7 @@
-﻿namespace Works.Application.Handlers.GardeningWork;
+﻿using BuildingBlocks.Application.Contracts.Services;
+using Works.Application.Interfaces.Repositories;
+
+namespace Works.Application.Handlers.GardeningWork;
 
 public sealed class AddWorkItemHandler : ICommandHandler<AddWorkItemCommand, Response<AddWorkItemResponse>>
 {
@@ -16,6 +19,20 @@ public sealed class AddWorkItemHandler : ICommandHandler<AddWorkItemCommand, Res
         {
             WorkItemId = workId;
         }
+    }
+
+    private readonly IWorkItemRepository _workItemRepository;
+    private readonly IGardeningWorkRepository _gardeningWorkRepository;
+    private readonly ICurrentUser _currentUser;
+
+    public AddWorkItemHandler(
+        IWorkItemRepository workItemRepository,
+        IGardeningWorkRepository gardeningWorkRepository,
+        ICurrentUser currentUser)
+    {
+        _workItemRepository = workItemRepository;
+        _gardeningWorkRepository = gardeningWorkRepository;
+        _currentUser = currentUser;
     }
 
     public async Task<Response<AddWorkItemResponse>> Handle(AddWorkItemCommand request, CancellationToken cancellationToken)

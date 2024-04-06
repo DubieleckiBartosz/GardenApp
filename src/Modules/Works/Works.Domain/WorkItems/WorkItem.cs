@@ -2,6 +2,7 @@
 
 public class WorkItem : Entity, IAggregateRoot
 {
+    public string BusinessId { get; }
     public int GardeningWorkId { get; }
     public string Name { get; private set; }
     public int? EstimatedTimeInMinutes { get; private set; }
@@ -14,8 +15,9 @@ public class WorkItem : Entity, IAggregateRoot
         TimeWeatherRecords = new List<TimeWeatherRecord>();
     }
 
-    private WorkItem(int gardeningWorkId, string name, int? estimatedTimeInMinutes)
+    private WorkItem(int gardeningWorkId, string businessId, string name, int? estimatedTimeInMinutes)
     {
+        BusinessId = businessId;
         GardeningWorkId = gardeningWorkId;
         Name = name;
         EstimatedTimeInMinutes = estimatedTimeInMinutes;
@@ -23,9 +25,9 @@ public class WorkItem : Entity, IAggregateRoot
         Status = WorkItemStatus.OnHold;
     }
 
-    internal static WorkItem Create(int gardeningWorkId, string name, int? estimatedTimeInMinutes)
+    internal static WorkItem Create(int gardeningWorkId, string businessId, string name, int? estimatedTimeInMinutes)
     {
-        return new WorkItem(gardeningWorkId, name, estimatedTimeInMinutes);
+        return new WorkItem(gardeningWorkId, businessId, name, estimatedTimeInMinutes);
     }
 
     public void AddTimeWeatherRecord(TimeLog timeLog, Weather weather)
@@ -37,7 +39,7 @@ public class WorkItem : Entity, IAggregateRoot
         RealTimeInMinutes += timeLog.Minutes;
     }
 
-    public void UpdateTimeWeatherRecord(int timeWeatherRecordId, int minutes, DateTime date)
+    public void UpdateTimeWeatherRecord(int timeWeatherRecordId, int minutes, DateTime date, Weather weather)
     {
         var record = TimeWeatherRecords.FirstOrDefault(_ => _.Id == timeWeatherRecordId);
         if (record == null)
@@ -46,7 +48,7 @@ public class WorkItem : Entity, IAggregateRoot
         }
 
         var timeLog = new TimeLog(minutes, date);
-        record.UpdateTime(timeLog);
+        record.Update(timeLog, weather);
     }
 
     public void UpdateStatus(WorkItemStatus itemStatus) => Status = itemStatus;

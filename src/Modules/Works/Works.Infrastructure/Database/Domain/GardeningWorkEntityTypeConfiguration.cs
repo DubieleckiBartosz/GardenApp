@@ -32,6 +32,11 @@ internal class GardeningWorkEntityTypeConfiguration : IEntityTypeConfiguration<G
             .IsRequired(false)
             .HasDefaultValue(null);
 
+        builder
+            .Property(_ => _.BusinessId)
+            .HasColumnName("BusinessId")
+            .IsRequired();
+
         builder.Property(p => p.Status)
           .HasColumnName("Status")
           .HasColumnType("SMALLINT")

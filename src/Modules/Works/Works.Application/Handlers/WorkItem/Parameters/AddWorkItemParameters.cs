@@ -1,4 +1,4 @@
-﻿namespace Works.Application.Handlers.GardeningWork.Parameters;
+﻿namespace Works.Application.Handlers.WorkItem.Parameters;
 
 public class AddWorkItemParameters
 {

@@ -3,7 +3,7 @@
 public class TimeWeatherRecord : Entity
 {
     public TimeLog TimeLog { get; private set; }
-    public Weather Weather { get; }
+    public Weather Weather { get; private set; }
 
     private TimeWeatherRecord()
     {
@@ -11,5 +11,5 @@ public class TimeWeatherRecord : Entity
 
     internal TimeWeatherRecord(TimeLog timeLog, Weather weather) => (TimeLog, Weather) = (timeLog, weather);
 
-    internal void UpdateTime(TimeLog timeLog) => TimeLog = timeLog;
+    internal void Update(TimeLog timeLog, Weather weather) => (TimeLog, Weather) = (timeLog, weather);
 }
