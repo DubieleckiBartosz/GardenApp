@@ -1,6 +1,6 @@
 ﻿namespace GardenApp.API.Modules.Offers;
 
-[Authorize]
+[Authorize(Roles = "Admin,Business")]
 [Route("api/[controller]")]
 [ApiController]
 public class OffersController : BaseController

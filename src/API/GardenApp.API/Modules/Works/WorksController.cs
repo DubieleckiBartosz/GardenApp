@@ -11,6 +11,7 @@ using static Works.Application.Handlers.WorkItem.UpdateTimeWeatherRecordHandler;
 
 namespace GardenApp.API.Modules.Works;
 
+[Authorize(Roles = "Admin,Business")]
 [Route("api/[controller]")]
 [ApiController]
 public class WorksController : BaseController
