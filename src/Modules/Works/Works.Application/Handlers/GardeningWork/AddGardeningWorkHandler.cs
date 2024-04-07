@@ -45,6 +45,15 @@ public sealed class AddGardeningWorkHandler : ICommandHandler<AddGardeningWorkCo
 
     public async Task<Response<AddGardeningWorkResponse>> Handle(AddGardeningWorkCommand request, CancellationToken cancellationToken)
     {
-        return Response<AddGardeningWorkResponse>.Ok(new AddGardeningWorkResponse(1));
+        var location = new Location(request.City, request.Street, request.NumberStreet);
+
+        var newGardeningWork = Domain.GardeningWorks.GardeningWork.Create(
+            _currentUser.UserId, request.ClientEmail, request.PlannedStartDate,
+            request.RealStartDate, request.PlannedEndDate, request.RealEndDate, location);
+
+        await _gardeningWorkRepository.AddAsync(newGardeningWork, cancellationToken);
+        await _gardeningWorkRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Response<AddGardeningWorkResponse>.Ok(new AddGardeningWorkResponse(newGardeningWork.Id));
     }
 }
