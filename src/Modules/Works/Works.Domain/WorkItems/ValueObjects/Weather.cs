@@ -1,6 +1,6 @@
 ﻿namespace Works.Domain.WorkItems.ValueObjects;
 
-public class Weather : ValueObject
+public sealed class Weather : ValueObject
 {
     public int Clouds { get; }
     public string Date { get; }
@@ -8,9 +8,6 @@ public class Weather : ValueObject
 
     public string Summary { get; }
     public decimal Wind { get; }
-
-    public int TemperatureF =>
-        32 + (int)(TemperatureC / 0.5556);
 
     private Weather()
     { }
@@ -37,4 +34,27 @@ public class Weather : ValueObject
         yield return Summary;
         yield return Wind;
     }
+
+    public static explicit operator Weather(string weather)
+    {
+        if (string.IsNullOrWhiteSpace(weather))
+        {
+            throw new ArgumentException("Invalid string format", nameof(weather));
+        }
+
+        var values = weather.Split('|');
+        if (values.Length != 5)
+        {
+            throw new ArgumentException("String must contain exactly 5 values separated by '|'", nameof(weather));
+        }
+
+        return new Weather(
+                int.Parse(values[0]),
+                values[1],
+                int.Parse(values[2]),
+                values[3],
+                decimal.Parse(values[4]));
+    }
+
+    public override string ToString() => $"{Clouds}|{Date}|{TemperatureC}|{Summary}|{Wind}";
 }

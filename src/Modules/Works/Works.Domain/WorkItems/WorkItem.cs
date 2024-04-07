@@ -23,6 +23,7 @@ public class WorkItem : Entity, IAggregateRoot
         EstimatedTimeInMinutes = estimatedTimeInMinutes;
         TimeWeatherRecords = new List<TimeWeatherRecord>();
         Status = WorkItemStatus.OnHold;
+        Version++;
     }
 
     internal static WorkItem Create(int gardeningWorkId, string businessId, string name, int? estimatedTimeInMinutes)
@@ -30,17 +31,19 @@ public class WorkItem : Entity, IAggregateRoot
         return new WorkItem(gardeningWorkId, businessId, name, estimatedTimeInMinutes);
     }
 
-    public TimeWeatherRecord AddTimeWeatherRecord(TimeLog timeLog, Weather weather)
+    public TimeWeatherRecord AddTimeWeatherRecord(TimeLog timeLog, List<Weather> weathers)
     {
-        var newTimeWeatherRecord = new TimeWeatherRecord(timeLog, weather);
+        var newTimeWeatherRecord = new TimeWeatherRecord(timeLog, weathers);
 
         TimeWeatherRecords.Add(newTimeWeatherRecord);
 
         RealTimeInMinutes += timeLog.Minutes;
+        Version++;
+
         return newTimeWeatherRecord;
     }
 
-    public void UpdateTimeWeatherRecord(int timeWeatherRecordId, int minutes, DateTime date, Weather weather)
+    public void UpdateTimeWeatherRecord(int timeWeatherRecordId, TimeLog timeLog, List<Weather> weathers)
     {
         var record = TimeWeatherRecords.FirstOrDefault(_ => _.Id == timeWeatherRecordId);
         if (record == null)
@@ -48,9 +51,13 @@ public class WorkItem : Entity, IAggregateRoot
             throw new RecordNotFoundException(timeWeatherRecordId);
         }
 
-        var timeLog = new TimeLog(minutes, date);
-        record.Update(timeLog, weather);
+        record.Update(timeLog, weathers);
+        Version++;
     }
 
-    public void UpdateStatus(WorkItemStatus itemStatus) => Status = itemStatus;
+    public void UpdateStatus(WorkItemStatus itemStatus)
+    {
+        Status = itemStatus;
+        Version++;
+    }
 }

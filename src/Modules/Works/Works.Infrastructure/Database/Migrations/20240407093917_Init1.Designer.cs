@@ -12,7 +12,7 @@ using Works.Infrastructure.Database;
 namespace Works.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(WorksContext))]
-    [Migration("20240405155004_Init1")]
+    [Migration("20240407093917_Init1")]
     partial class Init1
     {
         /// <inheritdoc />
@@ -33,6 +33,11 @@ namespace Works.Infrastructure.Database.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BusinessId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("BusinessId");
 
                     b.Property<string>("ClientEmail")
                         .HasColumnType("text")
@@ -75,8 +80,13 @@ namespace Works.Infrastructure.Database.Migrations
                     b.Property<int>("Version")
                         .HasColumnType("integer");
 
-                    b.Property<int?>("WorkItemId")
+                    b.Property<int>("WorkItemId")
                         .HasColumnType("integer");
+
+                    b.Property<string>("_weathers")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("Weathers");
 
                     b.HasKey("Id");
 
@@ -92,6 +102,11 @@ namespace Works.Infrastructure.Database.Migrations
                         .HasColumnType("integer");
 
                     NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
+
+                    b.Property<string>("BusinessId")
+                        .IsRequired()
+                        .HasColumnType("text")
+                        .HasColumnName("BusinessId");
 
                     b.Property<int?>("EstimatedTimeInMinutes")
                         .HasColumnType("integer");
@@ -160,7 +175,9 @@ namespace Works.Infrastructure.Database.Migrations
                 {
                     b.HasOne("Works.Domain.WorkItems.WorkItem", null)
                         .WithMany("TimeWeatherRecords")
-                        .HasForeignKey("WorkItemId");
+                        .HasForeignKey("WorkItemId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
 
                     b.OwnsOne("Works.Domain.WorkItems.ValueObjects.TimeLog", "TimeLog", b1 =>
                         {
@@ -171,48 +188,17 @@ namespace Works.Infrastructure.Database.Migrations
                                 .HasColumnType("timestamp with time zone")
                                 .HasColumnName("TimeLogCreated");
 
-                            b1.Property<DateTime>("Date")
+                            b1.Property<DateTime>("EndDate")
                                 .HasColumnType("timestamp with time zone")
-                                .HasColumnName("TimeLogDate");
+                                .HasColumnName("EndDate");
 
-                            b1.Property<int>("Minutes")
-                                .HasColumnType("integer")
+                            b1.Property<short>("Minutes")
+                                .HasColumnType("smallint")
                                 .HasColumnName("TimeLogMinutes");
 
-                            b1.HasKey("TimeWeatherRecordId");
-
-                            b1.ToTable("TimeWeatherRecords", "works");
-
-                            b1.WithOwner()
-                                .HasForeignKey("TimeWeatherRecordId");
-                        });
-
-                    b.OwnsOne("Works.Domain.WorkItems.ValueObjects.Weather", "Weather", b1 =>
-                        {
-                            b1.Property<int>("TimeWeatherRecordId")
-                                .HasColumnType("integer");
-
-                            b1.Property<int>("Clouds")
-                                .HasColumnType("integer")
-                                .HasColumnName("WeatherClouds");
-
-                            b1.Property<string>("Date")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("WeatherDate");
-
-                            b1.Property<string>("Summary")
-                                .IsRequired()
-                                .HasColumnType("text")
-                                .HasColumnName("WeatherSummary");
-
-                            b1.Property<int>("TemperatureC")
-                                .HasColumnType("integer")
-                                .HasColumnName("WeatherTemperatureC");
-
-                            b1.Property<decimal>("Wind")
-                                .HasColumnType("numeric")
-                                .HasColumnName("WeatherWind");
+                            b1.Property<DateTime>("StartDate")
+                                .HasColumnType("timestamp with time zone")
+                                .HasColumnName("StartDate");
 
                             b1.HasKey("TimeWeatherRecordId");
 
@@ -223,9 +209,6 @@ namespace Works.Infrastructure.Database.Migrations
                         });
 
                     b.Navigation("TimeLog")
-                        .IsRequired();
-
-                    b.Navigation("Weather")
                         .IsRequired();
                 });
 

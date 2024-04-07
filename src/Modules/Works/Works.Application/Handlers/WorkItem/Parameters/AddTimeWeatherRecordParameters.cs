@@ -3,6 +3,6 @@
 public class AddTimeWeatherRecordParameters
 {
     public int WorkItemId { get; init; }
-    public int Minutes { get; init; }
-    public DateTime Date { get; init; }
+    public DateTime StartDate { get; init; }
+    public DateTime EndDate { get; init; }
 }

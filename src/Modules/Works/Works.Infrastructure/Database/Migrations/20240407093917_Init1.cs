@@ -22,6 +22,7 @@ namespace Works.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BusinessId = table.Column<string>(type: "text", nullable: false),
                     ClientEmail = table.Column<string>(type: "text", nullable: true),
                     PlannedStartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     RealStartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: true),
@@ -45,6 +46,7 @@ namespace Works.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    BusinessId = table.Column<string>(type: "text", nullable: false),
                     GardeningWorkId = table.Column<int>(type: "integer", nullable: false),
                     Name = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
                     EstimatedTimeInMinutes = table.Column<int>(type: "integer", nullable: true),
@@ -71,15 +73,12 @@ namespace Works.Infrastructure.Database.Migrations
                 {
                     Id = table.Column<int>(type: "integer", nullable: false)
                         .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    TimeLogMinutes = table.Column<int>(type: "integer", nullable: false),
-                    TimeLogDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    TimeLogMinutes = table.Column<short>(type: "smallint", nullable: false),
+                    StartDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    EndDate = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     TimeLogCreated = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    WeatherClouds = table.Column<int>(type: "integer", nullable: false),
-                    WeatherDate = table.Column<string>(type: "text", nullable: false),
-                    WeatherTemperatureC = table.Column<int>(type: "integer", nullable: false),
-                    WeatherSummary = table.Column<string>(type: "text", nullable: false),
-                    WeatherWind = table.Column<decimal>(type: "numeric", nullable: false),
-                    WorkItemId = table.Column<int>(type: "integer", nullable: true),
+                    WorkItemId = table.Column<int>(type: "integer", nullable: false),
+                    Weathers = table.Column<string>(type: "text", nullable: false),
                     Version = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
@@ -90,7 +89,8 @@ namespace Works.Infrastructure.Database.Migrations
                         column: x => x.WorkItemId,
                         principalSchema: "works",
                         principalTable: "WorkItems",
-                        principalColumn: "Id");
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(

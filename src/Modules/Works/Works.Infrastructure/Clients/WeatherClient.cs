@@ -1,5 +1,4 @@
-﻿using Serilog;
-using System.Text;
+﻿using System.Text;
 
 namespace Works.Infrastructure.Clients;
 
