@@ -2,6 +2,7 @@
 global using BuildingBlocks.Application.Contracts.Repositories;
 global using BuildingBlocks.Application.Contracts.Services;
 global using BuildingBlocks.Application.Exceptions;
+global using BuildingBlocks.Application.Tools;
 global using BuildingBlocks.Application.Wrappers;
 global using Microsoft.AspNetCore.Builder;
 global using Microsoft.Extensions.DependencyInjection;

@@ -3,7 +3,7 @@
 public sealed class Weather : ValueObject
 {
     public int Clouds { get; }
-    public string Date { get; }
+    public DateTime Date { get; }
     public int TemperatureC { get; }
 
     public string Summary { get; }
@@ -14,7 +14,7 @@ public sealed class Weather : ValueObject
 
     public Weather(
         int clouds,
-        string date,
+        DateTime date,
         int temperatureC,
         string summary,
         decimal wind)
@@ -50,7 +50,7 @@ public sealed class Weather : ValueObject
 
         return new Weather(
                 int.Parse(values[0]),
-                values[1],
+                DateTime.Parse(values[1]),
                 int.Parse(values[2]),
                 values[3],
                 decimal.Parse(values[4]));

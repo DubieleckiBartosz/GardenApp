@@ -19,4 +19,14 @@ public class HistoryWeatherEntry
 
     [JsonProperty("rain")]
     public HistoryRain Rain { get; set; }
+
+    internal Domain.WorkItems.ValueObjects.Weather Map()
+    {
+        var date = DateTimeOffset.FromUnixTimeSeconds(Dt).DateTime.ToUTC();
+        var tempCelsius = (int)Math.Round(Convert.ToDecimal(Main.Temp) - 273.15m);
+        var summary = Weather.Count > 0 ? $"{Weather[0].Main}: {Weather[0].Description}" : WeatherMessage.NotAvailable;
+        var wind = Convert.ToDecimal(Wind.Speed);
+
+        return new(Clouds.All, date, tempCelsius, summary, wind);
+    }
 }

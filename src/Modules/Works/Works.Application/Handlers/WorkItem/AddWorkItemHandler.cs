@@ -1,7 +1,4 @@
-﻿using BuildingBlocks.Application.Contracts.Services;
-using Works.Application.Interfaces.Repositories;
-
-namespace Works.Application.Handlers.GardeningWork;
+﻿namespace Works.Application.Handlers.GardeningWork;
 
 public sealed class AddWorkItemHandler : ICommandHandler<AddWorkItemCommand, Response<AddWorkItemResponse>>
 {

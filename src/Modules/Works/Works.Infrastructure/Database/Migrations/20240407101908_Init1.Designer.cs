@@ -12,7 +12,7 @@ using Works.Infrastructure.Database;
 namespace Works.Infrastructure.Database.Migrations
 {
     [DbContext(typeof(WorksContext))]
-    [Migration("20240407093917_Init1")]
+    [Migration("20240407101908_Init1")]
     partial class Init1
     {
         /// <inheritdoc />
