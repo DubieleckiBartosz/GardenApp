@@ -17,4 +17,6 @@ global using Payments.Application.Models.Options;
 global using Payments.Infrastructure.Database;
 global using Payments.Infrastructure.Database.Seed;
 global using Payments.Infrastructure.Repositories;
+global using Serilog;
+global using Stripe;
 global using System.Linq.Expressions;

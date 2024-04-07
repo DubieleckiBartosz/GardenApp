@@ -1,5 +1,5 @@
 ﻿namespace Payments.Domain.Payments;
-public class Class1
-{
 
+internal class Payment
+{
 }
