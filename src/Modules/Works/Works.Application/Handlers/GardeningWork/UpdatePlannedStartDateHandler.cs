@@ -17,8 +17,17 @@ public sealed class UpdatePlannedStartDateHandler : ICommandHandler<UpdatePlanne
         _currentUser = currentUser;
     }
 
-    public Task<Response> Handle(UpdatePlannedStartDateCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(UpdatePlannedStartDateCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var gardeningWork = await _gardeningWorkRepository.GetGardeningWorkByIdAsync(request.GardeningWorkId, cancellationToken);
+        if (gardeningWork == null || gardeningWork.BusinessId != _currentUser.UserId)
+        {
+            throw new NotFoundException(AppError.GardeningWorkNotFound(request.GardeningWorkId));
+        }
+
+        gardeningWork.UpdatePlannedStartDate(request.NewPlannedStartDate);
+        await _gardeningWorkRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Response.Ok();
     }
 }
