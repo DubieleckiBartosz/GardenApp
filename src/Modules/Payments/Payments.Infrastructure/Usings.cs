@@ -1,1 +1,20 @@
-﻿
+﻿global using BuildingBlocks.Application.Contracts.Repositories;
+global using BuildingBlocks.Application.Options;
+global using BuildingBlocks.Domain.Abstractions;
+global using BuildingBlocks.Domain.Types;
+global using BuildingBlocks.Infrastructure.Config;
+global using BuildingBlocks.Infrastructure.Database.EntityFramework;
+global using BuildingBlocks.Infrastructure.Database.EntityFramework.Extensions;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.EntityFrameworkCore;
+global using Microsoft.EntityFrameworkCore.Metadata.Builders;
+global using Microsoft.Extensions.Configuration;
+global using Microsoft.Extensions.DependencyInjection;
+global using Microsoft.Extensions.Hosting;
+global using Payments.Application.Interfaces.Repositories;
+global using Payments.Application.Models.Enums;
+global using Payments.Application.Models.Options;
+global using Payments.Infrastructure.Database;
+global using Payments.Infrastructure.Database.Seed;
+global using Payments.Infrastructure.Repositories;
+global using System.Linq.Expressions;

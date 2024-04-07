@@ -1,0 +1,15 @@
+﻿global using BuildingBlocks.Application.Contracts.Clients.Smtp;
+global using BuildingBlocks.Application.Contracts.Repositories;
+global using BuildingBlocks.Application.Exceptions;
+global using BuildingBlocks.Application.Models.Clients;
+global using BuildingBlocks.Application.Tools;
+global using BuildingBlocks.Domain.Types;
+global using Payments.Application.Constants;
+global using Payments.Application.Interfaces.Services;
+global using Payments.Application.Models.Enums;
+global using Serilog;
+global using Stripe;
+global using Stripe.Checkout;
+global using Microsoft.AspNetCore.Builder;
+global using Microsoft.Extensions.DependencyInjection;
+global using Payments.Application.Services;
