@@ -25,7 +25,7 @@ public sealed class UpdatePlannedEndDateHandler : ICommandHandler<UpdatePlannedE
             throw new NotFoundException(AppError.GardeningWorkNotFound(request.GardeningWorkId));
         }
 
-        gardeningWork.UpdatePlannedEndDate(request.NewPlannedEndDate, cancellationToken);
+        gardeningWork.UpdatePlannedEndDate(request.NewPlannedEndDate);
         await _gardeningWorkRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return Response.Ok();
