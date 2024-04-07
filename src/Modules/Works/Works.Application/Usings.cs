@@ -23,6 +23,7 @@ global using Works.Application.Models.Weather.History;
 global using Works.Application.Services;
 global using Works.Domain.GardeningWorks;
 global using Works.Domain.GardeningWorks.ValueObjects;
+global using Works.Domain.GardeningWorks.ValueTypes;
 global using Works.Domain.WorkItems;
 global using Works.Domain.WorkItems.ValueObjects;
 global using Works.Domain.WorkItems.ValueTypes;

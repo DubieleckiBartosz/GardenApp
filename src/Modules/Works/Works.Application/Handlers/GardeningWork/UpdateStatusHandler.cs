@@ -17,8 +17,18 @@ public sealed class UpdateStatusHandler : ICommandHandler<GardeningWorkUpdateSta
         _currentUser = currentUser;
     }
 
-    public Task<Response> Handle(GardeningWorkUpdateStatusCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(GardeningWorkUpdateStatusCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var gardeningWork = await _gardeningWorkRepository.GetGardeningWorkByIdAsync(request.GardeningWorkId, cancellationToken);
+        if (gardeningWork == null || gardeningWork.BusinessId != _currentUser.UserId)
+        {
+            throw new NotFoundException(AppError.GardeningWorkNotFound(request.GardeningWorkId));
+        }
+
+        var status = Enumeration.GetById<GardeningWorkStatus>(request.NewStatus);
+        gardeningWork.UpdateStatus(status);
+        await _gardeningWorkRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Response.Ok();
     }
 }
