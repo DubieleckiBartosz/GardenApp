@@ -4,16 +4,22 @@ public class AddWorkItemParameters
 {
     public int GardeningWorkId { get; init; }
     public string Name { get; init; }
-    public int? EstimatedTimeInMinutes { get; init; }
+    public DateTime? EstimatedStartTime { get; init; }
+    public DateTime? EstimatedEndTime { get; init; }
 
     public AddWorkItemParameters()
     { }
 
     [JsonConstructor]
-    public AddWorkItemParameters(string name, int? estimatedTimeInMinutes, int gardeningWorkId)
+    public AddWorkItemParameters(
+        int gardeningWorkId,
+        string name,
+        DateTime? estimatedStartTime,
+        DateTime? estimatedEndTime)
     {
-        Name = name;
-        EstimatedTimeInMinutes = estimatedTimeInMinutes;
         GardeningWorkId = gardeningWorkId;
+        Name = name;
+        EstimatedStartTime = estimatedStartTime;
+        EstimatedEndTime = estimatedEndTime;
     }
 }

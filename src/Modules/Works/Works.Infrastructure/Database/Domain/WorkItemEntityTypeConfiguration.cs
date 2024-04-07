@@ -31,7 +31,11 @@ internal class WorkItemEntityTypeConfiguration : IEntityTypeConfiguration<WorkIt
            .IsRequired()
            .HasMaxLength(200);
 
-        builder.Property(_ => _.EstimatedTimeInMinutes)
+        builder.Property(_ => _.EstimatedEndTime)
+          .IsRequired(false)
+          .HasDefaultValue(null);
+
+        builder.Property(_ => _.EstimatedStartTime)
           .IsRequired(false)
           .HasDefaultValue(null);
 

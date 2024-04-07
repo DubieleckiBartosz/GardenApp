@@ -5,7 +5,8 @@ public class WorkItem : Entity, IAggregateRoot
     public string BusinessId { get; }
     public int GardeningWorkId { get; }
     public string Name { get; private set; }
-    public int? EstimatedTimeInMinutes { get; private set; }
+    public DateTime? EstimatedStartTime { get; private set; }
+    public DateTime? EstimatedEndTime { get; private set; }
     public int? RealTimeInMinutes { get; private set; }
     public WorkItemStatus Status { get; private set; }
     public List<TimeWeatherRecord> TimeWeatherRecords { get; private set; }
@@ -15,20 +16,30 @@ public class WorkItem : Entity, IAggregateRoot
         TimeWeatherRecords = new List<TimeWeatherRecord>();
     }
 
-    private WorkItem(int gardeningWorkId, string businessId, string name, int? estimatedTimeInMinutes)
+    private WorkItem(
+        int gardeningWorkId,
+        string businessId,
+        string name,
+        DateTime? estimatedStartTime,
+        DateTime? estimatedEndTime)
     {
         BusinessId = businessId;
         GardeningWorkId = gardeningWorkId;
         Name = name;
-        EstimatedTimeInMinutes = estimatedTimeInMinutes;
+        EstimatedStartTime = estimatedStartTime;
+        EstimatedEndTime = estimatedEndTime;
         TimeWeatherRecords = new List<TimeWeatherRecord>();
         Status = WorkItemStatus.OnHold;
         Version++;
     }
 
-    internal static WorkItem Create(int gardeningWorkId, string businessId, string name, int? estimatedTimeInMinutes)
+    internal static WorkItem Create(int gardeningWorkId,
+                                    string businessId,
+                                    string name,
+                                    DateTime? estimatedStartTime,
+                                    DateTime? estimatedEndTime)
     {
-        return new WorkItem(gardeningWorkId, businessId, name, estimatedTimeInMinutes);
+        return new WorkItem(gardeningWorkId, businessId, name, estimatedStartTime, estimatedEndTime);
     }
 
     public TimeWeatherRecord AddTimeWeatherRecord(TimeLog timeLog, List<Weather> weathers)

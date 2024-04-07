@@ -12,21 +12,21 @@ internal class WorkItemRepository : IWorkItemRepository
         _workItems = _worksContext.WorkItems;
     }
 
-    public async Task<WorkItem?> GetWorkItemByIdAsync(int workItemId)
+    public async Task<WorkItem?> GetWorkItemByIdAsync(int workItemId, CancellationToken cancellationToken = default)
     {
-        return await _workItems.FirstOrDefaultAsync(_ => _.Id == workItemId);
+        return await _workItems.FirstOrDefaultAsync(_ => _.Id == workItemId, cancellationToken);
     }
 
-    public async Task<WorkItem?> GetWorkItemWithRecordsByIdAsync(int workItemId)
+    public async Task<WorkItem?> GetWorkItemWithRecordsByIdAsync(int workItemId, CancellationToken cancellationToken = default)
     {
         return await _workItems
             .Include(_ => _.TimeWeatherRecords)
-            .FirstOrDefaultAsync(_ => _.Id == workItemId);
+            .FirstOrDefaultAsync(_ => _.Id == workItemId, cancellationToken);
     }
 
-    public async Task AddAsync(WorkItem item)
+    public async Task AddAsync(WorkItem item, CancellationToken cancellationToken = default)
     {
-        await _workItems.AddAsync(item);
+        await _workItems.AddAsync(item, cancellationToken);
     }
 
     public void Update(WorkItem item)

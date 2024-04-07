@@ -54,14 +54,14 @@ public class GardeningWork : Entity, IAggregateRoot
             location);
     }
 
-    public WorkItem NewWorkItem(string name, int? estimatedTimeInMinutes = null)
+    public WorkItem NewWorkItem(string name, DateTime? estimatedStartTime = null, DateTime? estimatedEndTime = null)
     {
         if (Status == GardeningWorkStatus.Canceled || Status == GardeningWorkStatus.Close)
         {
             throw new BadStatusException(Status, this.Id);
         }
 
-        return WorkItem.Create(this.Id, this.BusinessId, name, estimatedTimeInMinutes);
+        return WorkItem.Create(this.Id, this.BusinessId, name, estimatedStartTime, estimatedEndTime);
     }
 
     public void UpdateStatus(GardeningWorkStatus gardeningWorkStatus) => (Status, Version) = (gardeningWorkStatus, Version++);

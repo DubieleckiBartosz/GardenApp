@@ -34,7 +34,7 @@ public sealed class AddTimeWeatherRecordHandler : ICommandHandler<AddTimeWeather
 
     public async Task<Response<AddTimeWeatherRecordResponse>> Handle(AddTimeWeatherRecordCommand request, CancellationToken cancellationToken)
     {
-        var workItem = await _workItemRepository.GetWorkItemWithRecordsByIdAsync(request.WorkItemId);
+        var workItem = await _workItemRepository.GetWorkItemWithRecordsByIdAsync(request.WorkItemId, cancellationToken);
         if (workItem == null || workItem.BusinessId != _currentUser.UserId)
         {
             throw new NotFoundException(AppError.WorkItemNotFound(request.WorkItemId));
