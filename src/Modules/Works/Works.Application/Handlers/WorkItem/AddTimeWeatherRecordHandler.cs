@@ -46,7 +46,7 @@ public sealed class AddTimeWeatherRecordHandler : ICommandHandler<AddTimeWeather
         var weatherList = weatherHistory.List.Select(_ => _.Map()).ToList();
         var record = workItem.AddTimeWeatherRecord(timeLog, weatherList);
 
-        await _workItemRepository.UnitOfWork.SaveAsync(cancellationToken);
+        await _workItemRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return Response<AddTimeWeatherRecordResponse>.Ok(new AddTimeWeatherRecordResponse(record.Id));
     }

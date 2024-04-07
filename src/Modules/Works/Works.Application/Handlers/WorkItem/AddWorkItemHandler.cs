@@ -43,7 +43,7 @@ public sealed class AddWorkItemHandler : ICommandHandler<AddWorkItemCommand, Res
         var workItem = gardeningWork.NewWorkItem(request.Name, request.EstimatedStartTime, request.EstimatedEndTime);
 
         await _workItemRepository.AddAsync(workItem, cancellationToken);
-        await _workItemRepository.UnitOfWork.SaveAsync(cancellationToken);
+        await _workItemRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
 
         return Response<AddWorkItemResponse>.Ok(new AddWorkItemResponse(workItem.Id));
     }

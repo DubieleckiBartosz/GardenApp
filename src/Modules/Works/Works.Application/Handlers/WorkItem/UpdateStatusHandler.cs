@@ -1,6 +1,4 @@
-﻿using Works.Application.Interfaces.Repositories;
-
-namespace Works.Application.Handlers.WorkItem;
+﻿namespace Works.Application.Handlers.WorkItem;
 
 public sealed class UpdateStatusHandler : ICommandHandler<WorkItemUpdateStatusCommand, Response>
 {
@@ -19,8 +17,19 @@ public sealed class UpdateStatusHandler : ICommandHandler<WorkItemUpdateStatusCo
         _currentUser = currentUser;
     }
 
-    public Task<Response> Handle(WorkItemUpdateStatusCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(WorkItemUpdateStatusCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var workItem = await _workItemRepository.GetWorkItemWithRecordsByIdAsync(request.WorkItemId, cancellationToken);
+        if (workItem == null || workItem.BusinessId != _currentUser.UserId)
+        {
+            throw new NotFoundException(AppError.WorkItemNotFound(request.WorkItemId));
+        }
+
+        var status = Enumeration.GetById<WorkItemStatus>(request.Status);
+        workItem.UpdateStatus(status);
+
+        await _workItemRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
+
+        return Response.Ok();
     }
 }

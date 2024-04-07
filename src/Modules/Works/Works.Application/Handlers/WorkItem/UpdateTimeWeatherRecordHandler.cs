@@ -21,8 +21,12 @@ public sealed class UpdateTimeWeatherRecordHandler : ICommandHandler<UpdateTimeW
         _currentUser = currentUser;
     }
 
-    public Task<Response> Handle(UpdateTimeWeatherRecordCommand request, CancellationToken cancellationToken)
+    public async Task<Response> Handle(UpdateTimeWeatherRecordCommand request, CancellationToken cancellationToken)
     {
-        throw new NotImplementedException();
+        var workItem = await _workItemRepository.GetWorkItemWithRecordsByIdAsync(request.WorkItemId, cancellationToken);
+        if (workItem == null || workItem.BusinessId != _currentUser.UserId)
+        {
+            throw new NotFoundException(AppError.WorkItemNotFound(request.WorkItemId));
+        }
     }
 }
