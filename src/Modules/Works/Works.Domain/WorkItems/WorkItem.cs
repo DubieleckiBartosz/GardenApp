@@ -30,7 +30,7 @@ public class WorkItem : Entity, IAggregateRoot
         EstimatedEndTime = estimatedEndTime;
         TimeWeatherRecords = new List<TimeWeatherRecord>();
         Status = WorkItemStatus.OnHold;
-        Version++;
+        IncrementVersion();
     }
 
     internal static WorkItem Create(int gardeningWorkId,
@@ -49,7 +49,7 @@ public class WorkItem : Entity, IAggregateRoot
         TimeWeatherRecords.Add(newTimeWeatherRecord);
 
         RealTimeInMinutes += timeLog.Minutes;
-        Version++;
+        IncrementVersion();
 
         return newTimeWeatherRecord;
     }
@@ -63,12 +63,12 @@ public class WorkItem : Entity, IAggregateRoot
         }
 
         record.Update(timeLog, weathers);
-        Version++;
+        IncrementVersion();
     }
 
     public void UpdateStatus(WorkItemStatus itemStatus)
     {
         Status = itemStatus;
-        Version++;
+        IncrementVersion();
     }
 }

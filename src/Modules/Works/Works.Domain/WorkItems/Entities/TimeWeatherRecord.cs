@@ -19,13 +19,13 @@ public class TimeWeatherRecord : Entity
     {
         TimeLog = timeLog;
         _weathers = new WeatherList(weathers);
-        Version++;
+        IncrementVersion();
     }
 
     internal void Update(TimeLog timeLog, List<Weather> weathers)
     {
         TimeLog = timeLog;
         _weathers = new WeatherList(weathers);
-        Version++;
+        IncrementVersion();
     }
 }

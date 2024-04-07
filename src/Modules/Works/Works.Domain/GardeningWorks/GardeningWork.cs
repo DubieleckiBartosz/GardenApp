@@ -32,7 +32,7 @@ public class GardeningWork : Entity, IAggregateRoot
         Location = location;
         Status = GardeningWorkStatus.OnHold;
         BusinessId = businessId;
-        Version++;
+        IncrementVersion();
     }
 
     public static GardeningWork Create(
@@ -64,11 +64,23 @@ public class GardeningWork : Entity, IAggregateRoot
         return WorkItem.Create(this.Id, this.BusinessId, name, estimatedStartTime, estimatedEndTime);
     }
 
-    public void UpdateStatus(GardeningWorkStatus gardeningWorkStatus) => (Status, Version) = (gardeningWorkStatus, Version++);
+    public void UpdateStatus(GardeningWorkStatus gardeningWorkStatus)
+    {
+        Status = gardeningWorkStatus;
+        IncrementVersion();
+    }
 
-    public void UpdatePlannedStartDate(FutureDate startDate) => (PlannedStartDate, Version) = (startDate, Version++);
+    public void UpdatePlannedStartDate(FutureDate startDate)
+    {
+        PlannedStartDate = startDate;
+        IncrementVersion();
+    }
 
-    public void UpdatePlannedEndDate(FutureDate endDate) => (PlannedEndDate, Version) = (endDate, Version++);
+    public void UpdatePlannedEndDate(FutureDate endDate)
+    {
+        PlannedEndDate = endDate;
+        IncrementVersion();
+    }
 
     public void SetAsCLose(DateTime realEndDate)
     {
@@ -79,6 +91,6 @@ public class GardeningWork : Entity, IAggregateRoot
 
         RealEndDate = realEndDate;
         Status = GardeningWorkStatus.Close;
-        Version++;
+        IncrementVersion();
     }
 }
