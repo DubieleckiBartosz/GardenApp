@@ -4,8 +4,8 @@ public class UpdateTimeWeatherRecordParameters
 {
     public int WorkItemId { get; init; }
     public int TimeWeatherRecordId { get; init; }
-    public int Minutes { get; init; }
-    public DateTime Date { get; init; }
+    public DateTime StartDate { get; init; }
+    public DateTime EndDate { get; init; }
 
     public UpdateTimeWeatherRecordParameters()
     {
@@ -15,12 +15,12 @@ public class UpdateTimeWeatherRecordParameters
     public UpdateTimeWeatherRecordParameters(
         int workItemId,
         int timeWeatherRecordId,
-        int minutes,
-        DateTime date)
+        DateTime startDate,
+        DateTime endDate)
     {
         WorkItemId = workItemId;
         TimeWeatherRecordId = timeWeatherRecordId;
-        Minutes = minutes;
-        Date = date;
+        StartDate = startDate;
+        EndDate = endDate;
     }
 }
