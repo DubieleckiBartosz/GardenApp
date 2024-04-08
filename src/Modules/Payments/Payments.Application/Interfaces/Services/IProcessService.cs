@@ -1,6 +1,6 @@
 ﻿namespace Payments.Application.Interfaces.Services;
 
-internal interface IProcessService
+public interface IProcessService
 {
     Task StatusProcess(Event @event);
 }

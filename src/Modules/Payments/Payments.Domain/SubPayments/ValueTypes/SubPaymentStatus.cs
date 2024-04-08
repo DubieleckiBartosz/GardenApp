@@ -4,7 +4,7 @@ public class SubPaymentStatus : Enumeration
 {
     public static SubPaymentStatus Active = new SubPaymentStatus(1, nameof(Active));
 
-    public static SubPaymentStatus Suspended = new SubPaymentStatus(2, nameof(Suspended));
+    public static SubPaymentStatus PendingCancellation = new SubPaymentStatus(2, nameof(PendingCancellation));
 
     public static SubPaymentStatus Canceled = new SubPaymentStatus(3, nameof(Canceled));
 

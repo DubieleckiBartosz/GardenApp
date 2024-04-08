@@ -1,4 +1,6 @@
-﻿namespace Payments.Application.Services;
+﻿using Payments.Domain.SubPayments.ValueTypes;
+
+namespace Payments.Application.Services;
 
 public class PaymentsService : IPaymentsService
 {
@@ -28,7 +30,7 @@ public class PaymentsService : IPaymentsService
         var payer = await _paymentsUnitOfWork.PayerRepository.GetPayerByUserIdNTAsync(userId);
         if (payer != null)
         {
-            throw new InvalidOperationException();
+            throw new NotFoundException(PaymentsErrors.PayerNotFound(_currentUser.UserId));
         }
 
         var createOptions = new CustomerCreateOptions
@@ -44,8 +46,62 @@ public class PaymentsService : IPaymentsService
 
         var service = new CustomerService(_stripeClient);
         var createdStripeCustomer = await service.CreateAsync(createOptions);
+
+        _logger.Warning($"Customer created. [StripeCustomerId: {createdStripeCustomer.Id}]");
+
         var newPayer = Payer.Create(userId, _currentUser.Email, createdStripeCustomer.Id);
         await _paymentsUnitOfWork.PayerRepository.CreateAsync(newPayer);
+        await _paymentsUnitOfWork.SaveAsync();
+    }
+
+    public async Task CancelSubscription()
+    {
+        var payer = await _paymentsUnitOfWork.PayerRepository.GetPayerByUserIdAsync(_currentUser.UserId);
+        if (payer == null)
+        {
+            throw new NotFoundException(PaymentsErrors.PayerNotFound(_currentUser.UserId));
+        }
+
+        var subPayment = await _paymentsUnitOfWork.SubPaymentRepository.GetActiveSubByPayerIdAsync(payer.Id);
+        if (subPayment == null)
+        {
+            throw new NotFoundException(PaymentsErrors.SubPaymentNotFound(_currentUser.UserId, payer.Id));
+        }
+
+        subPayment.SetStatus(SubPaymentStatus.PendingCancellation);
+
+        var subscriptionService = new SubscriptionService(_stripeClient);
+        subscriptionService.Cancel(subPayment.CustomerSubscriptionId);
+
+        _logger.Warning($"Subscription pending cancellation. [SubscripitonId: {subPayment.CustomerSubscriptionId}]");
+        await _paymentsUnitOfWork.SaveAsync();
+    }
+
+    public async Task ContinueCanceledSubscription()
+    {
+        var payer = await _paymentsUnitOfWork.PayerRepository.GetPayerByUserIdAsync(_currentUser.UserId);
+        if (payer == null)
+        {
+            throw new NotFoundException(PaymentsErrors.PayerNotFound(_currentUser.UserId));
+        }
+
+        var subPayment = await _paymentsUnitOfWork.SubPaymentRepository.GetActiveSubByPayerIdAsync(payer.Id);
+        if (subPayment == null)
+        {
+            throw new NotFoundException(PaymentsErrors.SubPaymentNotFound(_currentUser.UserId, payer.Id));
+        }
+
+        subPayment.SetStatus(SubPaymentStatus.Active);
+        var subscriptionService = new SubscriptionService(_stripeClient);
+        var options = new SubscriptionUpdateOptions
+        {
+            CancelAtPeriodEnd = false,
+        };
+
+        subscriptionService.Update(subPayment.CustomerSubscriptionId, options);
+
+        _logger.Warning($"Subscription renewed. [SubscripitonId: {subPayment.CustomerSubscriptionId}]");
+        await _paymentsUnitOfWork.SaveAsync();
     }
 
     public async Task<string> CreateCheckoutAsync(CreateCheckoutSessionParameters parameters, string baseUrl)
@@ -53,7 +109,7 @@ public class PaymentsService : IPaymentsService
         var payer = await _paymentsUnitOfWork.PayerRepository.GetPayerByUserIdNTAsync(_currentUser.UserId);
         if (payer == null)
         {
-            throw new NotFoundException("");
+            throw new NotFoundException(PaymentsErrors.PayerNotFound(_currentUser.UserId));
         }
 
         var options = new SessionCreateOptions
@@ -83,6 +139,8 @@ public class PaymentsService : IPaymentsService
 
         var paymentSession = payer.CreatePaymentSession(payer.Id, sessionId, session.SubscriptionId);
         await _paymentsUnitOfWork.PaymentSessionRepository.CreateAsync(paymentSession);
+
+        _logger.Warning($"Session created. [SessionId: {sessionId}, SubscripitonId: {session.SubscriptionId}]");
         await _paymentsUnitOfWork.SaveAsync();
 
         return session.Url;
@@ -93,7 +151,7 @@ public class PaymentsService : IPaymentsService
         var result = await _paymentsUnitOfWork.PaymentSessionRepository.GetPaymentBySessionIdAsync(session.Id);
         if (result == null)
         {
-            throw new BadRequestException("");
+            throw new NotFoundException(PaymentsErrors.SessionNotFound(session.Id));
         }
 
         await CreateSubscriptionPayment(session.SubscriptionId);

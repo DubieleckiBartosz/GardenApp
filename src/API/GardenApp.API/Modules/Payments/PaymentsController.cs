@@ -1,10 +1,17 @@
-﻿namespace GardenApp.API.Modules.Payments;
+﻿using Payments.Application.Interfaces.Services;
+
+namespace GardenApp.API.Modules.Payments;
 
 [Route("api/[controller]")]
 [ApiController]
-public class PaymentsController : BaseController
+public class PaymentsController
 {
-    public PaymentsController(ICommandBus commandBus, IQueryBus queryBus) : base(commandBus, queryBus)
+    private readonly IPaymentsService _paymentsService;
+    private readonly IProcessService _processService;
+
+    public PaymentsController(IPaymentsService paymentsService, IProcessService processService)
     {
+        _paymentsService = paymentsService;
+        _processService = processService;
     }
 }

@@ -22,4 +22,14 @@ public class SubPayment : Entity, IAggregateRoot
         StartDate = Clock.CurrentDate();
         CurrentPeriodEnd = currentPeriodEnd;
     }
+
+    public void SetStatus(SubPaymentStatus status)
+    {
+        if (Status == SubPaymentStatus.Canceled)
+        {
+            throw new InvalidStatusException(CustomerSubscriptionId, Status.Id, status.Id);
+        }
+
+        Status = status;
+    }
 }

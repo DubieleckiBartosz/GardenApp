@@ -1,4 +1,6 @@
-﻿namespace Payments.Infrastructure.Repositories;
+﻿using Payments.Domain.SubPayments.ValueTypes;
+
+namespace Payments.Infrastructure.Repositories;
 
 internal class SubPaymentRepository : ISubPaymentRepository
 {
@@ -13,4 +15,8 @@ internal class SubPaymentRepository : ISubPaymentRepository
     {
         await _subscriptionPayments.AddAsync(paymentSession);
     }
+
+    public async Task<SubPayment?> GetActiveSubByPayerIdAsync(int payerId)
+        => await _subscriptionPayments.FirstOrDefaultAsync(_ => _.PayerId == payerId && _.Status == SubPaymentStatus.Active
+            || _.Status == SubPaymentStatus.PendingCancellation);
 }

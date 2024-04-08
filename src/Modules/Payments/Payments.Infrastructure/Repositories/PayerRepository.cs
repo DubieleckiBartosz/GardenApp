@@ -15,12 +15,10 @@ internal class PayerRepository : IPayerRepository
     }
 
     public async Task<Payer?> GetPayerByStripeCustomerIdNTAsync(string stripeCustomerId)
-    {
-        return await _payers.AsNoTracking().FirstOrDefaultAsync(x => x.StripeCustomerId == stripeCustomerId);
-    }
+        => await _payers.AsNoTracking().FirstOrDefaultAsync(x => x.StripeCustomerId == stripeCustomerId);
 
     public async Task<Payer?> GetPayerByUserIdNTAsync(string userId)
-    {
-        return await _payers.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == userId);
-    }
+        => await _payers.AsNoTracking().FirstOrDefaultAsync(x => x.UserId == userId);
+
+    public async Task<Payer?> GetPayerByUserIdAsync(string userId) => await _payers.FirstOrDefaultAsync(x => x.UserId == userId);
 }

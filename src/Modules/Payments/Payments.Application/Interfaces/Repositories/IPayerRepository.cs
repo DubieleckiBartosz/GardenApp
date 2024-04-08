@@ -7,4 +7,6 @@ public interface IPayerRepository
     Task<Payer?> GetPayerByUserIdNTAsync(string userId);
 
     Task<Payer?> GetPayerByStripeCustomerIdNTAsync(string stripeCustomerId);
+
+    Task<Payer?> GetPayerByUserIdAsync(string userId);
 }
