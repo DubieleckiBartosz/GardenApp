@@ -1,10 +1,14 @@
 ﻿namespace Payments.Infrastructure.Database;
 
-internal class PaymentsContext : DbContext, IUnitOfWork
+internal class PaymentsContext : DbContext
 {
     internal const string PaymentsSchema = "payments";
     private readonly IDomainDecorator _decorator;
 
+    internal DbSet<Payer> Payers { get; set; }
+    internal DbSet<PaymentSession> PaymentSessions { get; set; }
+    internal DbSet<Subscription> Subscriptions { get; set; }
+    internal DbSet<SubPayment> SubPayments { get; set; }
     internal DbSet<Template> Templates { get; set; }
 
     public PaymentsContext()

@@ -1,0 +1,8 @@
+﻿using Payments.Domain.SubPayments;
+
+namespace Payments.Application.Interfaces.Repositories;
+
+public interface ISubPaymentRepository
+{
+    Task CreateAsync(SubPayment paymentSession);
+}

@@ -1,13 +1,13 @@
 ﻿namespace Payments.Application.Services;
 
-public class PaymentService : IPaymentService
+internal class ProcessService : IProcessService
 {
-    private readonly IPaymentsEmailService _paymentsEmailService;
+    private readonly IPaymentsService _paymentsService;
     private readonly ILogger _logger;
 
-    public PaymentService(IPaymentsEmailService paymentsEmailService, ILogger logger)
+    public ProcessService(IPaymentsService paymentsService, ILogger logger)
     {
-        _paymentsEmailService = paymentsEmailService;
+        _paymentsService = paymentsService;
         _logger = logger;
     }
 
@@ -17,13 +17,13 @@ public class PaymentService : IPaymentService
         {
             case Events.CheckoutSessionCompleted:
                 var checkoutSession = @event.Data.Object as Session;
-                _logger.Information("Checkout.Session ID: {CheckoutId}, Status: {CheckoutSessionStatus}", checkoutSession!.Id, checkoutSession.Status);
+                _logger.Information($"Checkout.Session ID: {checkoutSession!.Id}, Status: {checkoutSession.Status}");
 
-                if (checkoutSession.Status == "complete" && checkoutSession.PhoneNumberCollection.Enabled)
+                if (checkoutSession.Status == "complete")
                 {
                     try
                     {
-                        await _paymentsEmailService.SendEmailAsync(new() { "test@mail.com" }, PaymentTemplateType.Success);
+                        await _paymentsService.SessionCompleted(checkoutSession);
                     }
                     catch (Exception ex)
                     {
@@ -39,13 +39,18 @@ public class PaymentService : IPaymentService
             case Events.CheckoutSessionAsyncPaymentSucceeded:
                 break;
 
-            case Events.CustomerSubscriptionCreated:
+            case Events.InvoiceCreated:
                 break;
 
-            case Events.CustomerSubscriptionUpdated:
+            case Events.InvoiceFinalized:
                 break;
 
-            case Events.CustomerSubscriptionDeleted:
+            case Events.InvoicePaymentSucceeded:
+                var invoice = @event.Data.Object as Invoice;
+
+                break;
+
+            case Events.InvoicePaymentFailed:
                 break;
 
             default:

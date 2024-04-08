@@ -13,8 +13,10 @@ public static class PaymentsInfrastructureConfigurations
     {
         var services = builder.Services;
 
-        services.AddScoped<IPaymentRepository, PaymentRepository>();
-        services.AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>));
+        services
+            .AddScoped(typeof(ICrudRepository<>), typeof(CrudRepository<>))
+            .AddScoped<IPaymentsUnitOfWork, PaymentsUnitOfWork>();
+
         services.AddScoped<DataSeeder>();
 
         return builder;
