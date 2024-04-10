@@ -22,7 +22,7 @@ You can run the necessary dependencies to check the current state of application
 
 ```shell
 docker-compose -f docker-compose.yml up -d
-``` 
+```
 
 It will create following services: <br/>
 
