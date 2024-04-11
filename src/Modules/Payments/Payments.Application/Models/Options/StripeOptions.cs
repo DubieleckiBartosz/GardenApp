@@ -3,4 +3,5 @@
 internal class StripeOptions
 {
     public string ApiKey { get; set; }
+    public string WebhookSecret { get; set; }
 }

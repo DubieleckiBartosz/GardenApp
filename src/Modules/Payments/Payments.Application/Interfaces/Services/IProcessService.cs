@@ -2,5 +2,5 @@
 
 public interface IProcessService
 {
-    Task StatusProcess(Event @event);
+    Task Process(Event @event);
 }

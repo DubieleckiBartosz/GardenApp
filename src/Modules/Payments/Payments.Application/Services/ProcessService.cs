@@ -11,7 +11,7 @@ internal class ProcessService : IProcessService
         _logger = logger;
     }
 
-    public async Task StatusProcess(Event @event)
+    public async Task Process(Event @event)
     {
         switch (@event.Type)
         {

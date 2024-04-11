@@ -1,4 +1,6 @@
-﻿using Payments.Domain.SubPayments.ValueTypes;
+﻿using BuildingBlocks.Application.Wrappers;
+using Payments.Application.Models.Responses;
+using Payments.Domain.SubPayments.ValueTypes;
 
 namespace Payments.Application.Services;
 
@@ -104,7 +106,7 @@ public class PaymentsService : IPaymentsService
         await _paymentsUnitOfWork.SaveAsync();
     }
 
-    public async Task<string> CreateCheckoutAsync(CreateCheckoutSessionParameters parameters, string baseUrl)
+    public async Task<Response<CreateCheckoutSessionResponse>> CreateCheckoutAsync(CreateCheckoutSessionParameters parameters, string baseUrl)
     {
         var payer = await _paymentsUnitOfWork.PayerRepository.GetPayerByUserIdNTAsync(_currentUser.UserId);
         if (payer == null)
@@ -143,7 +145,7 @@ public class PaymentsService : IPaymentsService
         _logger.Warning($"Session created. [SessionId: {sessionId}, SubscripitonId: {session.SubscriptionId}]");
         await _paymentsUnitOfWork.SaveAsync();
 
-        return session.Url;
+        return Response<CreateCheckoutSessionResponse>.Ok(new(session.Url));
     }
 
     public async Task SessionCompleted(Session session)

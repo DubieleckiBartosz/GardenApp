@@ -1,4 +1,7 @@
-﻿namespace Payments.Application.Interfaces.Services;
+﻿using BuildingBlocks.Application.Wrappers;
+using Payments.Application.Models.Responses;
+
+namespace Payments.Application.Interfaces.Services;
 
 public interface IPaymentsService
 {
@@ -8,7 +11,7 @@ public interface IPaymentsService
 
     Task ContinueCanceledSubscription();
 
-    Task<string> CreateCheckoutAsync(CreateCheckoutSessionParameters parameters, string baseUrl);
+    Task<Response<CreateCheckoutSessionResponse>> CreateCheckoutAsync(CreateCheckoutSessionParameters parameters, string baseUrl);
 
     Task SessionCompleted(Session session);
 }
