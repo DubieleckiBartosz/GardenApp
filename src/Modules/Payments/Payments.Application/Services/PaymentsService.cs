@@ -56,7 +56,7 @@ public class PaymentsService : IPaymentsService
         await _paymentsUnitOfWork.SaveAsync();
     }
 
-    public async Task CancelSubscription()
+    public async Task<Response> CancelSubscription()
     {
         var payer = await _paymentsUnitOfWork.PayerRepository.GetPayerByUserIdAsync(_currentUser.UserId);
         if (payer == null)
@@ -77,6 +77,8 @@ public class PaymentsService : IPaymentsService
 
         _logger.Warning($"Subscription pending cancellation. [SubscripitonId: {subPayment.CustomerSubscriptionId}]");
         await _paymentsUnitOfWork.SaveAsync();
+
+        return Response.Ok();
     }
 
     public async Task ContinueCanceledSubscription()

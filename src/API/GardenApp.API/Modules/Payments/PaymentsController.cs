@@ -34,6 +34,19 @@ public class PaymentsController : ControllerBase
         return Ok(response);
     }
 
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(Response), 200)]
+    [SwaggerOperation(Summary = "Cancels subscription")]
+    [HttpPut("[action]")]
+    public async Task<IActionResult> CancelSubscription()
+    {
+        var baseUrl = $"{Request.Scheme}://{Request.Host}";
+
+        var response = await _paymentsService.CancelSubscription();
+        return Ok(response);
+    }
+
     [HttpPost("webhook")]
     public async Task<IActionResult> Webhook()
     {

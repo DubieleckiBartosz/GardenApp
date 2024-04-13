@@ -7,7 +7,7 @@ public interface IPaymentsService
 {
     Task CreateNewPayer();
 
-    Task CancelSubscription();
+    Task<Response> CancelSubscription();
 
     Task ContinueCanceledSubscription();
 
