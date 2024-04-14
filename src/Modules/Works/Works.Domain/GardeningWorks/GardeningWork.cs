@@ -2,8 +2,10 @@
 
 public class GardeningWork : Entity, IAggregateRoot
 {
+    private string _tags;
     public string BusinessId { get; }
     public Email ClientEmail { get; }
+    public GardeningWorkPriority Priority { get; private set; }
     public FutureDate PlannedStartDate { get; private set; }
     public DateTime? RealStartDate { get; private set; }
     public FutureDate? PlannedEndDate { get; private set; }
