@@ -1,6 +1,6 @@
 ﻿namespace Works.Domain.GardeningWorks.ValueObjects;
 
-internal class TagList
+public class TagList
 {
     private List<Tag> _tags;
     public List<Tag> Values => _tags;

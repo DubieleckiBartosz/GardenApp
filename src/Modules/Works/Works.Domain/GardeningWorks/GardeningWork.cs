@@ -13,6 +13,12 @@ public class GardeningWork : Entity, IAggregateRoot
     public Location Location { get; private set; }
     public GardeningWorkStatus Status { get; private set; }
 
+    public TagList Tags
+    {
+        get { return (TagList)_tags; }
+        set { _tags = value; }
+    }
+
     private GardeningWork()
     {
     }

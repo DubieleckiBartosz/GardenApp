@@ -1,6 +1,6 @@
 ﻿namespace Works.Domain.GardeningWorks.ValueObjects;
 
-internal class Tag : ValueObject
+public class Tag : ValueObject
 {
     public string Value { get; }
 
