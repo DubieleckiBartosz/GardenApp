@@ -43,11 +43,25 @@ internal class GardeningWorkEntityTypeConfiguration : IEntityTypeConfiguration<G
           .HasConversion<GardeningWorkStatusConverter>()
           .IsRequired();
 
+        builder.Property(p => p.Priority)
+          .HasColumnName("Priority")
+          .HasColumnType("SMALLINT")
+          .HasConversion<GardeningWorkPriorityConverter>()
+          .IsRequired();
+
+        builder
+          .Property<string>("_tags")
+          .HasColumnName("Tags")
+          .IsRequired(false)
+          .HasDefaultValue(null);
+
         builder.OwnsOne(_ => _.Location, location =>
         {
             location.Property(l => l.City).HasColumnName("City").IsRequired();
             location.Property(l => l.Street).HasColumnName("Street").IsRequired();
             location.Property(l => l.NumberStreet).HasColumnName("NumberStreet").IsRequired();
         });
+
+        builder.Ignore(_ => _.Tags);
     }
 }
