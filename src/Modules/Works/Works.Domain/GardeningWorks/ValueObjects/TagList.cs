@@ -10,12 +10,12 @@ public class TagList
         _tags = new();
     }
 
-    public TagList(List<Tag> tags)
+    public TagList(List<Tag>? tags)
     {
-        _tags = tags;
+        _tags = tags ?? new();
     }
 
-    public static explicit operator TagList(string tags)
+    public static explicit operator TagList?(string? tags)
     {
         if (string.IsNullOrEmpty(tags))
         {
@@ -29,8 +29,13 @@ public class TagList
         return new TagList(data);
     }
 
-    public static implicit operator string(TagList tagList)
+    public static implicit operator string?(TagList? tagList)
     {
+        if (tagList == null)
+        {
+            return null;
+        }
+
         return string.Join(";", tagList._tags.Select(x => x.ToString()));
     }
 }

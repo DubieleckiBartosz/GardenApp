@@ -1,8 +1,10 @@
-﻿namespace Works.Domain.GardeningWorks;
+﻿using Works.Domain.GardeningWorks.ValueObjects;
+
+namespace Works.Domain.GardeningWorks;
 
 public class GardeningWork : Entity, IAggregateRoot
 {
-    private string _tags;
+    private string? _tags;
     public string BusinessId { get; }
     public Email ClientEmail { get; }
     public GardeningWorkPriority Priority { get; private set; }
@@ -13,9 +15,9 @@ public class GardeningWork : Entity, IAggregateRoot
     public Location Location { get; private set; }
     public GardeningWorkStatus Status { get; private set; }
 
-    public TagList Tags
+    public TagList? Tags
     {
-        get { return (TagList)_tags; }
+        get { return (TagList?)_tags; }
         set { _tags = value; }
     }
 
@@ -30,7 +32,8 @@ public class GardeningWork : Entity, IAggregateRoot
         DateTime? realStartDate,
         DateTime? plannedEndDate,
         DateTime? realEndDate,
-        Location location)
+        Location location,
+        List<Tag>? tags)
     {
         ClientEmail = clientEmail;
         PlannedStartDate = plannedStartDate;
@@ -40,6 +43,7 @@ public class GardeningWork : Entity, IAggregateRoot
         Location = location;
         Status = GardeningWorkStatus.OnHold;
         BusinessId = businessId;
+        _tags = new TagList(tags);
         IncrementVersion();
     }
 
@@ -50,7 +54,8 @@ public class GardeningWork : Entity, IAggregateRoot
         DateTime? realStartDate,
         DateTime? plannedEndDate,
         DateTime? realEndDate,
-        Location location)
+        Location location,
+        List<Tag>? tags)
     {
         return new GardeningWork(
             businessId,
@@ -59,7 +64,8 @@ public class GardeningWork : Entity, IAggregateRoot
             realStartDate,
             plannedEndDate,
             realEndDate,
-            location);
+            location,
+            tags);
     }
 
     public WorkItem NewWorkItem(string name, DateTime? estimatedStartTime = null, DateTime? estimatedEndTime = null)

@@ -49,7 +49,7 @@ public sealed class AddGardeningWorkHandler : ICommandHandler<AddGardeningWorkCo
 
         var newGardeningWork = Domain.GardeningWorks.GardeningWork.Create(
             _currentUser.UserId, request.ClientEmail, request.PlannedStartDate,
-            request.RealStartDate, request.PlannedEndDate, request.RealEndDate, location);
+            request.RealStartDate, request.PlannedEndDate, request.RealEndDate, location, null);
 
         await _gardeningWorkRepository.AddAsync(newGardeningWork, cancellationToken);
         await _gardeningWorkRepository.UnitOfWork.SaveChangesAsync(cancellationToken);
