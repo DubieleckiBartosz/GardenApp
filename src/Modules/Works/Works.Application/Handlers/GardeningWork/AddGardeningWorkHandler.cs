@@ -2,6 +2,7 @@
 
 public sealed class AddGardeningWorkHandler : ICommandHandler<AddGardeningWorkCommand, Response<AddGardeningWorkResponse>>
 {
+    public record TagItem(string Title, string Bg, string Text);
     public record AddGardeningWorkCommand(
         string ClientEmail,
         DateTime PlannedStartDate,
@@ -10,7 +11,8 @@ public sealed class AddGardeningWorkHandler : ICommandHandler<AddGardeningWorkCo
         DateTime? RealEndDate,
         string City,
         string Street,
-        string NumberStreet) : ICommand<Response<AddGardeningWorkResponse>>
+        string NumberStreet,
+        List<TagItem> TagItems) : ICommand<Response<AddGardeningWorkResponse>>
     {
         public static AddGardeningWorkCommand Create(AddGardeningWorkParameters parameters)
             => new(
@@ -21,7 +23,8 @@ public sealed class AddGardeningWorkHandler : ICommandHandler<AddGardeningWorkCo
                 parameters.RealEndDate,
                 parameters.City,
                 parameters.Street,
-                parameters.NumberStreet);
+                parameters.NumberStreet,
+                parameters.TagItems);
     }
 
     public class AddGardeningWorkResponse
@@ -47,9 +50,11 @@ public sealed class AddGardeningWorkHandler : ICommandHandler<AddGardeningWorkCo
     {
         var location = new Location(request.City, request.Street, request.NumberStreet);
 
+        var tags = request.TagItems?.Select(_ => new Tag(_.Title, _.Bg, _.Text)).ToList();
+
         var newGardeningWork = Domain.GardeningWorks.GardeningWork.Create(
             _currentUser.UserId, request.ClientEmail, request.PlannedStartDate,
-            request.RealStartDate, request.PlannedEndDate, request.RealEndDate, location, null);
+            request.RealStartDate, request.PlannedEndDate, request.RealEndDate, location, tags);
 
         await _gardeningWorkRepository.AddAsync(newGardeningWork, cancellationToken);
         await _gardeningWorkRepository.UnitOfWork.SaveChangesAsync(cancellationToken);

@@ -10,6 +10,7 @@ public class AddGardeningWorkParameters
     public DateTime? RealStartDate { get; init; }
     public DateTime? PlannedEndDate { get; init; }
     public DateTime? RealEndDate { get; init; }
+    public List<TagItem> TagItems { get; init; }
 
     public AddGardeningWorkParameters()
     {
@@ -24,7 +25,8 @@ public class AddGardeningWorkParameters
         DateTime plannedStartDate,
         DateTime? realStartDate,
         DateTime? plannedEndDate,
-        DateTime? realEndDate)
+        DateTime? realEndDate,
+        List<TagItem> tagItems)
     {
         City = city;
         Street = street;
@@ -34,5 +36,6 @@ public class AddGardeningWorkParameters
         RealStartDate = realStartDate;
         PlannedEndDate = plannedEndDate;
         RealEndDate = realEndDate;
+        TagItems = tagItems;
     }
 }
