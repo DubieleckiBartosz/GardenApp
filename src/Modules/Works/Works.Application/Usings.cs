@@ -35,3 +35,5 @@ global using static Works.Application.Handlers.GardeningWork.UpdateStatusHandler
 global using static Works.Application.Handlers.WorkItem.AddTimeWeatherRecordHandler;
 global using static Works.Application.Handlers.WorkItem.UpdateStatusHandler;
 global using static Works.Application.Handlers.WorkItem.UpdateTimeWeatherRecordHandler;
+global using static Works.Application.Handlers.GardeningWork.GetGardeningWorkByIdHandler;
+global using static Works.Application.Handlers.GardeningWork.GetGardeningWorksHandler;
