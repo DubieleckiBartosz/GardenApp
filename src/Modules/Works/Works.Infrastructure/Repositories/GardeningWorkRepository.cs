@@ -26,4 +26,9 @@ internal class GardeningWorkRepository : IGardeningWorkRepository
     {
         _gardeningWorks.Update(gardeningWork);
     }
+
+    public async Task<List<GardeningWork>?> GetGardeningWorksAsync(string businessId, CancellationToken cancellationToken = default)
+    {
+        return await _gardeningWorks.Where(_ => _.BusinessId == businessId).ToListAsync(cancellationToken);
+    }
 }

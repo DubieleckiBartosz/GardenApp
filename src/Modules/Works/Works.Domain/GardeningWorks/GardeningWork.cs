@@ -1,6 +1,4 @@
-﻿using Works.Domain.GardeningWorks.ValueObjects;
-
-namespace Works.Domain.GardeningWorks;
+﻿namespace Works.Domain.GardeningWorks;
 
 public class GardeningWork : Entity, IAggregateRoot
 {
