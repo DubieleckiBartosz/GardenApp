@@ -2,6 +2,7 @@
 using Works.Application.Handlers.WorkItem.Parameters;
 using static Works.Application.Handlers.GardeningWork.AddGardeningWorkHandler;
 using static Works.Application.Handlers.GardeningWork.AddWorkItemHandler;
+using static Works.Application.Handlers.GardeningWork.GetGardeningWorksHandler;
 using static Works.Application.Handlers.GardeningWork.UpdatePlannedEndDateHandler;
 using static Works.Application.Handlers.GardeningWork.UpdatePlannedStartDateHandler;
 using static Works.Application.Handlers.GardeningWork.UpdateStatusHandler;
@@ -18,6 +19,17 @@ public class WorksController : BaseController
 {
     public WorksController(ICommandBus commandBus, IQueryBus queryBus) : base(commandBus, queryBus)
     {
+    }
+
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(Response<GetGardeningWorksResponse>), 200)]
+    [SwaggerOperation(Summary = "Gets views of garden work")]
+    [HttpGet("[action]")]
+    public async Task<IActionResult> GetGardeningWorks()
+    {
+        var response = await QueryBus.Send(new GetGardeningWorksQuery());
+        return Ok(response);
     }
 
     [ProducesResponseType(typeof(object), 400)]
