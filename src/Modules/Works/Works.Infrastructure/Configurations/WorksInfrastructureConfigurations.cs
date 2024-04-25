@@ -19,7 +19,8 @@ public static class WorksInfrastructureConfigurations
         //REPOSITORIES
         builder.Services
             .AddScoped<IGardeningWorkRepository, GardeningWorkRepository>()
-            .AddScoped<IWorkItemRepository, WorkItemRepository>();
+            .AddScoped<IWorkItemRepository, WorkItemRepository>()
+            .AddScoped<IGardeningWorkRepositoryDao, GardeningWorkRepositoryDao>();
 
         return builder;
     }

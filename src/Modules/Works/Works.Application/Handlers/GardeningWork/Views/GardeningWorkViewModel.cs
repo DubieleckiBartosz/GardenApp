@@ -12,7 +12,7 @@ public class GardeningWorkViewModel
     public string NumberStreet { get; }
     private IEnumerable<GardeningWorkTagViewModel>? Tags { get; }
 
-    private GardeningWorkViewModel(
+    protected GardeningWorkViewModel(
         int id,
         string clientEmail,
         int priority,
