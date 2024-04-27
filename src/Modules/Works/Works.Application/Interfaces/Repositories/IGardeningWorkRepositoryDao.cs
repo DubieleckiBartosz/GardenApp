@@ -2,5 +2,7 @@
 
 public interface IGardeningWorkRepositoryDao
 {
-    Task<GardeningWorkDao> GetGardeningWorkDetails(int gardeningWorkId);
+    Task<List<GardeningWorkDao>> GetGardeningWorks(string businessId);
+
+    Task<GardeningWorkDetailsDao> GetGardeningWorkDetails(int gardeningWorkId);
 }

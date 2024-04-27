@@ -13,7 +13,7 @@ public class GardeningWorkTagViewModel
         Text = text;
     }
 
-    public static implicit operator GardeningWorkTagViewModel(Tag tag)
+    public static implicit operator GardeningWorkTagViewModel(TagDao tag)
     {
         return new GardeningWorkTagViewModel(tag.Value, tag.Bg, tag.Text);
     }

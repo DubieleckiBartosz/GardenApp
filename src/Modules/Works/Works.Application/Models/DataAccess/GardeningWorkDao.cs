@@ -11,4 +11,6 @@ public class GardeningWorkDao
     public string Street { get; }
     public string NumberStreet { get; }
     public string BusinessId { get; }
+    public string? TagValues { get; set; }
+    public IEnumerable<TagDao>? Tags => TagValues?.Split(';')?.Select(_ => (TagDao)_);
 }

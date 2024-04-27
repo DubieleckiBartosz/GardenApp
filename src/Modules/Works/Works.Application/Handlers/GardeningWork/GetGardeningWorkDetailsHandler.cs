@@ -1,12 +1,8 @@
 ﻿namespace Works.Application.Handlers.GardeningWork;
 
-internal class GetGardeningWorkDetailsHandler : IQueryHandler<GetGardeningWorkDetailsQuery, Response<GetGardeningWorkDetailsResponse>>
+internal class GetGardeningWorkDetailsHandler : IQueryHandler<GetGardeningWorkDetailsQuery, Response<GardeningWorkDetailsViewModel>>
 {
-    public record GetGardeningWorkDetailsQuery(int GardeningWorkId) : IQuery<Response<GetGardeningWorkDetailsResponse>>;
-
-    public class GetGardeningWorkDetailsResponse
-    {
-    }
+    public record GetGardeningWorkDetailsQuery(int GardeningWorkId) : IQuery<Response<GardeningWorkDetailsViewModel>>;
 
     private readonly IGardeningWorkRepositoryDao _gardeningWorkRepositoryDao;
     private readonly ICurrentUser _currentUser;
@@ -17,7 +13,7 @@ internal class GetGardeningWorkDetailsHandler : IQueryHandler<GetGardeningWorkDe
         _currentUser = currentUser;
     }
 
-    public async Task<Response<GetGardeningWorkDetailsResponse>> Handle(GetGardeningWorkDetailsQuery request, CancellationToken cancellationToken)
+    public async Task<Response<GardeningWorkDetailsViewModel>> Handle(GetGardeningWorkDetailsQuery request, CancellationToken cancellationToken)
     {
         var gardeningWork = await _gardeningWorkRepositoryDao.GetGardeningWorkDetails(request.GardeningWorkId);
         if (gardeningWork == null || gardeningWork.BusinessId != _currentUser.UserId)
@@ -25,6 +21,8 @@ internal class GetGardeningWorkDetailsHandler : IQueryHandler<GetGardeningWorkDe
             throw new NotFoundException(AppError.GardeningWorkNotFound(request.GardeningWorkId));
         }
 
-        return null;
+        GardeningWorkDetailsViewModel viewModel = gardeningWork;
+
+        return Response<GardeningWorkDetailsViewModel>.Ok(viewModel);
     }
 }

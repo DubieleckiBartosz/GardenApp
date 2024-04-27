@@ -34,9 +34,9 @@ public class GardeningWorkViewModel
         Tags = tags;
     }
 
-    public static implicit operator GardeningWorkViewModel(Domain.GardeningWorks.GardeningWork gardeningWork)
+    public static implicit operator GardeningWorkViewModel(GardeningWorkDao gardeningWork)
     {
-        var tags = gardeningWork.Tags?.Values.Select(_ =>
+        var tags = gardeningWork.Tags?.Select(_ =>
         {
             GardeningWorkTagViewModel tag = _;
             return tag;
@@ -45,11 +45,11 @@ public class GardeningWorkViewModel
         return new GardeningWorkViewModel(
             gardeningWork.Id,
             gardeningWork.ClientEmail,
-            gardeningWork.Priority.Id,
+            gardeningWork.Priority,
             gardeningWork.PlannedStartDate,
-            gardeningWork.Status.Id,
-            gardeningWork.Location.City,
-            gardeningWork.Location.Street,
-            gardeningWork.Location.NumberStreet, tags);
+            gardeningWork.Status,
+            gardeningWork.City,
+            gardeningWork.Street,
+            gardeningWork.NumberStreet, tags);
     }
 }

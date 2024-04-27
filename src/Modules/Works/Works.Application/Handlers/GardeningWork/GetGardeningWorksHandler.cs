@@ -11,10 +11,10 @@ public class GetGardeningWorksHandler : IQueryHandler<GetGardeningWorksQuery, Re
         public GetGardeningWorksResponse(IEnumerable<GardeningWorkViewModel> gardeningWorks) => GardeningWorks = gardeningWorks;
     }
 
-    private readonly IGardeningWorkRepository _gardeningWorkRepository;
+    private readonly IGardeningWorkRepositoryDao _gardeningWorkRepository;
     private readonly ICurrentUser _currentUser;
 
-    public GetGardeningWorksHandler(IGardeningWorkRepository gardeningWorkRepository, ICurrentUser currentUser)
+    public GetGardeningWorksHandler(IGardeningWorkRepositoryDao gardeningWorkRepository, ICurrentUser currentUser)
     {
         _gardeningWorkRepository = gardeningWorkRepository;
         _currentUser = currentUser;
@@ -22,7 +22,7 @@ public class GetGardeningWorksHandler : IQueryHandler<GetGardeningWorksQuery, Re
 
     public async Task<Response<GetGardeningWorksResponse>> Handle(GetGardeningWorksQuery request, CancellationToken cancellationToken)
     {
-        var gardeningWorks = await _gardeningWorkRepository.GetGardeningWorksAsync(_currentUser.UserId);
+        var gardeningWorks = await _gardeningWorkRepository.GetGardeningWorks(_currentUser.UserId);
         if (gardeningWorks == null)
         {
             throw new NotFoundException(AppError.GardeningWorksNotFound());
