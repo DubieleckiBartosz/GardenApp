@@ -1,16 +1,4 @@
-﻿using Works.Application.Handlers.GardeningWork.Parameters;
-using Works.Application.Handlers.WorkItem.Parameters;
-using static Works.Application.Handlers.GardeningWork.AddGardeningWorkHandler;
-using static Works.Application.Handlers.GardeningWork.AddWorkItemHandler;
-using static Works.Application.Handlers.GardeningWork.GetGardeningWorksHandler;
-using static Works.Application.Handlers.GardeningWork.UpdatePlannedEndDateHandler;
-using static Works.Application.Handlers.GardeningWork.UpdatePlannedStartDateHandler;
-using static Works.Application.Handlers.GardeningWork.UpdateStatusHandler;
-using static Works.Application.Handlers.WorkItem.AddTimeWeatherRecordHandler;
-using static Works.Application.Handlers.WorkItem.UpdateStatusHandler;
-using static Works.Application.Handlers.WorkItem.UpdateTimeWeatherRecordHandler;
-
-namespace GardenApp.API.Modules.Works;
+﻿namespace GardenApp.API.Modules.Works;
 
 [Authorize(Roles = "Admin,Business")]
 [Route("api/[controller]")]
@@ -29,6 +17,17 @@ public class WorksController : BaseController
     public async Task<IActionResult> GetGardeningWorks()
     {
         var response = await QueryBus.Send(new GetGardeningWorksQuery());
+        return Ok(response);
+    }
+
+    [ProducesResponseType(typeof(object), 400)]
+    [ProducesResponseType(typeof(object), 500)]
+    [ProducesResponseType(typeof(Response<GardeningWorkDetailsViewModel>), 200)]
+    [SwaggerOperation(Summary = "Gets garden work details")]
+    [HttpGet("[action]/{gardeningWorkId}")]
+    public async Task<IActionResult> GetGardeningWorkDetails([FromRoute] int gardeningWorkId)
+    {
+        var response = await QueryBus.Send(new GetGardeningWorkDetailsQuery(gardeningWorkId));
         return Ok(response);
     }
 

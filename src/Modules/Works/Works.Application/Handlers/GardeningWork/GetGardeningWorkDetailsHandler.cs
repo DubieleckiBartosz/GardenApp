@@ -1,6 +1,6 @@
 ﻿namespace Works.Application.Handlers.GardeningWork;
 
-internal class GetGardeningWorkDetailsHandler : IQueryHandler<GetGardeningWorkDetailsQuery, Response<GardeningWorkDetailsViewModel>>
+public class GetGardeningWorkDetailsHandler : IQueryHandler<GetGardeningWorkDetailsQuery, Response<GardeningWorkDetailsViewModel>>
 {
     public record GetGardeningWorkDetailsQuery(int GardeningWorkId) : IQuery<Response<GardeningWorkDetailsViewModel>>;
 
