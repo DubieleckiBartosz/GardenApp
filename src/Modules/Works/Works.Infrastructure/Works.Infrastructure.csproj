@@ -11,4 +11,8 @@
     <ProjectReference Include="..\Works.Application\Works.Application.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Database\Functions\" />
+  </ItemGroup>
+
 </Project>
